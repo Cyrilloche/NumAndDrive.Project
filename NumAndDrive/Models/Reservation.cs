@@ -7,7 +7,7 @@
         public bool Acceptation { get; set; }
         public int TravelId { get; set; }
         public Travel Travel { get; set; }
-        public int PassengerUserId { get; set; }
+        public string PassengerUserId { get; set; } = string.Empty;
         public User PassengerUser { get; set; }
     }
 }

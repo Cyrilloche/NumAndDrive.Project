@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NumAndDrive.Database.EntityConfiguration;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Models;
+using System.Reflection;
 
 namespace NumAndDrive.Database
 {
-    public class NumAndDriveContext : DbContext
+    public class NumAndDriveContext : IdentityDbContext<User>
     {
         public NumAndDriveContext(DbContextOptions<NumAndDriveContext> options) : base(options) { }
 
@@ -30,29 +31,48 @@ namespace NumAndDrive.Database
         public DbSet<Filter> Filters { get; set; }
         public DbSet<TravelFilter> TravelFilters { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new RewardConfiguration());
-            modelBuilder.ApplyConfiguration(new StatusConfiguration());
-            modelBuilder.ApplyConfiguration(new ClassroomConfiguration());
-            modelBuilder.ApplyConfiguration(new CarConfiguration());
-            modelBuilder.ApplyConfiguration(new FuelConfiguration());
-            modelBuilder.ApplyConfiguration(new DriverTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new NotificationConfiguration());
-            modelBuilder.ApplyConfiguration(new UserReviewConfiguration());
-            modelBuilder.ApplyConfiguration(new MessageConfiguration());
-            modelBuilder.ApplyConfiguration(new TravelConfiguration());
-            modelBuilder.ApplyConfiguration(new AdressConfiguration());
-            modelBuilder.ApplyConfiguration(new SchoolConfiguration());
-            modelBuilder.ApplyConfiguration(new TravelPreferenceConfiguration());
-            modelBuilder.ApplyConfiguration(new UserRewardConfiguration());
-            modelBuilder.ApplyConfiguration(new UserTravelPreferenceConfiguration());
-            modelBuilder.ApplyConfiguration(new UserNotificationConfiguration());
-            modelBuilder.ApplyConfiguration(new ReservationConfiguration());
-            modelBuilder.ApplyConfiguration(new TravelStopPointConfiguration());
-            modelBuilder.ApplyConfiguration(new FilterConfiguration());
-            modelBuilder.ApplyConfiguration(new TravelFilterConfiguration());
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Reservation>().HasKey(r => new { r.PassengerUserId, r.TravelId });
+            modelBuilder.Entity<TravelFilter>().HasKey(tf => new { tf.TravelId, tf.FilterId });
+            modelBuilder.Entity<UserNotification>().HasKey(un => new { un.UserId, un.NotificationId });
+            modelBuilder.Entity<UserReward>().HasKey(ur => new { ur.UserId, ur.RewardId });
+            modelBuilder.Entity<TravelStopPoint>().HasKey(tsp => new { tsp.CurrentTravelId, tsp.CurrentAdressId });
+            modelBuilder.Entity<UserTravelPreference>().HasKey(utp => new { utp.UserId, utp.TravelPreferenceId });
+
+            modelBuilder.Entity<Travel>()
+                .HasOne<Adress>(t => t.DepartureAdress)
+                .WithMany(a => a.DepartureTravel)
+                .HasForeignKey(t => t.DepartureAdressId);
+
+            modelBuilder.Entity<Travel>()
+                .HasOne<Adress>(t => t.ArrivalAdress)
+                .WithMany(a => a.ArrivalTravel)
+                .HasForeignKey(t => t.ArrivalAdressId);
+
+            modelBuilder.Entity<Message>()
+                .HasOne<User>(m => m.SenderUser)
+                .WithMany(u => u.PostMessage)
+                .HasForeignKey(m => m.SenderUserId);
+
+            modelBuilder.Entity<Message>()
+                .HasOne<User>(m => m.ReceiverUser)
+                .WithMany(u => u.IncomingMessage)
+                .HasForeignKey(m => m.ReceiverUserId);
+
+            modelBuilder.Entity<UserReview>()
+                .HasOne<User>(ur => ur.ReviewerUser)
+                .WithMany(u => u.SendingReviews)
+                .HasForeignKey(u => u.ReviewerUserId);
+
+            modelBuilder.Entity<UserReview>()
+                .HasOne<User>(ur => ur.ReviewedUser)
+                .WithMany(u => u.ObtainedReviews)
+                .HasForeignKey(ur => ur.ReviewedUserId);
+
         }
     }
 }

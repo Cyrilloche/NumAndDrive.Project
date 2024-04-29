@@ -9,8 +9,8 @@
         public string Registration { get; set; } = string.Empty;
         public string? PicturePath { get; set; }
 
-        public int UserId { get; set; }
-        public User Owner { get; set; } = null!;
+        public string UserId { get; set; } = string.Empty;
+        public User Owner { get; set; }
         public int FuelId { get; set; }
         public Fuel FuelCar { get; set; }
     }

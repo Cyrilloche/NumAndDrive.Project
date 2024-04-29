@@ -1,4 +1,6 @@
-﻿namespace NumAndDrive.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NumAndDrive.Models
 {
     public class Message
     {
@@ -6,10 +8,9 @@
         public string MessageContent { get; set; } = string.Empty;
         public DateTime SendingDate { get; set; }
         public DateTime ReceiptDate { get; set; }
-
-        public int SenderUserId { get; set; }
+        public string SenderUserId { get; set; } = string.Empty;
         public User SenderUser { get; set; }
-        public int ReceiverUserId { get; set; }
+        public string ReceiverUserId { get; set; } = string.Empty;
         public User ReceiverUser { get; set; }
     }
 }

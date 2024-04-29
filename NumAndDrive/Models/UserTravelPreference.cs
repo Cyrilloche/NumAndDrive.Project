@@ -2,7 +2,7 @@
 {
     public class UserTravelPreference
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         public User User { get; set; }
         public int TravelPreferenceId { get; set; }
         public TravelPreference TravelPreference { get; set; }

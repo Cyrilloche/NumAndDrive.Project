@@ -7,7 +7,7 @@
         public DateOnly DateDeparture { get; set; }
         public int AvailablePlace { get; set; }
         public DateTime CreationDate { get; set; }
-        public int PublisherUserId { get; set; }
+        public string PublisherUserId { get; set; } = string.Empty;
         public User PublisherUser { get; set; }
         public ICollection<Reservation> Reservations { get; set; } = [];
         public int DepartureAdressId { get; set; }
