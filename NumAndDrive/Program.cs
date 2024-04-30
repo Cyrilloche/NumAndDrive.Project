@@ -6,7 +6,7 @@ using NumAndDrive.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddRazorPages();
+//builder.Services.AddRazorPages();
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -28,15 +28,15 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
     options.User.RequireUniqueEmail = true;
 
-    options.SignIn.RequireConfirmedEmail = false; // Change to true when confirmation mail will be implemented
+    options.SignIn.RequireConfirmedEmail = true;
 })
-    .AddEntityFrameworkStores<NumAndDriveContext>()
-    .AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<NumAndDriveContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
-    options.LoginPath = "/Account";
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
 // Add services to the container.
@@ -63,6 +63,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+//app.MapRazorPages();
 
 app.Run();
