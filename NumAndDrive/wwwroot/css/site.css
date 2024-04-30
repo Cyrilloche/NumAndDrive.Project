@@ -40,3 +40,8 @@ body {
 .margin-middle {
     margin: 100px auto;
 }
+
+.submit-blue-button {
+    background-color: #18203D;
+    color:#FFFFFF
+}
