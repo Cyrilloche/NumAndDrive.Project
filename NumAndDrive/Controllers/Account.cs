@@ -27,7 +27,7 @@ namespace NumAndDrive.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("UserName, Email, Password")]RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register([Bind("UserName, Email, Password")] RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid) return View(registerViewModel);
 
@@ -41,7 +41,14 @@ namespace NumAndDrive.Controllers
 
             if (result.Succeeded)
             {
-                return View("Home", "Index");
+                var confirmEmail = new ConfirmEmail();
+
+                var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                confirmEmail.UserId = user.Id ?? "";
+                confirmEmail.Token = confirmationToken ?? "";
+
+                return RedirectToAction("ConfirmEmail", confirmEmail);
             }
             else
             {
@@ -59,7 +66,7 @@ namespace NumAndDrive.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([Bind("Email, Password")] LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login([Bind("UserName, Password")] LoginViewModel loginViewModel)
         {
             if (!ModelState.IsValid) return View(loginViewModel);
 
@@ -78,12 +85,32 @@ namespace NumAndDrive.Controllers
                 if (result.IsLockedOut)
                 {
                     ModelState.AddModelError("Login", "You are locked out");
-                } else
+                }
+                else
                 {
                     ModelState.AddModelError("Login", "Failed to login");
                 }
                 return View();
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmail confirmEmail)
+        {
+            var user = await _userManager.FindByIdAsync(confirmEmail.UserId);
+
+            if (user != null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, confirmEmail.Token);
+
+                if (result.Succeeded)
+                {
+                    confirmEmail.Message = "Email adress is succefully confirmed, you can now try to login";
+                    return View(confirmEmail);
+                }
+            }
+            confirmEmail.Message = "Failed to validate email";
+            return View(confirmEmail);
         }
     }
 }

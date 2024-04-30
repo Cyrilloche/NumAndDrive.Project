@@ -30,7 +30,8 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
     options.SignIn.RequireConfirmedEmail = true;
 })
-    .AddEntityFrameworkStores<NumAndDriveContext>();
+    .AddEntityFrameworkStores<NumAndDriveContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
