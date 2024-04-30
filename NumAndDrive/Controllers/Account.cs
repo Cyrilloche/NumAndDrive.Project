@@ -78,7 +78,7 @@ namespace NumAndDrive.Controllers
 
             if (result.Succeeded)
             {
-                return View("Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
