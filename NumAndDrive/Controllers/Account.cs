@@ -84,11 +84,11 @@ namespace NumAndDrive.Controllers
             {
                 if (result.IsLockedOut)
                 {
-                    ModelState.AddModelError("Login", "You are locked out");
+                    ModelState.AddModelError("Login", "Votre compte est temporairement verrouillé");
                 }
                 else
                 {
-                    ModelState.AddModelError("Login", "Failed to login");
+                    ModelState.AddModelError("Login", "La connexion a échouée");
                 }
                 return View();
             }
@@ -105,11 +105,11 @@ namespace NumAndDrive.Controllers
 
                 if (result.Succeeded)
                 {
-                    confirmEmail.Message = "Email adress is succefully confirmed, you can now try to login";
+                    confirmEmail.Message = "Adresse mail confirmée. Vous pouvez maintenant vous connecter à botre application";
                     return View(confirmEmail);
                 }
             }
-            confirmEmail.Message = "Failed to validate email";
+            confirmEmail.Message = "Échec lors de la vérification de l'adresse mail";
             return View(confirmEmail);
         }
     }
