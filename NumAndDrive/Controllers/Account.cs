@@ -112,5 +112,17 @@ namespace NumAndDrive.Controllers
             confirmEmail.Message = "Échec lors de la vérification de l'adresse mail";
             return View(confirmEmail);
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
     }
 }
