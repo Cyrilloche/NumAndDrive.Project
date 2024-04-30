@@ -6,8 +6,6 @@ using NumAndDrive.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddRazorPages();
-
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NumAndDriveContext>(options =>
@@ -17,6 +15,8 @@ builder.Services.AddDbContext<NumAndDriveContext>(options =>
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
+    //////// Change to real Password Requirement after development ////////
+
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 5;
     options.Password.RequireNonAlphanumeric = false;
@@ -35,9 +35,10 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
+    //////// Ajust timespan after development ////////
+    
     options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
     options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
 // Add services to the container.
@@ -64,6 +65,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-//app.MapRazorPages();
 
 app.Run();
