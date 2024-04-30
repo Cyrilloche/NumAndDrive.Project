@@ -8,10 +8,12 @@ namespace NumAndDrive.Controllers
     public class Account : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public Account(UserManager<User> userManager)
+        public Account(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -49,7 +51,39 @@ namespace NumAndDrive.Controllers
                 }
                 return View();
             }
+        }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login([Bind("Email, Password")] LoginViewModel loginViewModel)
+        {
+            if (!ModelState.IsValid) return View(loginViewModel);
+
+            var result = await _signInManager.PasswordSignInAsync(
+                loginViewModel.UserName,
+                loginViewModel.Password,
+                false,
+                false);
+
+            if (result.Succeeded)
+            {
+                return View("Index");
+            }
+            else
+            {
+                if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError("Login", "You are locked out");
+                } else
+                {
+                    ModelState.AddModelError("Login", "Failed to login");
+                }
+                return View();
+            }
         }
     }
 }

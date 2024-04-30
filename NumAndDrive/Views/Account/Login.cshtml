@@ -1,6 +1,6 @@
-﻿@model NumAndDrive.ViewModels.Account.RegisterViewModel
+﻿@model NumAndDrive.ViewModels.Account.LoginViewModel
 
-<h3>User Registration</h3>
+<h3>User Login</h3>
 <br />
 
 <div class="card-group">
@@ -8,7 +8,7 @@
         <img src="~/images/LOGO - CARPOOL.svg" class="card-img-top img-fluid" />
     </div>
     <div class="card">
-        <h3 class="card-title text-center">Portail d'enregistrement</h3>
+        <h3 class="card-title text-center">Portail de connexion</h3>
         <form method="post" class="card-text">
             <div class="text-danger" asp-validation-summary="All"></div>
             <div class="form-group row mb-3">
@@ -19,15 +19,6 @@
                     <input type="text" asp-for="UserName" class="form-control" />
                 </div>
                 <span class="text-danger" asp-validation-for="UserName"></span>
-            </div>
-            <div class="form-group row mb-3">
-                <div class="col-4">
-                    <label asp-for="Email"></label>
-                </div>
-                <div class="col-8">
-                    <input type="text" asp-for="Email" class="form-control" />
-                </div>
-                <span class="text-danger" asp-validation-for="Email"></span>
             </div>
             <div class="form-group row mb-3">
                 <div class="col-4">
@@ -42,7 +33,7 @@
                 <div class="col-2">
                 </div>
                 <div class="col-8">
-                    <input type="submit" class="btn btn-primary" value="Enregistrement" />
+                    <input type="submit" class="btn btn-primary" value="Connexion" />
                 </div>
                 <div class="col-2">
                 </div>
