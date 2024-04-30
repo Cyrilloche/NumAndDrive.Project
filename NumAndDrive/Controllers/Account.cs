@@ -41,7 +41,7 @@ namespace NumAndDrive.Controllers
 
             if (result.Succeeded)
             {
-                var confirmEmail = new ConfirmEmail();
+                var confirmEmail = new ConfirmEmailViewModel();
 
                 var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -95,7 +95,7 @@ namespace NumAndDrive.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(ConfirmEmail confirmEmail)
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailViewModel confirmEmail)
         {
             var user = await _userManager.FindByIdAsync(confirmEmail.UserId);
 
@@ -124,5 +124,6 @@ namespace NumAndDrive.Controllers
         {
             return View();
         }
+
     }
 }
