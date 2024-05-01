@@ -5,6 +5,6 @@ namespace NumAndDrive.Repository
     public interface IStatusRepository
     {
         Task<IEnumerable<Status>> GetAllStatusesAsync();
-        Task<Status> GetStatusByIdAsync(int statusId);
+        Task<string> GetStatusByIdAsync(int? statusId);
     }
 }
