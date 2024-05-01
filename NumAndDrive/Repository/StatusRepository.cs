@@ -13,7 +13,7 @@ namespace NumAndDrive.Services
             _context = context;
         }
 
-        public async Task<List<Status>> GetAllStatusesAsync()
+        public async Task<IEnumerable<Status>> GetAllStatusesAsync()
         {
             return await _context.Statuses.ToListAsync();
         }
