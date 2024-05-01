@@ -6,7 +6,7 @@ namespace NumAndDrive.Models
     public class User : IdentityUser
     {
         public string Lastname { get; set; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;
+        public string Firstname { get; set; } = string.Empty;
 
 
         // One-to-many
