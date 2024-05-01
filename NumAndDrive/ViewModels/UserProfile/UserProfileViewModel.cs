@@ -10,6 +10,6 @@ namespace NumAndDrive.ViewModels.UserProfile
         public string DriverType { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public ICollection<Travel> Travels { get; set; } = new List<Travel>();
-
+        public IEnumerable<Status> Statuses = new List<Status>();
     }
 }

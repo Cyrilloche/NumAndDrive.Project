@@ -36,7 +36,8 @@ namespace NumAndDrive.Controllers
                     Firstname = user.Firstname,
                     Lastname = user.Lastname,
                     Status = await _statusRepository.GetStatusByIdAsync(user.CurrentStatusId),
-                    DriverType = await _driverTypeRepository.GetDriverTypeByIdAsync(user.CurrentDriverTypeId)
+                    DriverType = await _driverTypeRepository.GetDriverTypeByIdAsync(user.CurrentDriverTypeId),
+                    Statuses = await _statusRepository.GetAllStatusesAsync()
                 };
                 return View(userViewModel);
             }
