@@ -10,15 +10,18 @@ namespace NumAndDrive.Controllers
     public class UserProfile : Controller
     {
         private readonly UserManager<User> _userManager;
-        private IStatusRepository _statusRepository;
+        private readonly IStatusRepository _statusRepository;
+        private readonly IDriverTypeRepository _driverTypeRepository;
 
-        public UserProfile(UserManager<User> userManager, IStatusRepository statusRepository)
+        public UserProfile(UserManager<User> userManager, IStatusRepository statusRepository, IDriverTypeRepository driverTypeRepository)
         {
             _userManager = userManager;
             _statusRepository = statusRepository;
+            _driverTypeRepository = driverTypeRepository;
         }
 
         public IStatusRepository StatusRepository { get; }
+        public IDriverTypeRepository DriverTypeRepository { get; }
 
         public async Task<IActionResult> Index()
         {
@@ -32,7 +35,8 @@ namespace NumAndDrive.Controllers
                 {
                     Firstname = user.Firstname,
                     Lastname = user.Lastname,
-                    Status = await _statusRepository.GetStatusByIdAsync(user.CurrentStatusId)
+                    Status = await _statusRepository.GetStatusByIdAsync(user.CurrentStatusId),
+                    DriverType = await _driverTypeRepository.GetDriverTypeByIdAsync(user.CurrentDriverTypeId)
                 };
                 return View(userViewModel);
             }
