@@ -45,3 +45,8 @@ body {
     background-color: #18203D;
     color:#FFFFFF
 }
+
+.card-img-top{
+    max-width : 100%;
+    height :auto;
+}

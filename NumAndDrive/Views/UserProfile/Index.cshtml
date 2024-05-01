@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using NumAndDrive.Models
+
+@inject UserManager<User> userManager
+
+<div class="row">
+    <div class="col-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <div class="card-img-top bg-secondary">
+                    <img src="~/images/profile-pic-white.png" alt="Profile picture" class="img-fluid" />
+                </div>
+                <h5 class="card-title">John Doe</h5>
+                <h6 class="card-subtitle">Fonce Alphonse !</h6>
+                <p class="card-text">Nancy</p>
+                <p class="card-text">100% pilote</p>
+                <p class="card-text">Etudiant</p>
+                <div>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-7">
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">Mes voyages</h3>
+                        <div class="card-group">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Passés</h5>
+                                </div>
+                                <ul class="list-group list-group-flush" data-bs-spy="scroll">
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">À venir</h5>
+                                </div>
+                                <ul class="list-group list-group-flush" data-bs-spy="scroll">
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                    <li class="list-group-item">A travel <i class="bi bi-caret-right"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <h3><i class="bi bi-award"></i> Mes badges et récompenses</h3>
+            </div>
+        </div>
+    </div>
+</div>
