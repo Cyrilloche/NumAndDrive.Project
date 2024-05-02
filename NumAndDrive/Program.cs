@@ -5,19 +5,19 @@ using NumAndDrive.Models;
 using NumAndDrive.Repository;
 using NumAndDrive.Services;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllersWithViews();
+var modelBuilder = WebApplication.CreateBuilder(args);
+modelBuilder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IDriverTypeRepository, DriverTypeRepository>();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<NumAndDriveContext>(options =>
+var connectionString = modelBuilder.Configuration.GetConnectionString("DefaultConnection");
+modelBuilder.Services.AddDbContext<NumAndDriveContext>(options =>
 {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
-builder.Services.AddIdentity<User, IdentityRole>(options =>
+modelBuilder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     //////// Change to real Password Requirement after development ////////
 
@@ -37,7 +37,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddEntityFrameworkStores<NumAndDriveContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.ConfigureApplicationCookie(options =>
+modelBuilder.Services.ConfigureApplicationCookie(options =>
 {
     //////// Ajust timespan after development ////////
     
@@ -47,7 +47,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 // Add services to the container.
 
-var app = builder.Build();
+var app = modelBuilder.Build();
 
 
 // Configure the HTTP request pipeline.

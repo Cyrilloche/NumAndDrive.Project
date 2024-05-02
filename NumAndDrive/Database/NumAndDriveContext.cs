@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Models;
 using System.Reflection;
@@ -35,44 +36,42 @@ namespace NumAndDrive.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            modelBuilder.Entity<Reservation>().HasKey(r => new { r.PassengerUserId, r.TravelId });
-            modelBuilder.Entity<TravelFilter>().HasKey(tf => new { tf.TravelId, tf.FilterId });
-            modelBuilder.Entity<UserNotification>().HasKey(un => new { un.UserId, un.NotificationId });
-            modelBuilder.Entity<UserReward>().HasKey(ur => new { ur.UserId, ur.RewardId });
-            modelBuilder.Entity<TravelStopPoint>().HasKey(tsp => new { tsp.CurrentTravelId, tsp.CurrentAdressId });
-            modelBuilder.Entity<UserTravelPreference>().HasKey(utp => new { utp.UserId, utp.TravelPreferenceId });
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable(name: "User");
+            });
 
-            modelBuilder.Entity<Travel>()
-                .HasOne<Adress>(t => t.DepartureAdress)
-                .WithMany(a => a.DepartureTravel)
-                .HasForeignKey(t => t.DepartureAdressId);
+            modelBuilder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Role");
+            });
 
-            modelBuilder.Entity<Travel>()
-                .HasOne<Adress>(t => t.ArrivalAdress)
-                .WithMany(a => a.ArrivalTravel)
-                .HasForeignKey(t => t.ArrivalAdressId);
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable(name: "RoleClaim");
+            });
 
-            modelBuilder.Entity<Message>()
-                .HasOne<User>(m => m.SenderUser)
-                .WithMany(u => u.PostMessage)
-                .HasForeignKey(m => m.SenderUserId);
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable(name: "UserClaim");
+            });
 
-            modelBuilder.Entity<Message>()
-                .HasOne<User>(m => m.ReceiverUser)
-                .WithMany(u => u.IncomingMessage)
-                .HasForeignKey(m => m.ReceiverUserId);
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable(name: "UserLogin");
+            });
 
-            modelBuilder.Entity<UserReview>()
-                .HasOne<User>(ur => ur.ReviewerUser)
-                .WithMany(u => u.SendingReviews)
-                .HasForeignKey(u => u.ReviewerUserId);
+            modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable(name: "UserToken");
+            });
 
-            modelBuilder.Entity<UserReview>()
-                .HasOne<User>(ur => ur.ReviewedUser)
-                .WithMany(u => u.ObtainedReviews)
-                .HasForeignKey(ur => ur.ReviewedUserId);
-
+            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable(name: "UserRole");
+            });
         }
     }
 }
