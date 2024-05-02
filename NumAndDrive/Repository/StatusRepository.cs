@@ -21,7 +21,8 @@ namespace NumAndDrive.Services
         public async Task<string> GetStatusByIdAsync(int? statusId)
         {
             var status = await _context.Statuses.FirstOrDefaultAsync(s => s.StatusId == statusId);
-            return status.Name ?? "";
+            if (status != null) return status.Name;
+            return " ";
         }
     }
 }

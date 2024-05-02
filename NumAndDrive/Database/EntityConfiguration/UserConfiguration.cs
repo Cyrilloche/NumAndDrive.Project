@@ -16,7 +16,7 @@ namespace NumAndDrive.Database.EntityConfiguration
                .HasColumnType("varchar")
                .HasMaxLength(50);
             builder
-                .Property(u => u.FirstName)
+                .Property(u => u.Firstname)
                 .HasColumnType("varchar")
                 .HasMaxLength(30);
 

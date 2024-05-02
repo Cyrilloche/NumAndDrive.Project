@@ -15,8 +15,9 @@ namespace NumAndDrive.Repository
         public async Task<string> GetDriverTypeByIdAsync(int? driverTypeId)
         {
             var driverType = await _context.DriverTypes.FirstOrDefaultAsync(dp => dp.DriverTypeId == driverTypeId);
+            if (driverType != null) return driverType.Name;
 
-            return driverType.Name ?? "";
+            return " ";
         }
     }
 }
