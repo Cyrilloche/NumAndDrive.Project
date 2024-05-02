@@ -29,21 +29,22 @@ namespace NumAndDrive.Controllers
 
             var user = await _userManager.FindByIdAsync(userId);
 
+
             if (user != null)
             {
+                var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
+                var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
+
                 var userViewModel = new UserProfileViewModel
                 {
                     Firstname = user.Firstname,
                     Lastname = user.Lastname,
-                    Status = await _statusRepository.GetStatusByIdAsync(user.CurrentStatusId),
-                    DriverType = await _driverTypeRepository.GetDriverTypeByIdAsync(user.CurrentDriverTypeId),
-                    Statuses = await _statusRepository.GetAllStatusesAsync()
+                    UserStatus = status,
+                    UserDriverType = driverType
                 };
                 return View(userViewModel);
             }
-
             return View();
-
         }
     }
 }

@@ -4,7 +4,7 @@ namespace NumAndDrive.Repository
 {
     public interface IDriverTypeRepository
     {
-        Task<string> GetDriverTypeByIdAsync(int? driverTypeId);
+        Task<DriverType> GetDriverTypeByUserIdAsync(int? driverTypeId);
 
     }
 }

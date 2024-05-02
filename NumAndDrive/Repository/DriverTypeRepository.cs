@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Database;
+using NumAndDrive.Models;
 
 namespace NumAndDrive.Repository
 {
@@ -12,12 +13,10 @@ namespace NumAndDrive.Repository
         {
             _context = context;
         }
-        public async Task<string> GetDriverTypeByIdAsync(int? driverTypeId)
+        public async Task<DriverType> GetDriverTypeByUserIdAsync(int? driverTypeId)
         {
-            var driverType = await _context.DriverTypes.FirstOrDefaultAsync(dp => dp.DriverTypeId == driverTypeId);
-            if (driverType != null) return driverType.Name;
+            return await _context.DriverTypes.FirstOrDefaultAsync(dp => dp.DriverTypeId == driverTypeId);
 
-            return " ";
         }
     }
 }

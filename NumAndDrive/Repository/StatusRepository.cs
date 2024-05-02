@@ -18,11 +18,13 @@ namespace NumAndDrive.Services
             return await _context.Statuses.ToListAsync();
         }
 
-        public async Task<string> GetStatusByIdAsync(int? statusId)
+        public async Task<Status> GetStatusByUserIdAsync(int? statusId)
         {
-            var status = await _context.Statuses.FirstOrDefaultAsync(s => s.StatusId == statusId);
-            if (status != null) return status.Name;
-            return " ";
+            //var status = await _context.Statuses.FirstOrDefaultAsync(s => s.StatusId == statusId);
+            //if (status != null) return status.Name;
+            //return " ";
+
+            return await _context.Statuses.FirstOrDefaultAsync(s => s.StatusId == statusId);
         }
     }
 }
