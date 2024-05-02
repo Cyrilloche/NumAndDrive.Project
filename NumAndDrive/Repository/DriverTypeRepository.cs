@@ -18,5 +18,10 @@ namespace NumAndDrive.Repository
             return await _context.DriverTypes.FirstOrDefaultAsync(dp => dp.DriverTypeId == driverTypeId);
 
         }
+
+        public async Task<IEnumerable<DriverType>> GetAllDriverTypesAsync()
+        {
+            return await _context.DriverTypes.ToListAsync();
+        }
     }
 }

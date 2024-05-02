@@ -23,12 +23,12 @@ namespace NumAndDrive.Controllers
         public IStatusRepository StatusRepository { get; }
         public IDriverTypeRepository DriverTypeRepository { get; }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
 
             var user = await _userManager.FindByIdAsync(userId);
-
 
             if (user != null)
             {
@@ -45,6 +45,44 @@ namespace NumAndDrive.Controllers
                 return View(userViewModel);
             }
             return View();
+        }
+
+        public async Task<IActionResult> Edit()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
+            var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
+            var editUserProfileViewModel = new EditUserProfileViewModel
+            {
+                NewStatusId = status.StatusId,
+                NewDriverTypeId = driverType.DriverTypeId,
+                Statuses = await _statusRepository.GetAllStatusesAsync(), 
+                DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync()
+            };
+            return View(editUserProfileViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserProfileViewModel editUserProfileViewModel)
+        {
+            if (!ModelState.IsValid) return View(editUserProfileViewModel);
+
+            var userId = _userManager.GetUserId(User);
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user != null)
+            {
+                user.CurrentStatusId = editUserProfileViewModel.NewStatusId;
+                user.CurrentDriverTypeId = editUserProfileViewModel.NewDriverTypeId;
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index");
+            }
+            return View();
+
         }
     }
 }
