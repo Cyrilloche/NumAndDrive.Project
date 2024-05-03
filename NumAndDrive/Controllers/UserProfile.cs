@@ -53,29 +53,19 @@ namespace NumAndDrive.Controllers
                 var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
                 var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
 
-                var editUserProfileViewModel = new EditUserProfileViewModel();
-
-                if (status != null && driverType != null)
+                var editUserProfileViewModel = new EditUserProfileViewModel
                 {
-                    editUserProfileViewModel.NewStatusId = status.StatusId;
-                    editUserProfileViewModel.NewDriverTypeId = driverType.DriverTypeId;
-                    editUserProfileViewModel.Statuses = await _statusRepository.GetAllStatusesAsync();
-                    editUserProfileViewModel.DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync();
-
-                }
-                else
-                {
-                    editUserProfileViewModel.Statuses = await _statusRepository.GetAllStatusesAsync();
-                    editUserProfileViewModel.DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync();
-                }
+                    Statuses = await _statusRepository.GetAllStatusesAsync(),
+                    DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync(),
+                    NewStatusId = status.StatusId,
+                    NewDriverTypeId = driverType.DriverTypeId,
+                };
                 return View(editUserProfileViewModel);
             }
             else
             {
                 return RedirectToAction("Index");
             }
-
-
         }
 
         [HttpPost]
@@ -92,7 +82,7 @@ namespace NumAndDrive.Controllers
                 await _userManager.UpdateAsync(user);
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(editUserProfileViewModel);
 
         }
     }
