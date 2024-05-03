@@ -36,6 +36,7 @@ namespace NumAndDrive.Database.EntityConfiguration
                 .HasOne<Classroom>(u => u.CurrentClassroom)
                 .WithMany(c => c.Users)
                 .HasForeignKey(u => u.CurrentClassroomId);
+
         }
     }
 }

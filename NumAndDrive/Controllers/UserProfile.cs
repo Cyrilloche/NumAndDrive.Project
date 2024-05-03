@@ -20,15 +20,10 @@ namespace NumAndDrive.Controllers
             _driverTypeRepository = driverTypeRepository;
         }
 
-        public IStatusRepository StatusRepository { get; }
-        public IDriverTypeRepository DriverTypeRepository { get; }
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userId = _userManager.GetUserId(User);
-
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
             if (user != null)
             {
@@ -49,20 +44,36 @@ namespace NumAndDrive.Controllers
 
         public async Task<IActionResult> Edit()
         {
-            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            var user = await _userManager.FindByIdAsync(userId);
-
-            var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
-            var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
-            var editUserProfileViewModel = new EditUserProfileViewModel
+            if (user != null)
             {
-                NewStatusId = status.StatusId,
-                NewDriverTypeId = driverType.DriverTypeId,
-                Statuses = await _statusRepository.GetAllStatusesAsync(), 
-                DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync()
-            };
-            return View(editUserProfileViewModel);
+                var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
+                var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
+
+                var editUserProfileViewModel = new EditUserProfileViewModel();
+
+                if (status != null && driverType != null)
+                {
+                    editUserProfileViewModel.NewStatusId = status.StatusId;
+                    editUserProfileViewModel.NewDriverTypeId = driverType.DriverTypeId;
+                    editUserProfileViewModel.Statuses = await _statusRepository.GetAllStatusesAsync();
+                    editUserProfileViewModel.DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync();
+
+                }
+                else
+                {
+                    editUserProfileViewModel.Statuses = await _statusRepository.GetAllStatusesAsync();
+                    editUserProfileViewModel.DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync();
+                }
+                return View(editUserProfileViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+
         }
 
         [HttpPost]
@@ -70,9 +81,7 @@ namespace NumAndDrive.Controllers
         {
             if (!ModelState.IsValid) return View(editUserProfileViewModel);
 
-            var userId = _userManager.GetUserId(User);
-
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
             if (user != null)
             {
