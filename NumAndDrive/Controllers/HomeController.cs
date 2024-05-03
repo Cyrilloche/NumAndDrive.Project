@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Models;
+using NumAndDrive.ViewModels.Home;
 using System.Diagnostics;
 
 namespace NumAndDrive.Controllers
@@ -18,8 +19,17 @@ namespace NumAndDrive.Controllers
         }
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if(user != null)
+            {
+                var datas = new HomeViewModel
+                {
+                    Firstname = user.Firstname
+                };
+                return View(datas);
+            }
             return View();
         }
 

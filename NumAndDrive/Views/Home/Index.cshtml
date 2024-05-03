@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using NumAndDrive.Models
 
+@model NumAndDrive.ViewModels.Home.HomeViewModel
+
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
@@ -9,7 +11,7 @@
 }
 
 <div class="container">
-    <h1 class="mb-5 text-center">Hello @UserManager.GetUserName(User) ! <br />Avec quel profil navigons-nous aujourd'hui ?</h1>
+    <h1 class="mb-5 text-center">Bonjour @Model.Firstname ! <br />Vers quel profil navigons-nous aujourd'hui ?</h1>
     <div class="container mb-5">
         <div class="row d-flex justify-content-center">
             <div class="col-6">
