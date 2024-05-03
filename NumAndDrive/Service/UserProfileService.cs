@@ -1,4 +1,4 @@
-﻿using NumAndDrive.Repository;
+﻿using NumAndDrive.Repository.Interfaces;
 using NumAndDrive.ViewModels.UserProfile;
 
 namespace NumAndDrive.Service

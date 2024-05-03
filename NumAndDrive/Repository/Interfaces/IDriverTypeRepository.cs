@@ -1,6 +1,6 @@
 ﻿using NumAndDrive.Models;
 
-namespace NumAndDrive.Repository
+namespace NumAndDrive.Repository.Interfaces
 {
     public interface IDriverTypeRepository
     {

@@ -4,11 +4,11 @@ namespace NumAndDrive.ViewModels.Account
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Nom d'utilisateur non valide")]
         public string UserName { get; set; } = string.Empty;
 
         [Required]
-        [EmailAddress(ErrorMessage = "Invalid email address")]
+        [EmailAddress(ErrorMessage = "Adresse mail non valide")]
         public string Email { get; set; } = string.Empty;
 
         [Required]

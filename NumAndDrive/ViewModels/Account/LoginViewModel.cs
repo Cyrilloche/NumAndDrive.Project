@@ -4,7 +4,7 @@ namespace NumAndDrive.ViewModels.Account
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Nom d'utilisateur non valide")]
         public string UserName { get; set; } = string.Empty;
 
         [Required]

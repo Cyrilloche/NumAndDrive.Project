@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Repository;
+using NumAndDrive.Repository.Interfaces;
 using NumAndDrive.Services;
 
 var builder = WebApplication.CreateBuilder(args);
