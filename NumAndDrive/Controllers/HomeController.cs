@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Models;
 using System.Diagnostics;
@@ -8,10 +9,12 @@ namespace NumAndDrive.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<User> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
         [Authorize]

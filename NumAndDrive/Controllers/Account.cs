@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Models;
+using NumAndDrive.Repository.Interfaces;
 using NumAndDrive.ViewModels.Account;
 
 namespace NumAndDrive.Controllers
@@ -9,11 +10,15 @@ namespace NumAndDrive.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IStatusRepository _statusRepository;
+        private readonly IDriverTypeRepository _driverTyperepository;
 
-        public Account(UserManager<User> userManager, SignInManager<User> signInManager)
+        public Account(UserManager<User> userManager, SignInManager<User> signInManager, IDriverTypeRepository driverTypeRepository, IStatusRepository statusRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _driverTyperepository = driverTypeRepository;
+            _statusRepository = statusRepository;
         }
 
         public IActionResult Index()
@@ -21,19 +26,20 @@ namespace NumAndDrive.Controllers
             return View();
         }
 
+
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("UserName, Email, Password")] RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid) return View(registerViewModel);
 
             var user = new User
             {
-                UserName = registerViewModel.UserName,
+                UserName = registerViewModel.Email,
                 Email = registerViewModel.Email
             };
 
@@ -48,6 +54,12 @@ namespace NumAndDrive.Controllers
                 confirmEmail.UserId = user.Id ?? "";
                 confirmEmail.Token = confirmationToken ?? "";
 
+                var confirmationLink = Url.Action("FirstConnection", "Account",
+                    values: new { confirmEmail.UserId, token = confirmationToken });
+
+
+                confirmEmail.ConfirmationLink = confirmationLink ?? "";
+
                 return RedirectToAction("ConfirmEmail", confirmEmail);
             }
             else
@@ -58,6 +70,46 @@ namespace NumAndDrive.Controllers
                 }
                 return View();
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> FirstConnection(ConfirmEmailViewModel datas)
+        {
+            var allStatus = await _statusRepository.GetAllStatusesAsync();
+            var allDriverTypes = await _driverTyperepository.GetAllDriverTypesAsync();
+            var userInformation = new FirstConnectionViewModel
+            {
+                UserId = datas.UserId,
+                Statuses = allStatus,
+                DriverTypes = allDriverTypes
+            };
+            
+            return View(userInformation);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FirstConnection(FirstConnectionViewModel datas)
+        {
+            if (!ModelState.IsValid) return View(datas);
+
+            var user = await _userManager.FindByIdAsync(datas.UserId);
+
+            if (user != null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, datas.Token);
+
+                if (result.Succeeded)
+                {
+                    user.Firstname = datas.NewFirstname;
+                    user.Lastname = datas.NewLastname;
+                    user.CurrentStatusId = datas.NewStatusId;
+                    user.CurrentDriverTypeId = datas.NewDriverTypeId;
+
+                    await _userManager.UpdateAsync(user);
+                    return RedirectToAction("Login");
+                }
+            }
+            return RedirectToAction("FirstConnection", datas);
         }
 
         public IActionResult Login()
@@ -95,21 +147,8 @@ namespace NumAndDrive.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(ConfirmEmailViewModel confirmEmail)
+        public IActionResult ConfirmEmail(ConfirmEmailViewModel confirmEmail)
         {
-            var user = await _userManager.FindByIdAsync(confirmEmail.UserId);
-
-            if (user != null)
-            {
-                var result = await _userManager.ConfirmEmailAsync(user, confirmEmail.Token);
-
-                if (result.Succeeded)
-                {
-                    confirmEmail.Message = "Adresse mail confirmée. Vous pouvez maintenant vous connecter à botre application";
-                    return View(confirmEmail);
-                }
-            }
-            confirmEmail.Message = "Échec lors de la vérification de l'adresse mail";
             return View(confirmEmail);
         }
 
@@ -119,11 +158,5 @@ namespace NumAndDrive.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
     }
 }
