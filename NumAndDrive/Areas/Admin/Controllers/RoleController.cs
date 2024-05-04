@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Areas.Admin.ViewModels.Role;
+using NumAndDrive.Database;
+using NumAndDrive.Models;
 
 namespace NumAndDrive.Areas.Admin.Controllers
 {
@@ -11,10 +13,14 @@ namespace NumAndDrive.Areas.Admin.Controllers
     {
 
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _usermanager;
+        private readonly NumAndDriveContext _context;
 
-        public RoleController(RoleManager<IdentityRole> roleManager)
+        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<User> usermanager, NumAndDriveContext context)
         {
             _roleManager = roleManager;
+            _usermanager = usermanager;
+            _context = context;
         }
 
         private void DisplayErrors(IdentityResult result)
@@ -31,8 +37,19 @@ namespace NumAndDrive.Areas.Admin.Controllers
         }
 
         // GET: RoleController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(string id)
         {
+            var usersWithThisRole = await _context.UserRoles.Where(u => u.RoleId == id).ToListAsync();
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role != null)
+            {
+                var datasToReturn = new DetailsRoleViewModel
+                {
+                    Users = usersWithThisRole.Count(),
+                    Role = role
+                };
+                return View(datasToReturn);
+            }
             return View();
         }
 
@@ -61,7 +78,7 @@ namespace NumAndDrive.Areas.Admin.Controllers
                 return View(datas);
 
             }
-            
+
         }
 
         // GET: RoleController/Edit/5
