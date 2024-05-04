@@ -33,7 +33,15 @@ namespace NumAndDrive.Areas.Admin.Controllers
         public async Task<ActionResult> Index()
         {
             var roles = await _roleManager.Roles.ToListAsync();
-            return View(roles);
+            if(roles != null)
+            {
+                var datasToReturn = new IndexRoleViewModel
+                {
+                    Roles = roles
+                };
+            return View(datasToReturn);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: RoleController/Details/5
@@ -81,46 +89,49 @@ namespace NumAndDrive.Areas.Admin.Controllers
 
         }
 
-        // GET: RoleController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
         // POST: RoleController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(string id, IndexRoleViewModel datas)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            if (!ModelState.IsValid)
+                return View(id, datas);
 
-        // GET: RoleController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role != null)
+            {
+                role.Name = datas.NewNameRole;
+
+                var result = await _roleManager.UpdateAsync(role);
+                if (result.Succeeded)
+                    return RedirectToAction("Index");
+                else
+                    DisplayErrors(result);
+            }
+            else
+                ModelState.AddModelError("", "No role found");
+            return View("Index", _roleManager.Roles);
         }
 
         // POST: RoleController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string id)
         {
-            try
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role != null)
             {
-                return RedirectToAction(nameof(Index));
+                var result = await _roleManager.DeleteAsync(role);
+                if (result.Succeeded)
+                    return RedirectToAction("Index");
+                else
+                    DisplayErrors(result);
             }
-            catch
-            {
-                return View();
-            }
+            else
+                ModelState.AddModelError("", "No role found");
+            return View("Index", _roleManager.Roles);
         }
     }
 }
