@@ -83,33 +83,33 @@ namespace NumAndDrive.Controllers
                 Statuses = allStatus,
                 DriverTypes = allDriverTypes
             };
-            
+
             return View(userInformation);
         }
 
         [HttpPost]
         public async Task<IActionResult> FirstConnection(FirstConnectionViewModel datas)
         {
-            if (!ModelState.IsValid) return View(datas);
+            if (!ModelState.IsValid)
+                return View(datas);
 
             var user = await _userManager.FindByIdAsync(datas.UserId);
 
-            if (user != null)
-            {
-                var result = await _userManager.ConfirmEmailAsync(user, datas.Token);
+            if (user == null)
+                return RedirectToAction("FirstConnection", datas);
 
-                if (result.Succeeded)
-                {
-                    user.Firstname = datas.NewFirstname;
-                    user.Lastname = datas.NewLastname;
-                    user.CurrentStatusId = datas.NewStatusId;
-                    user.CurrentDriverTypeId = datas.NewDriverTypeId;
+            var result = await _userManager.ConfirmEmailAsync(user, datas.Token);
 
-                    await _userManager.UpdateAsync(user);
-                    return RedirectToAction("Login");
-                }
-            }
-            return RedirectToAction("FirstConnection", datas);
+            if (!result.Succeeded)
+                return RedirectToAction("FirstConnection", datas);
+
+            user.Firstname = datas.NewFirstname;
+            user.Lastname = datas.NewLastname;
+            user.CurrentStatusId = datas.NewStatusId;
+            user.CurrentDriverTypeId = datas.NewDriverTypeId;
+
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("Login");
         }
 
         public IActionResult Login()
@@ -118,9 +118,10 @@ namespace NumAndDrive.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([Bind("UserName, Password")] LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
-            if (!ModelState.IsValid) return View(loginViewModel);
+            if (!ModelState.IsValid)
+                return View(loginViewModel);
 
             var result = await _signInManager.PasswordSignInAsync(
                 loginViewModel.UserName,
@@ -128,11 +129,7 @@ namespace NumAndDrive.Controllers
                 false,
                 false);
 
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
+            if (!result.Succeeded)
             {
                 if (result.IsLockedOut)
                 {
@@ -142,8 +139,10 @@ namespace NumAndDrive.Controllers
                 {
                     ModelState.AddModelError("Login", "La connexion a échouée");
                 }
-                return View();
             }
+
+            return RedirectToAction("Index", "Home");
+
         }
 
         [HttpGet]
@@ -157,6 +156,86 @@ namespace NumAndDrive.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel datas)
+        {
+            if (!ModelState.IsValid) return View(datas);
+
+            var user = await _userManager.FindByEmailAsync(datas.Email);
+
+            if (user != null)
+            {
+
+                var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                var resetLink = Url.Action("ResetPassword", "Account",
+                    values: new { email = user.Email, token = resetPasswordToken });
+
+                var resetPassword = new SimulateEmailViewModel
+                {
+                    Token = await _userManager.GeneratePasswordResetTokenAsync(user),
+                    Email = user.Email,
+                    Link = resetLink ?? ""
+                };
+                return RedirectToAction("SimulateResetPasswordMail", resetPassword);
+            }
+
+            return View();
+        }
+
+        public IActionResult SimulateResetPasswordMail(SimulateEmailViewModel datas)
+        {
+            return View(datas);
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var resetPassword = new ResetPasswordViewModel
+            {
+                Email = email,
+                Token = token
+            };
+            return View(resetPassword);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Resetpassword(ResetPasswordViewModel datas)
+        {
+            if (!ModelState.IsValid) return View(datas);
+
+            var user = await _userManager.FindByEmailAsync(datas.Email);
+
+            if (user == null) return RedirectToAction(nameof(Index));
+
+
+            var result = await _userManager.ResetPasswordAsync(user, datas.Token, datas.ConfirmPassword);
+            if (result.Succeeded)
+            {
+                var toReturn = new ResetPasswordViewModel
+                {
+                    IsPasswordRest = true
+
+                };
+                return View(toReturn);
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return View();
+            }
         }
     }
 }
