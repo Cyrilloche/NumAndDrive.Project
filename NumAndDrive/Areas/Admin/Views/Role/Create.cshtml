@@ -1,0 +1,17 @@
+﻿@model NumAndDrive.Areas.Admin.ViewModels.Role.CreateRoleViewModel
+@{
+    ViewData["Title"] = "CREATE ROLE";
+}
+
+<h1>Create a Role</h1>
+<form method ="post" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="RoleName">Name:</label>
+        <input asp-for="RoleName" class="form-control" />
+    </div>
+    <span class="text-danger" asp-validation-for="RoleName"></span>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
