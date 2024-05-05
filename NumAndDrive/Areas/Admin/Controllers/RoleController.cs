@@ -13,13 +13,13 @@ namespace NumAndDrive.Areas.Admin.Controllers
     {
 
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<User> _usermanager;
+        private readonly UserManager<User> _userManager;
         private readonly NumAndDriveContext _context;
 
-        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<User> usermanager, NumAndDriveContext context)
+        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager, NumAndDriveContext context)
         {
             _roleManager = roleManager;
-            _usermanager = usermanager;
+            _userManager = userManager;
             _context = context;
         }
 

@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model NumAndDrive.Areas.Admin.ViewModels.UserManagement.IndexUserViewModel
+
+<h1>User Manager</h1>
+
+@if (Model != null && Model.Users.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>User Id</td>
+                <td>User Name</td>
+                <td>User Email</td>
+                <td>User Normalize Email</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Lastname @user.Firstname</td>
+                    <td>@user.Email</td>
+                    <td>@user.NormalizedEmail</td>
+                    <td><a class="btn btn-secondary" asp-controller="UserManagement" asp-action="Details" asp-route-id="@user.Id">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>

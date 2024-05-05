@@ -24,7 +24,7 @@
                     <td>@role.Name</td>
                     <td>@role.NormalizedName</td>
                     <td><a class="btn btn-secondary" asp-controller="Role" asp-action="Details" asp-route-id="@role.Id">Details</a></td>
-                    <td><a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateRoleConfirmation_@role.Id">Update</a></td>
+                    <td><a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateRoleConfirmation_@role.Id">Edit</a></td>
                     <td><a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRoleConfirmation_@role.Id">Delete</a></td>
                     <!-- Modal Delete-->
                     <div class="modal fade" id="deleteRoleConfirmation_@role.Id" tabindex="-1" aria-hidden="true">

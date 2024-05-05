@@ -1,0 +1,78 @@
+﻿@model NumAndDrive.Areas.Admin.ViewModels.UserManagement.DetailsUserManagementViewModel
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<h1>User Details</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">User Id:</dt>
+        <dd class="col-sm-9">@Model.UserId</dd>
+
+        <dt class="col-sm-3">Lastname:</dt>
+        <dd class="col-sm-9">@Model.Lastname</dd>
+
+        <dt class="col-sm-3">Firstname:</dt>
+        <dd class="col-sm-9">@Model.Firstname</dd>
+
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+
+        <dt class="col-sm-3">Normalized Email:</dt>
+        <dd class="col-sm-9">@Model.NormalizeEmail</dd>
+
+        <dt class="col-sm-3">Email Confirmed:</dt>
+        <dd class="col-sm-9">@Model.IsEmailConfirmed</dd>
+
+        <dt class="col-sm-3">Phone Number Confirmed:</dt>
+        <dd class="col-sm-9">@Model.IsPhoneNumberConfirmed</dd>
+
+        <dt class="col-sm-3">Access Failed Count:</dt>
+        <dd class="col-sm-9">@Model.AccessFaildCount</dd>
+
+        <dt class="col-sm-3">Current Status:</dt>
+        <dd class="col-sm-9">@Model.CurrentStatus</dd>
+
+        <dt class="col-sm-3">Current Driver Type:</dt>
+        <dd class="col-sm-9">@Model.CurrentDriverType</dd>
+
+        <dt class="col-sm-3">Current Role:</dt>
+        <dd class="col-sm-9">@Model.CurrentRole</dd>
+    </dl>
+</div>
+<div class="row">
+    <div class="col">
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+    <div class="col">
+        <a class="btn btn-warning" asp-controller="UserManagement" asp-action="Edit" asp-route-id="@Model.UserId">Edit</a>
+    </div>
+    <div class="col">
+        <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserConfirmation_@Model.UserId">Delete</a>
+    </div>
+</div>
+
+
+<!-- Modal Delete-->
+<div class="modal fade" id="deleteUserConfirmation_@Model.UserId" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Deleting a user</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you really sure you want to remove this user ?</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-controller="UserManagement" asp-action="Delete" method="post">
+                    <input type="hidden" name="id" value="@Model.UserId" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
