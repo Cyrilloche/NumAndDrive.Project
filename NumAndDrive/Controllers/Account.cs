@@ -129,7 +129,13 @@ namespace NumAndDrive.Controllers
                 false,
                 false);
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
+            {
+                if (User.IsInRole("Admin"))
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                return RedirectToAction("Index", "Home");
+            }
+            else
             {
                 if (result.IsLockedOut)
                 {
@@ -141,7 +147,7 @@ namespace NumAndDrive.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Home");
+            return View(loginViewModel);
 
         }
 
