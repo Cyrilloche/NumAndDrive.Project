@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Models;
-using NumAndDrive.ViewModels.Home;
 using System.Diagnostics;
 
 namespace NumAndDrive.Controllers
@@ -25,8 +24,8 @@ namespace NumAndDrive.Controllers
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
             else if(User.IsInRole("Manager"))
                 return RedirectToAction("Index", "Home", new { area = "Manager" });
-            else if (User.IsInRole("User"))
-                return RedirectToAction("Index", "Home", new { area = "User" });
+            else if (User.IsInRole("Client"))
+                return RedirectToAction("Index", "Home", new { area = "UserArea" });
 
             return View();
         }

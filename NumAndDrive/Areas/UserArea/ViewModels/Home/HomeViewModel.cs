@@ -1,4 +1,4 @@
-﻿namespace NumAndDrive.ViewModels.Home
+﻿namespace NumAndDrive.Areas.UserArea.ViewModels.Home
 {
     public class HomeViewModel
     {

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NumAndDrive.Areas.UserArea.ViewModels.UserProfile;
 using NumAndDrive.Models;
 using NumAndDrive.Repository.Interfaces;
-using NumAndDrive.Services;
-using NumAndDrive.ViewModels.UserProfile;
 
 namespace NumAndDrive.Controllers
 {

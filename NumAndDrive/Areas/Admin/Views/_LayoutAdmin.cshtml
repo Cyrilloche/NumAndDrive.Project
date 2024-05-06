@@ -24,9 +24,8 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">Accueil</a>
-                        <a class="nav-link active" asp-controller="UserProfile" asp-action="Index">Mon profil</a>
+                        <a class="nav-link active" asp-area="Admin" asp-controller="UserProfile" asp-action="Index">Mon profil</a>
                         <a class="nav-link active" asp-controller="Account" asp-action="Logout">Logout</a>
-                        <a class="nav-link active" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
                         <a class="nav-link" href="http://localhost/phpmyadmin/">phpMyAdmin</a>
                     </div>
                 </div>

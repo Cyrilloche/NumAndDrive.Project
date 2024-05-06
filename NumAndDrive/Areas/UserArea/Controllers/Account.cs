@@ -6,7 +6,7 @@ using NumAndDrive.ViewModels.Account;
 
 namespace NumAndDrive.UserArea.Controllers
 {
-    [Area("User")]
+    [Area("UserArea")]
     public class Account : Controller
     {
         private readonly UserManager<User> _userManager;

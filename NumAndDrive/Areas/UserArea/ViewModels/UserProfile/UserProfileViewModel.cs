@@ -1,6 +1,6 @@
 ﻿using NumAndDrive.Models;
 
-namespace NumAndDrive.ViewModels.UserProfile
+namespace NumAndDrive.Areas.UserArea.ViewModels.UserProfile
 {
     public class UserProfileViewModel
     {
