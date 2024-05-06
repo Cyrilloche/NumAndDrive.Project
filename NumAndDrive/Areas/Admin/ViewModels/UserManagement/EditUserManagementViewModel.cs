@@ -10,8 +10,8 @@ namespace NumAndDrive.Areas.Admin.ViewModels.UserManagement
         public string Firstname { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string CurrentRole { get; set; } = string.Empty;
-        public int NewStatusId { get; set; }
-        public int NewDriverTypeId { get; set; }
+        public int? NewStatusId { get; set; }
+        public int? NewDriverTypeId { get; set; }
         public string NewRoleId { get; set; } = string.Empty;
         public IEnumerable<Status> Statuses { get; set; } = new List<Status>();
         public IEnumerable<DriverType> DriverTypes { get; set; } = new List<DriverType>();

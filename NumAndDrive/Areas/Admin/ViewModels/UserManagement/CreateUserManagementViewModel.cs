@@ -9,6 +9,6 @@ namespace NumAndDrive.Areas.Admin.ViewModels.UserManagement
         public string Password { get; set; } = string.Empty;
         public IEnumerable<IdentityRole> Roles { get; set; } = new List<IdentityRole>();
         public string RoleName { get; set; } = string.Empty;
-        public bool IsEmailAlreadyConfirmed { get; set; }
+        public bool IsEmailAlreadyConfirmed { get; set; } = false;
     }
 }

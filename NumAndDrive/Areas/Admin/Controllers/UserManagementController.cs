@@ -53,26 +53,29 @@ namespace NumAndDrive.Areas.Admin.Controllers
         public async Task<ActionResult> Details(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            if(user != null)
+            if (user != null)
             {
                 var userRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == id);
                 var currentUserRole = await _roleManager.FindByIdAsync(userRole.RoleId);
                 var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
                 var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
 
+                var statusName = status != null ? status.Name : "";
+                var driverTypeName = driverType != null ? driverType.Name : "";
+
                 var datasToReturn = new DetailsUserManagementViewModel
                 {
                     UserId = user.Id,
                     Lastname = user.Lastname,
                     Firstname = user.Firstname,
-                    CurrentRole = currentUserRole.Name,
+                    CurrentRole = currentUserRole != null ? currentUserRole.Name : "",
                     Email = user.Email,
                     NormalizeEmail = user.NormalizedEmail,
                     IsEmailConfirmed = user.EmailConfirmed,
                     IsPhoneNumberConfirmed = user.PhoneNumberConfirmed,
                     AccessFaildCount = user.AccessFailedCount,
-                    CurrentStatus = status.Name,
-                    CurrentDriverType = driverType.Name
+                    CurrentStatus = statusName,
+                    CurrentDriverType = driverTypeName
                 };
                 return View(datasToReturn);
             }
@@ -107,8 +110,6 @@ namespace NumAndDrive.Areas.Admin.Controllers
 
             if (result.Succeeded)
             {
-                var roleId = datas.RoleName;
-
                 await _userManager.AddToRoleAsync(user, datas.RoleName);
 
                 var confirmEmail = new ConfirmEmailViewModel();
@@ -119,12 +120,14 @@ namespace NumAndDrive.Areas.Admin.Controllers
                 confirmEmail.Token = confirmationToken ?? "";
 
                 var confirmationLink = Url.Action("FirstConnection", "Account",
-                    values: new { confirmEmail.UserId, token = confirmationToken });
+                    new { confirmEmail.UserId, token = confirmationToken, area = "" },
+                    HttpContext.Request.Scheme,
+                    HttpContext.Request.Host.Value);
 
 
                 confirmEmail.ConfirmationLink = confirmationLink ?? "";
 
-                return RedirectToAction("ConfirmEmail", confirmEmail);
+                return RedirectToAction("Index");
             }
             else
             {
@@ -157,13 +160,14 @@ namespace NumAndDrive.Areas.Admin.Controllers
                     Lastname = user.Lastname,
                     Firstname = user.Firstname,
                     CurrentRole = userRole.RoleId,
-                    NewStatusId = status.StatusId,
-                    NewDriverTypeId = driverType.DriverTypeId,
+                    NewStatusId = status != null ? status.StatusId : 0,
+                    NewDriverTypeId = driverType != null ?driverType.DriverTypeId : 0,
                     Email = user.Email,
                     Statuses = statuses,
                     DriverTypes = driverTypes,
                     Roles = roles
                 };
+
                 return View(datasToReturn);
             }
             return View();
@@ -172,7 +176,7 @@ namespace NumAndDrive.Areas.Admin.Controllers
         // POST: UserManagementController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  async Task<ActionResult> Edit(EditUserManagementViewModel datas)
+        public async Task<ActionResult> Edit(EditUserManagementViewModel datas)
         {
             if (!ModelState.IsValid)
                 return View(datas);
@@ -188,14 +192,14 @@ namespace NumAndDrive.Areas.Admin.Controllers
                 user.CurrentDriverTypeId = datas.NewDriverTypeId;
 
                 var userRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == datas.UserId);
-                if(userRole != null)
+                if (userRole != null)
                     userRole.RoleId = datas.NewRoleId;
 
                 var result = await _userManager.UpdateAsync(user);
                 await _context.SaveChangesAsync();
-               
+
                 if (result.Succeeded)
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", _userManager.Users);
                 else
                     DisplayErrors(result);
             }
