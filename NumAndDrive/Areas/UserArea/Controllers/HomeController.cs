@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Areas.UserArea.ViewModels.Home;
 using NumAndDrive.Models;
-using System.Diagnostics;
 
 namespace NumAndDrive.UserArea.Controllers
 {

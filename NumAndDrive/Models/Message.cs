@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace NumAndDrive.Models
+﻿namespace NumAndDrive.Models
 {
     public class Message
     {

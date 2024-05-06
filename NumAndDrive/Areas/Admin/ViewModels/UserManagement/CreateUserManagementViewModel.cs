@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using NumAndDrive.Models;
 
 namespace NumAndDrive.Areas.Admin.ViewModels.UserManagement
 {

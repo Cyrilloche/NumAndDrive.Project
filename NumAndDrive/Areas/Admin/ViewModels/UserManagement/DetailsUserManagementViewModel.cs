@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace NumAndDrive.Areas.Admin.ViewModels.UserManagement
+﻿namespace NumAndDrive.Areas.Admin.ViewModels.UserManagement
 {
     public class DetailsUserManagementViewModel
     {
