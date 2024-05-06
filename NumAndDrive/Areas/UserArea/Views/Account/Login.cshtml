@@ -1,0 +1,63 @@
+﻿@model NumAndDrive.ViewModels.Account.LoginViewModel
+
+<h3>User Login</h3>
+<br />
+
+<div class="card-group align-middle shadow-sm">
+    <div class="card p-2">
+        <img src="~/images/LOGO - CARPOOL.svg" class="card-img-top img-fluid" />
+    </div>
+    <div class="card p-2">
+        <h3 class="card-title text-center">Portail de connexion</h3>
+        <form method="post" class="card-text">
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <div class="form-group row">
+                <div class="col">
+                    <label asp-for="UserName"></label>
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col">
+                    <input type="text" asp-for="UserName" class="form-control" />
+                </div>
+                <span class="text-danger" asp-validation-for="UserName"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label asp-for="Password"></label>
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col">
+                    <input type="password" asp-for="Password" class="form-control" />
+                </div>
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group row mb-1">
+                <div class="col text-center">
+                    <input type="submit" class="btn submit-blue-button" value="Connexion" />
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col text-center">
+                <p type="button" data-bs-toggle="modal" data-bs-target="#forgotPassword" class="link-secondary text-decoration-none">Mot de passe oublié ?</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="forgotPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Vous avez oublié votre mot de passe ?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a asp-action="ForgotPassword">Cliquez ici sur le bouton si dessous pour créer un lien de réinitialisation</a>
+            </div>
+        </div>
+    </div>
+</div>
