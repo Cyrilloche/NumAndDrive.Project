@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Areas.UserArea.ViewModels.UserProfile;
 using NumAndDrive.Models;
+using NumAndDrive.Repository;
 using NumAndDrive.Repository.Interfaces;
+using NumAndDrive.ViewModels.Account;
 
 namespace NumAndDrive.UserArea.Controllers
 {
@@ -27,6 +29,9 @@ namespace NumAndDrive.UserArea.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
+            if (!user.FirstConnection)
+                return RedirectToAction("FirstConnection");
+
             if (user != null)
             {
                 var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
@@ -42,6 +47,41 @@ namespace NumAndDrive.UserArea.Controllers
                 return View(userViewModel);
             }
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> FirstConnection()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var allStatus = await _statusRepository.GetAllStatusesAsync();
+            var allDriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync();
+            var userInformation = new FirstConnectionViewModel
+            {
+                UserId = user.Id,
+                Statuses = allStatus,
+                DriverTypes = allDriverTypes
+            };
+
+            return View(userInformation);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FirstConnection(FirstConnectionViewModel datas)
+        {
+            if (!ModelState.IsValid) return View(datas);
+
+            var user = await _userManager.FindByIdAsync(datas.UserId);
+
+            if (user != null)
+            {
+                user.CurrentStatusId = datas.NewStatusId;
+                user.CurrentDriverTypeId = datas.NewDriverTypeId;
+                user.FirstConnection = true;
+
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("FirstConnection", datas);
         }
 
         public async Task<IActionResult> Edit()
