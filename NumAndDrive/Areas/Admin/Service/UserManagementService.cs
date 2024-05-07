@@ -83,7 +83,8 @@ namespace NumAndDrive.Areas.Admin.Service
                 Lastname = newUser.Lastname,
                 Firstname = newUser.Firstname,
                 UserName = newUser.Email,
-                Email = newUser.Email
+                Email = newUser.Email,
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user,newUser.ProvisoryPaswword);

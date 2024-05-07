@@ -8,5 +8,6 @@
         public string Email { get; set; } = string.Empty;
         public string ProvisoryPaswword { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
+        public bool IsEmailAlreadyConfirmed { get; set; } = false;
     }
 }
