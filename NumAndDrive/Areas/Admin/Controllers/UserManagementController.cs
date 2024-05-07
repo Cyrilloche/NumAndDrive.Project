@@ -195,9 +195,20 @@ namespace NumAndDrive.Areas.Admin.Controllers
                 user.CurrentStatusId = datas.NewStatusId;
                 user.CurrentDriverTypeId = datas.NewDriverTypeId;
 
-                var userRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == datas.UserId);
-                if (userRole != null)
-                    userRole.RoleId = datas.NewRoleId;
+                var oldRole = await _userManager.GetRolesAsync(user);
+                if (oldRole != null && oldRole.Any())
+                {
+                    await _userManager.RemoveFromRolesAsync(user, oldRole);
+                }
+
+                if (!string.IsNullOrEmpty(datas.NewRoleId))
+                {
+                    var newRole = await _roleManager.FindByIdAsync(datas.NewRoleId);
+                    if (newRole != null)
+                    {
+                        await _userManager.AddToRoleAsync(user, newRole.Name);
+                    }
+                }
 
                 var result = await _userManager.UpdateAsync(user);
                 await _context.SaveChangesAsync();

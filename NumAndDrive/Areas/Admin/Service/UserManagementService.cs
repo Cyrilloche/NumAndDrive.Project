@@ -10,33 +10,12 @@ namespace NumAndDrive.Areas.Admin.Service
 {
     public class UserManagementService : IUserManagementService
     {
-        private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserManagementService(IConfiguration configuration, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public UserManagementService(UserManager<User> userManager)
         {
-            _configuration = configuration;
             _userManager = userManager;
-            _roleManager = roleManager;
         }
-
-        public string CreateTemporaryFile(IFormFile file)
-        {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\wwwroot\data\");
-            string fileName = file.FileName;
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            string fileNameWithPath = Path.Combine(path, fileName);
-
-            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
-            file.CopyTo(stream);
-
-            return fileName;
-        }
-
         public async Task ReadAndCreateUsersAsync(IFormFile file)
         {
             string fileName = CreateTemporaryFile(file);
@@ -74,6 +53,22 @@ namespace NumAndDrive.Areas.Admin.Service
 
             if (File.Exists(filePath))
                 File.Delete(filePath);
+        }
+
+        public string CreateTemporaryFile(IFormFile file)
+        {
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\wwwroot\data\");
+            string fileName = file.FileName;
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
+            file.CopyTo(stream);
+
+            return fileName;
         }
 
         public async Task CreateUser(CreateUserDTO newUser)
