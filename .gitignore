@@ -485,3 +485,6 @@ $RECYCLE.BIN/
 
 #Migrations folder
 Migrations
+
+#CSV Files
+*.csv

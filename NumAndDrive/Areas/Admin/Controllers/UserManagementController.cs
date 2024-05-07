@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NumAndDrive.Areas.Admin.Service;
 using NumAndDrive.Areas.Admin.ViewModels.UserManagement;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
@@ -19,14 +20,16 @@ namespace NumAndDrive.Areas.Admin.Controllers
         private readonly NumAndDriveContext _context;
         private readonly IStatusRepository _statusRepository;
         private readonly IDriverTypeRepository _driverTypeRepository;
+        private readonly IUserManagementService _userManagementService;
 
-        public UserManagementController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager, NumAndDriveContext context, IStatusRepository statusRepository, IDriverTypeRepository driverTypeRepository)
+        public UserManagementController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager, NumAndDriveContext context, IStatusRepository statusRepository, IDriverTypeRepository driverTypeRepository, IUserManagementService userManagementService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _context = context;
             _statusRepository = statusRepository;
             _driverTypeRepository = driverTypeRepository;
+            _userManagementService = userManagementService;
         }
 
         private void DisplayErrors(IdentityResult result)
@@ -228,6 +231,19 @@ namespace NumAndDrive.Areas.Admin.Controllers
             else
                 ModelState.AddModelError("", "No user found");
             return View("Index");
+        }
+
+        public IActionResult AddCSVFile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCSVFile(AddCSVFileViewModel importingFile)
+        {
+            await _userManagementService.ReadAndCreateUsersAsync(importingFile.File);
+            return View();
         }
     }
 }

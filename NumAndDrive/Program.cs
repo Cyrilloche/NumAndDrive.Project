@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NumAndDrive.Areas.Admin.Service;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Repository;
@@ -11,6 +12,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IDriverTypeRepository, DriverTypeRepository>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NumAndDriveContext>(options =>

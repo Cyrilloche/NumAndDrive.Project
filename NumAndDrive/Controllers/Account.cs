@@ -141,6 +141,10 @@ namespace NumAndDrive.Controllers
                 {
                     ModelState.AddModelError("Login", "Votre compte est temporairement verrouillé");
                 }
+                else if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError("Login", "L'adresse mail n'est pas verifiée");
+                }
                 else
                 {
                     ModelState.AddModelError("Login", "La connexion a échouée");

@@ -7,6 +7,7 @@
                 <th scope="col">Functionnality</th>
                 <th scope="col">GetAll</th>
                 <th scope="col">Create</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -14,11 +15,13 @@
                 <td>Role Manager</td>
                 <td><a type="button " class="btn btn-primary" asp-controller="Role" asp-action="Index">GetAll</a></td>
                 <td><a type="button "class="btn btn-success" asp-controller="Role" asp-action="Create">Create</a></td>
+                <td></td>
             </tr>
             <tr>
                 <td>User Manager</td>
                 <td><a type="button " class="btn btn-primary" asp-controller="UserManagement" asp-action="Index">GetAll</a></td>
                 <td><a type="button " class="btn btn-success" asp-controller="UserManagement" asp-action="Create">Create</a></td>
+                <td><a type="button " class="btn btn-success" asp-controller="UserManagement" asp-action="AddCSVFile">CSV File</a></td>
             </tr>
         </tbody>
     </table>
