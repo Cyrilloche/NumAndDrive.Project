@@ -14,6 +14,11 @@ namespace NumAndDrive.Database.EntityConfiguration
                 .Property(f => f.Name)
                 .HasColumnType("varchar")
                 .HasMaxLength(50);
+
+            builder
+                .HasData(
+                    new Filter { FilterId = 1, Name = "Non-fumeur"},
+                    new Filter { FilterId = 2, Name = "Annimaux acceptés"});
         }
     }
 }

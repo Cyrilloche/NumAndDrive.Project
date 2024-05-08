@@ -31,6 +31,8 @@ namespace NumAndDrive.Database
         public DbSet<TravelStopPoint> TravelStopPoints { get; set; }
         public DbSet<Filter> Filters { get; set; }
         public DbSet<TravelFilter> TravelFilters { get; set; }
+        public DbSet<ActivationDay> ActivationDays { get; set; }
+        public DbSet<TravelActivationDay> TravelActivationDays { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

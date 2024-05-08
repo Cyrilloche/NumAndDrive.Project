@@ -16,5 +16,6 @@
         public Adress ArrivalAdress { get; set; }
         public ICollection<TravelStopPoint> TravelStopPoints { get; set; } = [];
         public ICollection<TravelFilter> TravelFilters { get; set; } = [];
+        public ICollection<TravelActivationDay> TravelActivationDays { get; set; } = [];
     }
 }

@@ -1,80 +1,127 @@
-﻿<h1>CREATE TRAVEL</h1>
+﻿@model NumAndDrive.Areas.UserArea.ViewModels.Driver.CreateTravelViewModel
+
+<h1>CREATE TRAVEL</h1>
 
 <div class="row">
     <div class="col">
-        <div class="card p-2 shadow-sm">
-            <div class="row mb-3">
-                <div class="col-1">
-                    <i class="bi bi-x-circle"></i>
+        <form asp-action="CreateTravel" method="post">
+            <div class="card p-2 shadow-sm text-center">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <div class="row mb-3">
+                    <div class="col-1">
+                        <a asp-action="Index">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="col-11 text-center">
+                        <h3>Quel trajet proposez-vous ?</h3>
+                    </div>
                 </div>
-                <div class="col-11 text-center">
-                    <h3>Quel trajet proposez-vous ?</h3>
+                <div class="form-group row mb-3">
+                    <div class="col-5">
+                        <label asp-for="DepartureAddress">Adresse de départ</label>
+                        <input asp-for="DepartureAddress" class="form-control"/>
+                    </div>
+                    <div class="col-2 text-center">
+                        <br />
+                        <i class="bi bi-chevron-right"></i>
+                    </div>
+                    <div class="col-5">
+                        <label asp-for="ArrivalAddress">Adresse d'arrivée</label>
+                        <input asp-for="ArrivalAddress" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <h3>Quelles sont les horaires de départ et d'arrivées ?</h3>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="col-5 cs-form">
+                        <label asp-for="DepartureTime">Horaire de départ</label>
+                        <input asp-for="DepartureTime" type="time" class="form-control" />
+                    </div>
+                    <div class="col-2 text-center">
+                        <br />
+                        <i class="bi bi-chevron-right"></i>
+                    </div>
+                    <div class="col-5 cs-form">
+                        <label asp-for="ArrivalTime">Horaire d'arrivée</label>
+                        <input asp-for="ArrivalTime" type="time" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <h3>Quels jours seront concernés ?</h3>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="col-12">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    @foreach(var day in Model.ActivationDays)
+                                    {
+                                        <th>@day.Day</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @for (var i = 0; i < Model.ActivationDays.Count; i++)
+                                    {
+                                        <th>
+                                            <input class="form-check-input" type="checkbox" name="SelectedDays[@i].IsSelected" id="SelectedDays[@i]IsSelected" value="true" />
+                                            <input type="hidden" name="SelectedDays[@i].ActivationDayId" value="@Model.ActivationDays[i].ActivationDayId" />
+                                        </th>
+                                    }
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <h3>Combien de places proposez-vous ?</h3>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="col text-center">
+                        <label asp-for="AvailablePlacesInCar">Nombre de place : </label>
+                        <input asp-for="AvailablePlacesInCar" type="number" min="1" max="9" value="1" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <h3>Quelles sont vos préférences de voyages ?</h3>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="col text-center">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Préférences de voyages
+                            </button>
+                            <ul class="dropdown-menu">
+                                @for(int i = 0; i < Model.Filters.Count; i++)
+                                {
+                                    <input class="form-check-input" type="checkbox" name="SelectedFilters[@i].IsSelected" id="SelectedFilters[@i]IsSelected" value="true" />
+                                        <label class="form-check-label" asp-for="Filters">@Model.Filters[i].Name</label>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <input type="submit" class="btn submit-blue-button" value="Enregistrement" />
+                    </div>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <input />
-                </div>
-                <div class="col text-center">
-                    <i class="bi bi-chevron-right"></i>
-                </div>
-                <div class="col">
-                    <input />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-1">
-                </div>
-                <div class="col-11 text-center">
-                    <h3>Quelles sont les horaires de départ et d'arrivées ?</h3>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col cs-form">
-                    <input type="time" class="form-control" value="10:05 AM" />
-                </div>
-                <div class="col text-center">
-                    <i class="bi bi-chevron-right"></i>
-                </div>
-                <div class="col cs-form">
-                    <input type="time" class="form-control" value="10:05 AM" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-1">
-                </div>
-                <div class="col-11 text-center">
-                    <h3>Quels jours seront concernés ?</h3>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-12">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Lundi</th>
-                                <th>Mardi</th>
-                                <th>Mercredi</th>
-                                <th>Jeudi</th>
-                                <th>Vendredi</th>
-                                <th>Samedi</th>
-                                <th>Dimanche</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
