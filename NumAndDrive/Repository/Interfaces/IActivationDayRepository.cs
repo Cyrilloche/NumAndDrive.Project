@@ -4,6 +4,6 @@ namespace NumAndDrive.Repository.Interfaces
 {
     public interface IActivationDayRepository
     {
-        Task<IEnumerable<ActivationDay>> GetActivationDays();
+        Task<IEnumerable<ActivationDay>> GetActivationDaysAsync();
     }
 }

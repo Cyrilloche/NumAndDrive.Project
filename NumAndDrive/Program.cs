@@ -13,8 +13,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IDriverTypeRepository, DriverTypeRepository>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IActivationDayRepository, ActivationDayRepository>();
+builder.Services.AddScoped<ITravelRepository, TravelRepository>();
+builder.Services.AddScoped<ITravelFilterRepository, TravelFilterRepository>();
 builder.Services.AddScoped<IFilterRepository, FilterRepository>();
 builder.Services.AddScoped<IActivationDayRepository, ActivationDayRepository>();
+builder.Services.AddScoped<ITravelActivationDayRepository, TravelActivationDayRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NumAndDriveContext>(options =>
@@ -50,6 +55,16 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Account/Login";
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
 // Add services to the container.
 
 var app = builder.Build();
@@ -66,6 +81,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseCors();
 app.UseRouting();
 
 app.UseAuthentication();
@@ -86,7 +102,6 @@ app.MapAreaControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 
 
 app.Run();

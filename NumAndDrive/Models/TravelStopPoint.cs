@@ -4,7 +4,7 @@
     {
         public int CurrentTravelId { get; set; }
         public Travel CurrentTravel { get; set; }
-        public int CurrentAdressId { get; set; }
-        public Adress CurrentAdress { get; set; }
+        public int CurrentAddressId { get; set; }
+        public Address CurrentAdress { get; set; }
     }
 }

@@ -20,18 +20,30 @@
                         <h3>Quel trajet proposez-vous ?</h3>
                     </div>
                 </div>
-                <div class="form-group row mb-3">
+                <div class="row mb-3 input-group">
                     <div class="col-5">
-                        <label asp-for="DepartureAddress">Adresse de départ</label>
-                        <input asp-for="DepartureAddress" class="form-control"/>
+                        <input type="text" id="departureAddressInput" class="form-control" aria-describedby="btnAddAddress" placeholder="Adresse de départ">
+
                     </div>
-                    <div class="col-2 text-center">
-                        <br />
-                        <i class="bi bi-chevron-right"></i>
+                    <div class="col-7">
+                        <select id="departureAddressOptions" class="form-select" name="DepartureAddress">
+                            <!-- Options du select ici -->
+                        </select>
+                        <input asp-for="DepartureAddress" type="hidden" id="hiddenDepartureAddress" name="DepartureAddress" />
+
                     </div>
+                </div>
+                <div class="row mb-3 input-group">
                     <div class="col-5">
-                        <label asp-for="ArrivalAddress">Adresse d'arrivée</label>
-                        <input asp-for="ArrivalAddress" class="form-control" />
+                        <input type="text" id="arrivalAddressInput" class="form-control" aria-describedby="btnAddAddress" placeholder="Adresse de d'arrivée'">
+
+                    </div>
+                    <div class="col-7">
+                        <select id="arrivalAddressOptions" class="form-select" name="ArrivalAddress">
+                            <!-- Options du select ici -->
+                        </select>
+                        <input asp-for="ArrivalAddress" type="hidden" id="hiddenArrivalAddress" name="ArrivalAddress" />
+
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -63,7 +75,7 @@
                         <table class="table table-bordered text-center">
                             <thead>
                                 <tr>
-                                    @foreach(var day in Model.ActivationDays)
+                                    @foreach (var day in Model.SelectedDays)
                                     {
                                         <th>@day.Day</th>
                                     }
@@ -71,16 +83,16 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @for (var i = 0; i < Model.ActivationDays.Count; i++)
+                                    @for (int i = 0; i < Model.SelectedDays.Count(); i++)
                                     {
-                                        <th>
-                                            <input class="form-check-input" type="checkbox" name="SelectedDays[@i].IsSelected" id="SelectedDays[@i]IsSelected" value="true" />
-                                            <input type="hidden" name="SelectedDays[@i].ActivationDayId" value="@Model.ActivationDays[i].ActivationDayId" />
-                                        </th>
+                                        <td>
+                                            <input type="hidden" asp-for="@Model.SelectedDays[i].ActivationDayId" />
+                                            <input type="hidden" asp-for="@Model.SelectedDays[i].Day" />
+                                            <input type="checkbox" asp-for="@Model.SelectedDays[i].IsSelected" />
+                                        </td>
                                     }
                                 </tr>
                             </tbody>
-
                         </table>
                     </div>
                 </div>
@@ -107,10 +119,14 @@
                                 Préférences de voyages
                             </button>
                             <ul class="dropdown-menu">
-                                @for(int i = 0; i < Model.Filters.Count; i++)
+                                @for(int i = 0; i < Model.SelectedFilters.Count(); i++)
                                 {
-                                    <input class="form-check-input" type="checkbox" name="SelectedFilters[@i].IsSelected" id="SelectedFilters[@i]IsSelected" value="true" />
-                                        <label class="form-check-label" asp-for="Filters">@Model.Filters[i].Name</label>
+                                    <li>
+                                        <input type="hidden" asp-for="@Model.SelectedFilters[i].FilterId" />
+                                        <input type="hidden" asp-for="@Model.SelectedFilters[i].Name" />
+                                        <input type="checkbox" asp-for="@Model.SelectedFilters[i].IsSelected" />
+                                        <label class="form-check-label">@Model.SelectedFilters[i].Name</label>
+                                    </li>
                                 }
                             </ul>
                         </div>
@@ -125,3 +141,46 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#departureAddressInput').on('input', function () {
+                var inputText = $(this).val();
+                var apiUrl = 'https://api-adresse.data.gouv.fr/search/?q=' + inputText;
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#departureAddressOptions').empty();
+                        $.each(response.features, function (index, feature) {
+                            $('#departureAddressOptions').append('<option value="' + feature.properties.label + '">' + feature.properties.label + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur lors de la récupération des options d\'adresse : ' + error);
+                    }
+                });
+            });
+            $('#arrivalAddressInput').on('input', function () {
+                var inputText = $(this).val();
+                var apiUrl = 'https://api-adresse.data.gouv.fr/search/?q=' + inputText;
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#arrivalAddressOptions').empty();
+                        $.each(response.features, function (index, feature) {
+                            $('#arrivalAddressOptions').append('<option value="' + feature.properties.label + '">' + feature.properties.label + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur lors de la récupération des options d\'adresse : ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -11,7 +11,7 @@ namespace NumAndDrive.Database.EntityConfiguration
             builder.ToTable("travel_stop");
 
             builder
-                .HasKey(tsp => new { tsp.CurrentTravelId, tsp.CurrentAdressId });
+                .HasKey(tsp => new { tsp.CurrentTravelId, tsp.CurrentAddressId });
 
             builder
                 .HasOne<Travel>(tsp => tsp.CurrentTravel)
@@ -19,9 +19,9 @@ namespace NumAndDrive.Database.EntityConfiguration
                 .HasForeignKey(tsp => tsp.CurrentTravelId);
 
             builder
-                .HasOne<Adress>(tsp => tsp.CurrentAdress)
+                .HasOne<Address>(tsp => tsp.CurrentAdress)
                 .WithMany(t => t.TravelStopPoints)
-                .HasForeignKey(tsp => tsp.CurrentAdressId);
+                .HasForeignKey(tsp => tsp.CurrentAddressId);
         }
     }
 }

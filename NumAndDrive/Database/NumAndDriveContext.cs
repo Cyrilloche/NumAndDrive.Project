@@ -21,7 +21,7 @@ namespace NumAndDrive.Database
         public DbSet<UserReview> UserReviews { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Travel> Travels { get; set; }
-        public DbSet<Adress> Adresses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<School> Schools { get; set; }
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<UserReward> UserRewards { get; set; }

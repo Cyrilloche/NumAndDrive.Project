@@ -4,11 +4,11 @@ using NumAndDrive.Models;
 
 namespace NumAndDrive.Database.EntityConfiguration
 {
-    public class AdressConfiguration : IEntityTypeConfiguration<Adress>
+    public class AddressConfiguration : IEntityTypeConfiguration<Address>
     {
-        public void Configure(EntityTypeBuilder<Adress> builder)
+        public void Configure(EntityTypeBuilder<Address> builder)
         {
-            builder.ToTable("adress");
+            builder.ToTable("address");
 
             builder
                 .Property(a => a.Street)
@@ -24,7 +24,7 @@ namespace NumAndDrive.Database.EntityConfiguration
 
             builder
                 .HasOne<School>(a => a.CurrentSchool)
-                .WithMany(s => s.Adresses)
+                .WithMany(s => s.Addresses)
                 .HasForeignKey(a => a.CurrentSchoolId);
         }
     }

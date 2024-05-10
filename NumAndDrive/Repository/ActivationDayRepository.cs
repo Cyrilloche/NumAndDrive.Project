@@ -14,7 +14,7 @@ namespace NumAndDrive.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<ActivationDay>> GetActivationDays()
+        public async Task<IEnumerable<ActivationDay>> GetActivationDaysAsync()
         {
             return await _context.ActivationDays.ToListAsync();
         }

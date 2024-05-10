@@ -4,6 +4,6 @@
     {
         public int SchoolId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public ICollection<Adress> Adresses { get; set; } = [];
+        public ICollection<Address> Addresses { get; set; } = [];
     }
 }

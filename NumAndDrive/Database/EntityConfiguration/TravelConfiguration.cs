@@ -14,9 +14,6 @@ namespace NumAndDrive.Database.EntityConfiguration
                 .Property(t => t.TimeDeparture)
                 .HasColumnType("time");
             builder
-                .Property(t => t.DateDeparture)
-                .HasColumnType("date");
-            builder
                 .Property(t => t.CreationDate)
                 .HasColumnType("datetime");
             builder
@@ -29,14 +26,14 @@ namespace NumAndDrive.Database.EntityConfiguration
                 .HasForeignKey(t => t.PublisherUserId);
 
             builder
-                .HasOne<Adress>(t => t.DepartureAdress)
+                .HasOne<Address>(t => t.DepartureAddress)
                 .WithMany(a => a.DepartureTravel)
-                .HasForeignKey(t => t.DepartureAdressId);
+                .HasForeignKey(t => t.DepartureAddressId);
 
             builder
-                .HasOne<Adress>(t => t.ArrivalAdress)
+                .HasOne<Address>(t => t.ArrivalAddress)
                 .WithMany(a => a.ArrivalTravel)
-                .HasForeignKey(t => t.ArrivalAdressId);
+                .HasForeignKey(t => t.ArrivalAddressId);
         }
     }
 }
