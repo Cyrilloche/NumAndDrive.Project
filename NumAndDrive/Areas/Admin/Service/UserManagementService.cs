@@ -30,8 +30,8 @@ namespace NumAndDrive.Areas.Admin.Service
             {
                 line = streamReader.ReadLine();
                 values = line.Split(';');
-                string lastname = values[0];
-                string firstname = values[1];
+                string firstname = values[0];
+                string lastname = values[1];
                 string email = values[2];
                 string password = values[3];
                 string role = values[4];
