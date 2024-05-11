@@ -29,7 +29,7 @@ namespace NumAndDrive.UserArea.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (!user.FirstConnection)
+            if (user.FirstConnection)
                 return RedirectToAction("FirstConnection");
 
             if (user != null)
@@ -74,12 +74,16 @@ namespace NumAndDrive.UserArea.Controllers
 
             if (user != null)
             {
-                user.CurrentStatusId = datas.NewStatusId;
-                user.CurrentDriverTypeId = datas.NewDriverTypeId;
-                user.FirstConnection = true;
-
-                await _userManager.UpdateAsync(user);
-                return RedirectToAction("Index");
+                var result = await _userManager.ChangePasswordAsync(user, datas.OldPassword, datas.ConfirmedNewPassword);
+                if (result.Succeeded)
+                {
+                    user.CurrentStatusId = datas.NewStatusId;
+                    user.CurrentDriverTypeId = datas.NewDriverTypeId;
+                    user.FirstConnection = false;
+                    await _userManager.UpdateAsync(user);
+                     return RedirectToAction("Index");
+                }
+                return View(datas);
             }
             return RedirectToAction("FirstConnection", datas);
         }

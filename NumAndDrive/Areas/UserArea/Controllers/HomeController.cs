@@ -21,6 +21,9 @@ namespace NumAndDrive.UserArea.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user != null)
             {
+                if (user.FirstConnection)
+                    return RedirectToAction("FirstConnection", "UserProfile");
+
                 var datas = new HomeViewModel
                 {
                     Firstname = user.Firstname

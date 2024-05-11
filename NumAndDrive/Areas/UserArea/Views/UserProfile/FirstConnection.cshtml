@@ -1,7 +1,16 @@
 ﻿@model NumAndDrive.Areas.UserArea.ViewModels.UserProfile.FirstConnectionViewModel
 
-<h3>First Connection</h3>
 <br />
+<div class="row mb-3">
+    <div class="col text-center">
+        <h1>Bienvenue dans votre application de covoiturage NumAndDrive !</h1>
+    </div>
+</div>
+<div class="row mb-1">
+    <div class="col">
+        <p>Cela est votre première connexion. Bienvenue dans l'équipe NumAndDrive de votre entreprise. Lors de votre première connexion, vous devez changer le mot de passe provisoire qui vous a été fournis par votre administration. Vous pourrez également configurer votre profil. <br />Bonne route à vous !</p>
+    </div>
+</div>
 <form method="post">
     <div class="card-group shadow-sm">
         <div class="card p-2 bg-body-secondary">
@@ -20,6 +29,40 @@
             <div class="card-body">
                 <div class="card-text">
                     <div class="text-danger" asp-validation-summary="All"></div>
+                    <div class="form-group row mb-3">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <label asp-for="OldPassword">Mot de passe provisoire</label>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="password" asp-for="OldPassword" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label asp-for="NewPassword">Nouveau mot de passe</label>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="password" asp-for="NewPassword" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label asp-for="ConfirmedNewPassword">Confirmez votre nouveau mot de passe</label>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="password" asp-for="ConfirmedNewPassword" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row mb-3">
                         <div class="col">
                             <label asp-for="NewStatusId">Changer de status utilisateur</label>
