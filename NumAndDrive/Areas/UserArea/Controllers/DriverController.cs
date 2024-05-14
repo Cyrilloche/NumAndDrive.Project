@@ -38,7 +38,7 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CreateTravel()
+        public async Task<IActionResult> CreateGoTravel()
         {
             var filters = await _filterRepository.GetAllFiltersAsync();
             var activationDays = await _activationDayRepository.GetActivationDaysAsync();
@@ -119,6 +119,19 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             await _travelFilterRepository.CreateNewTravelFilterAsync(newTravel, datas.SelectedFilters.ToList());
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> CreateReturnTravel()
+        {
+            var filters = await _filterRepository.GetAllFiltersAsync();
+            var activationDays = await _activationDayRepository.GetActivationDaysAsync();
+
+            var datasToDisplay = new CreateTravelViewModel
+            {
+                SelectedFilters = filters.ToList(),
+                SelectedDays = activationDays.ToList()
+            };
+            return View(datasToDisplay);
         }
     }
 }

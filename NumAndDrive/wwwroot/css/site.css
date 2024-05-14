@@ -1,24 +1,28 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+a {
+    text-decoration: none;
 }
 
 .custom-color-orange {
@@ -43,10 +47,35 @@ body {
 
 .submit-blue-button {
     background-color: #18203D;
-    color:#FFFFFF
+    color: #FFFFFF
 }
 
-.card-img-top{
-    max-width : 100%;
-    height :auto;
+    .submit-blue-button:hover {
+        background-color: #18203D;
+        color: #FE5F28;
+    }
+
+.card-img-top {
+    max-width: 100%;
+    height: auto;
+}
+
+.custom-text-orange {
+    color: #FE5F28;
+}
+
+.nav-tabs .nav-link.custom-text-orange:hover {
+    color: #F58F0A;
+}
+
+.custom-close-btn {
+    fill: #18203D;
+}
+
+.custom-close-btn:hover {
+    fill: #F58F0A;
+}
+
+.custom-card-border-blue {
+    border-color: #18203D;
 }

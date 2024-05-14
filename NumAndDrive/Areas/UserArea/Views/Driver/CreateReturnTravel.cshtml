@@ -1,0 +1,200 @@
+﻿@model NumAndDrive.Areas.UserArea.ViewModels.Driver.CreateTravelViewModel
+
+<div class="row">
+    <div class="col">
+        <form asp-action="CreateTravel" method="post">
+            <div class="card custom-card-border-blue p-2 shadow-lg text-center">
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <div class="row mb-3">
+                    <div class="col-1">
+                        <a asp-action="Index">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x-circle custom-close-btn" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="col-11 text-center">
+                        <h3>Quel trajet proposez-vous ?</h3>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <ul class="nav nav-tabs">
+                            <li class=" col-6 nav-item">
+                                <a class="nav-link custom-text-orange" asp-action="CreateGoTravel">Trajet aller</a>
+                            </li>
+                            <li class=" col-6 nav-item">
+                                <a class="nav-link active" href="#">Trajet retour</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="row mb-3 input-group">
+                            <div class="col-5">
+                                <input type="text" id="departureAddressInput" class="form-control" aria-describedby="btnAddAddress" placeholder="Adresse de départ">
+
+                            </div>
+                            <div class="col-7">
+                                <select id="departureAddressOptions" class="form-select" name="DepartureAddress">
+                                    <!-- Options du select ici -->
+                                </select>
+                                <input asp-for="DepartureAddress" type="hidden" id="hiddenDepartureAddress" name="DepartureAddress" />
+
+                            </div>
+                        </div>
+                        <div class="row mb-3 input-group">
+                            <div class="col-5">
+                                <input type="text" id="arrivalAddressInput" class="form-control" aria-describedby="btnAddAddress" placeholder="Adresse de d'arrivée">
+
+                            </div>
+                            <div class="col-7">
+                                <select id="arrivalAddressOptions" class="form-select" name="ArrivalAddress">
+                                    <!-- Options du select ici -->
+                                </select>
+                                <input asp-for="ArrivalAddress" type="hidden" id="hiddenArrivalAddress" name="ArrivalAddress" />
+
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col text-center">
+                                <h3>Quelles sont les horaires de départ et d'arrivée ?</h3>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <div class="col-5 cs-form">
+                                <label asp-for="DepartureTime">Horaire de départ</label>
+                                <input asp-for="DepartureTime" type="time" class="form-control" />
+                            </div>
+                            <div class="col-2 text-center">
+                                <br />
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
+                            <div class="col-5 cs-form">
+                                <label asp-for="ArrivalTime">Horaire d'arrivée</label>
+                                <input asp-for="ArrivalTime" type="time" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col text-center">
+                                <h3>Quels jours seront concernés ?</h3>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <div class="col-12">
+                                <table class="table table-bordered text-center">
+                                    <thead>
+                                        <tr>
+                                            @foreach (var day in Model.SelectedDays)
+                                            {
+                                                <th>@day.Day</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @for (int i = 0; i < Model.SelectedDays.Count(); i++)
+                                            {
+                                                <td>
+                                                    <input type="hidden" asp-for="@Model.SelectedDays[i].ActivationDayId" />
+                                                    <input type="hidden" asp-for="@Model.SelectedDays[i].Day" />
+                                                    <input type="checkbox" asp-for="@Model.SelectedDays[i].IsSelected" />
+                                                </td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col text-center">
+                                <h3>Combien de places proposez-vous ?</h3>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <div class="col text-center">
+                                <label asp-for="AvailablePlacesInCar">Nombre de place : </label>
+                                <input asp-for="AvailablePlacesInCar" type="number" min="1" max="9" value="1" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col text-center">
+                                <h3>Quelles sont vos préférences de voyages ?</h3>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <div class="col text-center">
+                                <div class="dropdown">
+                                    <button class="btn submit-blue-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Préférences de voyages
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @for (int i = 0; i < Model.SelectedFilters.Count(); i++)
+                                        {
+                                            <li>
+                                                <input type="hidden" asp-for="@Model.SelectedFilters[i].FilterId" />
+                                                <input type="hidden" asp-for="@Model.SelectedFilters[i].Name" />
+                                                <input type="checkbox" asp-for="@Model.SelectedFilters[i].IsSelected" />
+                                                <label class="form-check-label">@Model.SelectedFilters[i].Name</label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col text-center">
+                                <input type="submit" class="btn submit-blue-button" value="Enregistrement" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#departureAddressInput').on('input', function () {
+                var inputText = $(this).val();
+                var apiUrl = 'https://api-adresse.data.gouv.fr/search/?q=' + inputText;
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#departureAddressOptions').empty();
+                        $.each(response.features, function (index, feature) {
+                            $('#departureAddressOptions').append('<option value="' + feature.properties.label + '">' + feature.properties.label + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur lors de la récupération des options d\'adresse : ' + error);
+                    }
+                });
+            });
+            $('#arrivalAddressInput').on('input', function () {
+                var inputText = $(this).val();
+                var apiUrl = 'https://api-adresse.data.gouv.fr/search/?q=' + inputText;
+                $.ajax({
+                    url: apiUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#arrivalAddressOptions').empty();
+                        $.each(response.features, function (index, feature) {
+                            $('#arrivalAddressOptions').append('<option value="' + feature.properties.label + '">' + feature.properties.label + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur lors de la récupération des options d\'adresse : ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -58,23 +58,12 @@ namespace NumAndDrive.Repository
             return await _context.TravelFilters.Where(t => t.TravelId == travel.TravelId).ToListAsync();
         }
 
-        public async Task UpdateTravelFilterASync(Travel updatedTravel)
+        public async Task UpdateTravelFilterASync(Travel updatedTravel, List<Filter> filters)
         {
-            if (updatedTravel.TravelFilters != null)
+            if (filters != null)
             {
-                List<TravelFilter> travelFilters = new List<TravelFilter>();
-                foreach (var filter in updatedTravel.TravelFilters)
-                {
-                    TravelFilter newTravelFilter = new TravelFilter
-                    {
-                        FilterId = filter.FilterId,
-                        TravelId = updatedTravel.TravelId
-                    };
-
-                    travelFilters.Add(newTravelFilter);
-                }
                 await DeleteTravelFilterByTravelIdAsync(updatedTravel);
-                //await CreateNewTravelFilterAsync(updatedTravel);
+                await CreateNewTravelFilterAsync(updatedTravel, filters);
             }
         }
     }

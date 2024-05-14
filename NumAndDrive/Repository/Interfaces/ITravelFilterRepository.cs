@@ -9,7 +9,7 @@ namespace NumAndDrive.Repository.Interfaces
         Task<IEnumerable<TravelFilter>> GetAllTravelFiltersAsync();
         Task<IEnumerable<TravelFilter>> GetTravelFiltersByTravelIdAsync(Travel travel);
         Task<IEnumerable<TravelFilter>> GetTravelFiltersByFilterIdAsync(Filter filter);
-        Task UpdateTravelFilterASync(Travel updatedTravel);
+        Task UpdateTravelFilterASync(Travel updatedTravel, List<Filter> filters);
         Task DeleteTravelFilterByTravelIdAsync(Travel deletedTravel);
     }
 }

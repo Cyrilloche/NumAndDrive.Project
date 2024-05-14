@@ -61,19 +61,8 @@ namespace NumAndDrive.Repository
 
         public async Task UpdateTravelActivationDaysASync(Travel updatedTravel, List<ActivationDay> activationDays)
         {
-            if (updatedTravel.TravelActivationDays != null)
+            if (activationDays != null)
             {
-                List<TravelActivationDay> travelFilters = new List<TravelActivationDay>();
-                foreach (var day in activationDays)
-                {
-                    TravelActivationDay newTravelActivationDay = new TravelActivationDay
-                    {
-                        ActivationDayId = day.ActivationDayId,
-                        TravelId = updatedTravel.TravelId
-                    };
-
-                    travelFilters.Add(newTravelActivationDay);
-                }
                 await DeleteTravelActivationDaysByTravelIdAsync(updatedTravel);
                 await CreateNewTravelActivationDayAsync(updatedTravel, activationDays);
             }
