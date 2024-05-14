@@ -1,0 +1,118 @@
+﻿@model NumAndDrive.Areas.Admin.ViewModels.SchoolManagement.IndexSchoolManagementViewModel
+
+<h1>School Manager</h1>
+
+@if(Model != null && Model.Schools.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>School Id</td>
+                <td>School Name</td>
+                <td>School Address</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var school in Model.Schools)
+            {
+                <tr>
+                    <td>@school.SchoolId</td>
+                    <td>@school.Name</td>
+                    <td>@school.SchoolAddress.Street, @school.SchoolAddress.PostalCode @school.SchoolAddress.City</td>
+                    <td><a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateSchoolConfirmation_@school.SchoolId">Edit</a></td>
+                    <td><a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteSchoolConfirmation_@school.SchoolId">Delete</a></td>
+                    <!-- Modal Delete-->
+                    <div class="modal fade" id="deleteSchoolConfirmation_@school.SchoolId" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5">Deleting a role</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you really sure you want to remove this school ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form asp-controller="SchoolManagement" asp-action="Delete" method="post">
+                                        <input type="hidden" name="id" value="@school.SchoolId" />
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal Update-->
+                    <div class="modal fade" id="updateSchoolConfirmation_@school.SchoolId" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5">Updating a school</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form asp-controller="SchoolManagement" asp-action="Edit" method="post">
+                                    <div class="modal-body">
+                                        <input type="hidden" name="id" value="@school.SchoolId" />
+                                        <div class="text-danger" asp-validation-summary="All"></div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <label asp-for="NewSchoolName">Change the school name</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <input type="text" asp-for="NewSchoolName" class="form-control" value="@school.Name"/>
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="NewSchoolName"></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <label asp-for="SchoolAddress.Street">Change the street name</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <input type="text" asp-for="SchoolAddress.Street" class="form-control" value="@school.SchoolAddress.Street"/>
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="SchoolAddress.Street"></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <label asp-for="SchoolAddress.PostalCode">Change the postal code</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <input type="text" asp-for="SchoolAddress.PostalCode" class="form-control" value="@school.SchoolAddress.PostalCode" />
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="SchoolAddress.PostalCode"></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <label asp-for="SchoolAddress.City">Change the city</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col">
+                                                <input type="text" asp-for="SchoolAddress.City" class="form-control" value="@school.SchoolAddress.City" />
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="SchoolAddress.City"></span>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-warning">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>

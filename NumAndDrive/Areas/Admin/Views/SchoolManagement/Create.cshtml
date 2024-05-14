@@ -1,0 +1,32 @@
+﻿@model NumAndDrive.Areas.Admin.ViewModels.SchoolManagement.CreateSchoolManagementViewModel
+@{
+    ViewData["Title"] = "CREATE SCHOOL";
+}
+
+<h1>Create a school</h1>
+<form method="post" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="SchoolName">Name:</label>
+        <input asp-for="SchoolName" class="form-control" />
+    </div>
+    <span class="text-danger" asp-validation-for="SchoolName"></span>
+    <div class="form-group">
+        <label asp-for="Street">Street:</label>
+        <input asp-for="Street" class="form-control" />
+    </div>
+    <span class="text-danger" asp-validation-for="Street"></span>
+    <div class="form-group">
+        <label asp-for="PostalCode">PostalCode:</label>
+        <input asp-for="PostalCode" class="form-control" />
+    </div>
+    <span class="text-danger" asp-validation-for="PostalCode"></span>
+    <div class="form-group">
+        <label asp-for="City">City:</label>
+        <input asp-for="City" class="form-control" />
+    </div>
+    <span class="text-danger" asp-validation-for="City"></span>
+    <div class="mt-3">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>

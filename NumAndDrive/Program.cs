@@ -20,6 +20,7 @@ builder.Services.AddScoped<ITravelFilterRepository, TravelFilterRepository>();
 builder.Services.AddScoped<IFilterRepository, FilterRepository>();
 builder.Services.AddScoped<IActivationDayRepository, ActivationDayRepository>();
 builder.Services.AddScoped<ITravelActivationDayRepository, TravelActivationDayRepository>();
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NumAndDriveContext>(options =>
