@@ -9,7 +9,6 @@
         public ICollection<Travel> DepartureTravel { get; set; } = [];
         public ICollection<Travel> ArrivalTravel { get; set; } = [];
         public ICollection<TravelStopPoint> TravelStopPoints { get; set; } = [];
-        public int? CurrentSchoolId { get; set; }
-        public School CurrentSchool { get; set; } = new School();
+        public ICollection<School> Schools { get; set; } = [];
     }
 }

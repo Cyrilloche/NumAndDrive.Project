@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NumAndDrive.Models;
 
@@ -37,6 +38,19 @@ namespace NumAndDrive.Database.EntityConfiguration
                 .WithMany(c => c.Users)
                 .HasForeignKey(u => u.CurrentClassroomId);
 
+            builder
+                .HasData(new User
+                {
+                    Id = "1",
+                    UserName = "admin@admin-numanddrive.fr",
+                    NormalizedUserName = "ADMIN@ADMIN-NUMANDDRIVE.FR",
+                    Email = "admin@admin-numanddrive.fr",
+                    NormalizedEmail = "ADMIN@ADMIN-NUMANDDRIVE.FR",
+                    EmailConfirmed = true,
+                    FirstConnection = false,
+                    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "motdepasse"),
+                    SecurityStamp = string.Empty
+                });
         }
     }
 }

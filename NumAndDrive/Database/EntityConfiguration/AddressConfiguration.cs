@@ -21,11 +21,6 @@ namespace NumAndDrive.Database.EntityConfiguration
             builder.Property(a => a.PostalCode)
                 .HasColumnType("varchar")
                 .HasMaxLength(25);
-
-            builder
-                .HasOne<School>(a => a.CurrentSchool)
-                .WithMany(s => s.Addresses)
-                .HasForeignKey(a => a.CurrentSchoolId);
         }
     }
 }

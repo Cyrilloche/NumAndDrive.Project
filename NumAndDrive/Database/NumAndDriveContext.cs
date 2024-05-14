@@ -48,6 +48,10 @@ namespace NumAndDrive.Database
             modelBuilder.Entity<IdentityRole>(entity =>
             {
                 entity.ToTable(name: "Role");
+                entity.HasData(
+                    new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+                    new IdentityRole { Id = "2", Name = "Client", NormalizedName = "CLIENT" }
+                    );
             });
 
             modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
@@ -73,6 +77,9 @@ namespace NumAndDrive.Database
             modelBuilder.Entity<IdentityUserRole<string>>(entity =>
             {
                 entity.ToTable(name: "UserRole");
+                entity.HasData(
+                    new IdentityUserRole<string> { UserId = "1", RoleId = "1" }
+                    );
             });
         }
     }
