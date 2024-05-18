@@ -15,22 +15,9 @@ namespace NumAndDrive.Repository
             _context = context;
         }
 
-        public async Task<Travel> CreateNewTravelAsync(Travel newTravel)
+        public async Task<Travel?> GetTravelByIdAsync(int id)
         {
-            await _context.Travels.AddAsync(newTravel);
-            await _context.SaveChangesAsync();
-            return newTravel;
-
-        }
-
-        public async Task DeleteTravelASync(int id)
-        {
-            Travel travel = await GetTravelByIdAsync(id);
-            if(travel != null)
-            {
-                _context.Travels.Remove(travel);
-                await _context.SaveChangesAsync();
-            }
+            return await _context.Travels.FindAsync(id);
         }
 
         public async Task<IEnumerable<Travel>> GetAllTravelsAsync()
@@ -38,15 +25,27 @@ namespace NumAndDrive.Repository
             return await _context.Travels.ToListAsync();
         }
 
-        public async Task<Travel> GetTravelByIdAsync(int id)
+        public async Task<Travel> CreateTravelAsync(Travel newTravel)
         {
-            return await _context.Travels.FirstOrDefaultAsync(t => t.TravelId == id) ?? new Travel();
+            await _context.Travels.AddAsync(newTravel);
+            await _context.SaveChangesAsync();
+            return newTravel;
         }
 
-        public async Task UpdateTravelASync(Travel updatedTravel)
+        public async Task UpdateTravelAsync(Travel updatedTravel)
         {
-            _context.Update(updatedTravel);
+            _context.Travels.Update(updatedTravel);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteTravelAsync(int id)
+        {
+            var travel = await _context.Travels.FindAsync(id);
+            if (travel != null)
+            {
+                _context.Travels.Remove(travel);
+                await _context.SaveChangesAsync();
+            }
         }
 
         async Task<IEnumerable<Travel>> ITravelRepository.GetTravelsByPublisherId(string userId)

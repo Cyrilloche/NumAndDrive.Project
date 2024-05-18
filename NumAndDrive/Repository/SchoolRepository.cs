@@ -14,37 +14,37 @@ namespace NumAndDrive.Repository
             _context = context;
         }
 
-        public async Task<School> CreateNewSchoolAsync(School newSchool)
-        {
-            await _context.AddAsync(newSchool);
-            await _context.SaveChangesAsync();
-            return newSchool;
-        }
-
-        public async Task DeleteSchoolAsync(int id)
-        {
-            School school = await GetSchoolByIdAsync(id);
-            if(school != null)
-            {
-                _context.Remove(school);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<IEnumerable<School>> GetAllSchoolASync()
-        {
-            return await _context.Schools.Include(s => s.SchoolAddress).ToListAsync();
-        }
-
         public async Task<School?> GetSchoolByIdAsync(int id)
         {
             return await _context.Schools.FindAsync(id);
         }
 
+        public async Task<IEnumerable<School>> GetAllSchoolsAsync()
+        {
+            return await _context.Schools.ToListAsync();
+        }
+
+        public async Task<School> CreateSchoolAsync(School newSchool)
+        {
+            await _context.Schools.AddAsync(newSchool);
+            await _context.SaveChangesAsync();
+            return newSchool;
+        }
+
         public async Task UpdateSchoolAsync(School updatedSchool)
         {
-            _context.Update(updatedSchool);
+            _context.Schools.Update(updatedSchool);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteSchoolAsync(int id)
+        {
+            var school = await _context.Schools.FindAsync(id);
+            if (school != null)
+            {
+                _context.Schools.Remove(school);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

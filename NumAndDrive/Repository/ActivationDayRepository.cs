@@ -14,9 +14,37 @@ namespace NumAndDrive.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<ActivationDay>> GetActivationDaysAsync()
+        public async Task<ActivationDay?> GetActivationDayByIdAsync(int id)
+        {
+            return await _context.ActivationDays.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<ActivationDay>> GetAllActivationDaysAsync()
         {
             return await _context.ActivationDays.ToListAsync();
+        }
+
+        public async Task<ActivationDay> CreateActivationDayAsync(ActivationDay newActivationDay)
+        {
+            await _context.ActivationDays.AddAsync(newActivationDay);
+            await _context.SaveChangesAsync();
+            return newActivationDay;
+        }
+
+        public async Task UpdateActivationDayAsync(ActivationDay updatedActivationDay)
+        {
+            _context.ActivationDays.Update(updatedActivationDay);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteActivationDayAsync(int id)
+        {
+            var activationDay = await _context.ActivationDays.FindAsync(id);
+            if (activationDay != null)
+            {
+                _context.ActivationDays.Remove(activationDay);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
