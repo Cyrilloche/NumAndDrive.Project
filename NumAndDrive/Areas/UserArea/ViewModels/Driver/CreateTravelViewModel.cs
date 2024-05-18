@@ -12,5 +12,6 @@ namespace NumAndDrive.Areas.UserArea.ViewModels.Driver
         public int AvailablePlacesInCar { get; set; }
         public string DepartureAddress { get; set; } = string.Empty;
         public string ArrivalAddress { get; set; } = string.Empty;
+        public IEnumerable<School> Schools { get; set; } = new List<School>();
     }
 }

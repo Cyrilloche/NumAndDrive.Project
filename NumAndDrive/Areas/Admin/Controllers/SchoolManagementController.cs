@@ -24,7 +24,7 @@ namespace NumAndDrive.Areas.Admin.Controllers
         // GET: SchoolManagementController
         public async Task<IActionResult> Index()
         {
-            var schools = await _schoolRepository.GetAllSchoolASync();
+            var schools = await _schoolRepository.GetAllSchoolsAsync();
             if (schools != null)
             {
                 var datasToReturn = new IndexSchoolManagementViewModel
@@ -57,14 +57,14 @@ namespace NumAndDrive.Areas.Admin.Controllers
                 City = datas.City
             };
 
-            var schoolAdress = await _addressRepository.CreateNewAdressAsync(address);
+            var schoolAdress = await _addressRepository.CreateAddressAsync(address);
             var newSchool = new School
             {
                 Name = datas.SchoolName,
                 AddressId = schoolAdress.AddressId
             };
 
-            await _schoolRepository.CreateNewSchoolAsync(newSchool);
+            await _schoolRepository.CreateSchoolAsync(newSchool);
 
             return RedirectToAction("Index");
         }
@@ -100,7 +100,7 @@ namespace NumAndDrive.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             else
-            return View("Index",_schoolRepository.GetAllSchoolASync());
+            return View("Index",_schoolRepository.GetAllSchoolsAsync());
         }
     }
 }

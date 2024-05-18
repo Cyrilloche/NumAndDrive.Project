@@ -62,7 +62,7 @@ namespace NumAndDrive.Areas.Admin.Controllers
                 var userRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == id);
                 var currentUserRole = await _roleManager.FindByIdAsync(userRole.RoleId);
                 var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
-                var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
+                var driverType = await _driverTypeRepository.GetDriverTypeByIdAsync(user.CurrentDriverTypeId);
 
                 var statusName = status != null ? status.Name : "";
                 var driverTypeName = driverType != null ? driverType.Name : "";
@@ -156,7 +156,7 @@ namespace NumAndDrive.Areas.Admin.Controllers
                 var statuses = await _statusRepository.GetAllStatusesAsync();
                 var driverTypes = await _driverTypeRepository.GetAllDriverTypesAsync();
                 var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
-                var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
+                var driverType = await _driverTypeRepository.GetDriverTypeByIdAsync(user.CurrentDriverTypeId);
 
                 var datasToReturn = new EditUserManagementViewModel
                 {

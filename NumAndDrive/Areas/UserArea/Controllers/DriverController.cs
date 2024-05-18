@@ -21,8 +21,9 @@ namespace NumAndDrive.Areas.UserArea.Controllers
         private readonly ITravelRepository _travelRepository;
         private readonly ITravelFilterRepository _travelFilterRepository;
         private readonly ITravelActivationDayRepository _travelActivationDayRepository;
+        private readonly ISchoolRepository _schoolRepository;
 
-        public DriverController(IFilterRepository filterRepository, IActivationDayRepository activationDayRepository, UserManager<User> userManager, IAddressRepository addressRepository, ITravelRepository travelRepository, ITravelFilterRepository travelFilterRepository, ITravelActivationDayRepository travelActivationDayRepository)
+        public DriverController(IFilterRepository filterRepository, IActivationDayRepository activationDayRepository, UserManager<User> userManager, IAddressRepository addressRepository, ITravelRepository travelRepository, ITravelFilterRepository travelFilterRepository, ITravelActivationDayRepository travelActivationDayRepository, ISchoolRepository schoolRepository)
         {
             _filterRepository = filterRepository;
             _activationDayRepository = activationDayRepository;
@@ -31,6 +32,7 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             _travelRepository = travelRepository;
             _travelFilterRepository = travelFilterRepository;
             _travelActivationDayRepository = travelActivationDayRepository;
+            _schoolRepository = schoolRepository;
         }
 
         public IActionResult Index()
@@ -41,12 +43,14 @@ namespace NumAndDrive.Areas.UserArea.Controllers
         public async Task<IActionResult> CreateGoTravel()
         {
             var filters = await _filterRepository.GetAllFiltersAsync();
-            var activationDays = await _activationDayRepository.GetActivationDaysAsync();
+            var activationDays = await _activationDayRepository.GetAllActivationDaysAsync();
+            var schools = await _schoolRepository.GetAllSchoolsAsync();
 
             var datasToDisplay = new CreateTravelViewModel
             {
                 SelectedFilters = filters.ToList(),
-                SelectedDays = activationDays.ToList()
+                SelectedDays = activationDays.ToList(),
+                Schools = schools.ToList()
             };
             return View(datasToDisplay);
         }
@@ -100,8 +104,8 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             Address departureAddress = await GetAddressFromAPI(datas.DepartureAddress);
             Address arrivalAddress = await GetAddressFromAPI(datas.ArrivalAddress);
 
-            Address departureAddressSaved = await _addressRepository.CreateNewAdressAsync(departureAddress);
-            Address arrivalAddressSaved = await _addressRepository.CreateNewAdressAsync(arrivalAddress);
+            Address departureAddressSaved = await _addressRepository.CreateAddressAsync(departureAddress);
+            Address arrivalAddressSaved = await _addressRepository.CreateAddressAsync(arrivalAddress);
 
 
             Travel newTravel = new Travel
@@ -114,7 +118,7 @@ namespace NumAndDrive.Areas.UserArea.Controllers
                 ArrivalAddressId = arrivalAddressSaved.AddressId
             };
 
-            await _travelRepository.CreateNewTravelAsync(newTravel);
+            await _travelRepository.CreateTravelAsync(newTravel);
             await _travelActivationDayRepository.CreateNewTravelActivationDayAsync(newTravel, datas.SelectedDays.ToList());
             await _travelFilterRepository.CreateNewTravelFilterAsync(newTravel, datas.SelectedFilters.ToList());
 
@@ -124,7 +128,7 @@ namespace NumAndDrive.Areas.UserArea.Controllers
         public async Task<IActionResult> CreateReturnTravel()
         {
             var filters = await _filterRepository.GetAllFiltersAsync();
-            var activationDays = await _activationDayRepository.GetActivationDaysAsync();
+            var activationDays = await _activationDayRepository.GetAllActivationDaysAsync();
 
             var datasToDisplay = new CreateTravelViewModel
             {

@@ -35,7 +35,7 @@ namespace NumAndDrive.UserArea.Controllers
             if (user != null)
             {
                 var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
-                var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
+                var driverType = await _driverTypeRepository.GetDriverTypeByIdAsync(user.CurrentDriverTypeId);
 
                 var userViewModel = new UserProfileViewModel
                 {
@@ -95,7 +95,7 @@ namespace NumAndDrive.UserArea.Controllers
             if (user != null)
             {
                 var status = await _statusRepository.GetStatusByUserIdAsync(user.CurrentStatusId);
-                var driverType = await _driverTypeRepository.GetDriverTypeByUserIdAsync(user.CurrentDriverTypeId);
+                var driverType = await _driverTypeRepository.GetDriverTypeByIdAsync(user.CurrentDriverTypeId);
 
                 var editUserProfileViewModel = new EditUserProfileViewModel
                 {
