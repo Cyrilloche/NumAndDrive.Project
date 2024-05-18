@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Areas.Admin.Service;
+using NumAndDrive.Areas.UserArea.Services;
+using NumAndDrive.Areas.UserArea.Services.Interfaces;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Repository;
 using NumAndDrive.Repository.Interfaces;
 using NumAndDrive.Services;
+using NumAndDrive.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
@@ -22,6 +25,10 @@ builder.Services.AddScoped<IActivationDayRepository, ActivationDayRepository>();
 builder.Services.AddScoped<ITravelActivationDayRepository, TravelActivationDayRepository>();
 builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
 
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddHttpContextAccessor();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NumAndDriveContext>(options =>
 {
@@ -30,8 +37,7 @@ builder.Services.AddDbContext<NumAndDriveContext>(options =>
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
-    //////// Change to real Password Requirement after development ////////
-
+    // Change to real Password Requirement after development
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = true;
@@ -50,8 +56,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    //////// Ajust timespan after development ////////
-    
+    // Ajust timespan after development
     options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
     options.LoginPath = "/Account/Login";
 });
@@ -66,16 +71,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add services to the container.
-
 var app = builder.Build();
 
-
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -88,7 +88,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapAreaControllerRoute(
     name: "AdminArea",
     areaName: "Admin",
@@ -99,10 +98,8 @@ app.MapAreaControllerRoute(
     areaName: "UserArea",
     pattern: "UserArea/{controller=Home}/{action=Index}/{id?}");
 
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 
 app.Run();
