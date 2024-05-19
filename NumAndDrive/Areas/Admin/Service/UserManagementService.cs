@@ -1,10 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
-using MySqlConnector;
 using NumAndDrive.Areas.Admin.DTOs;
 using NumAndDrive.Models;
-using NumAndDrive.ViewModels.Account;
-using System.IO;
 
 namespace NumAndDrive.Areas.Admin.Service
 {

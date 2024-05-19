@@ -1,5 +1,4 @@
-﻿using NumAndDrive.Areas.UserArea.ViewModels.Driver;
-using NumAndDrive.Models;
+﻿using NumAndDrive.Models;
 
 namespace NumAndDrive.Repository.Interfaces
 {

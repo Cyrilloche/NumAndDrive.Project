@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NumAndDrive.Areas.Admin.ViewModels.Role;
 using NumAndDrive.Areas.Admin.ViewModels.SchoolManagement;
 using NumAndDrive.Models;
 using NumAndDrive.Repository.Interfaces;

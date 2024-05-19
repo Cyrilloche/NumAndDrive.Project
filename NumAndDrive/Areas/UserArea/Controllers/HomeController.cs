@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Areas.UserArea.ViewModels.Home;
-using NumAndDrive.Models;
 using NumAndDrive.Services.Interfaces;
 
 namespace NumAndDrive.UserArea.Controllers
@@ -12,11 +10,9 @@ namespace NumAndDrive.UserArea.Controllers
     public class HomeController : Controller
     {
         private readonly ICurrentUserService _currentUserService;
-        private readonly UserManager<User> _userManager;
 
-        public HomeController(UserManager<User> userManager, ICurrentUserService currentUserService)
+        public HomeController(ICurrentUserService currentUserService)
         {
-            _userManager = userManager;
             _currentUserService = currentUserService;
         }
         public async Task<IActionResult> Index()

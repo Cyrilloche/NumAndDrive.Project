@@ -2,8 +2,6 @@
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Repository.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 public class ClassroomRepository : IClassroomRepository
 {

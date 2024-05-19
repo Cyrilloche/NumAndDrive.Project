@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NumAndDrive.Areas.UserArea.ViewModels.Driver;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Repository.Interfaces;

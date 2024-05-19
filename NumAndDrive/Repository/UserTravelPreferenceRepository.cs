@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 public class UserTravelPreferenceRepository : IUserTravelPreferenceRepository
 {

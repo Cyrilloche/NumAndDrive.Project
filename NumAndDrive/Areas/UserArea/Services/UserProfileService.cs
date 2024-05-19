@@ -2,7 +2,6 @@
 using NumAndDrive.Areas.UserArea.Services.Interfaces;
 using NumAndDrive.Areas.UserArea.ViewModels.UserProfile;
 using NumAndDrive.Models;
-using NumAndDrive.Repository;
 using NumAndDrive.Repository.Interfaces;
 using NumAndDrive.Services.Interfaces;
 
@@ -23,7 +22,7 @@ namespace NumAndDrive.Areas.UserArea.Services
             _currentUserService = currentUserService;
         }
 
-        public async Task<IdentityResult> CompleteFirstUserProfile(FirstConnectionViewModel datas)
+        public async Task<IdentityResult> CompleteFirstUserProfileAsync(FirstConnectionViewModel datas)
         {
             var user = await _userManager.FindByIdAsync(datas.UserId);
 
@@ -42,7 +41,7 @@ namespace NumAndDrive.Areas.UserArea.Services
 
         }
 
-        public async Task FillFirstConnectionViewModel(FirstConnectionViewModel model)
+        public async Task FillFirstConnectionViewModelAsync(FirstConnectionViewModel model)
         {
             var user = await _currentUserService.GetCurrentUserAsync();
 
@@ -51,7 +50,7 @@ namespace NumAndDrive.Areas.UserArea.Services
             model.DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync();
         }
 
-        public async Task FillIndexViewModel(UserProfileViewModel datas)
+        public async Task FillIndexViewModelAsync(UserProfileViewModel datas)
         {
             var user = await _currentUserService.GetCurrentUserAsync();
 
@@ -64,7 +63,7 @@ namespace NumAndDrive.Areas.UserArea.Services
             }
         }
 
-        public async Task FillUpdateViewModel(EditUserProfileViewModel datas)
+        public async Task FillUpdateViewModelAsync(EditUserProfileViewModel datas)
         {
             var user = await _currentUserService.GetCurrentUserAsync();
 
@@ -77,7 +76,7 @@ namespace NumAndDrive.Areas.UserArea.Services
             }
         }
 
-        public async Task<IdentityResult> UpdateUserProfile(EditUserProfileViewModel datas)
+        public async Task<IdentityResult> UpdateUserProfileAsync(EditUserProfileViewModel datas)
         {
             var user = await _currentUserService.GetCurrentUserAsync();
 

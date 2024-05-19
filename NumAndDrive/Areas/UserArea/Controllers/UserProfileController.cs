@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Areas.UserArea.Services.Interfaces;
 using NumAndDrive.Areas.UserArea.ViewModels.UserProfile;
-using NumAndDrive.Models;
-using NumAndDrive.Repository;
-using NumAndDrive.Repository.Interfaces;
-using NumAndDrive.Services.Interfaces;
-using NumAndDrive.ViewModels.Account;
 
 namespace NumAndDrive.UserArea.Controllers
 {
@@ -26,7 +20,7 @@ namespace NumAndDrive.UserArea.Controllers
         public async Task<IActionResult> Index()
         {
             var model = new UserProfileViewModel();
-            await _userProfileService.FillIndexViewModel(model);
+            await _userProfileService.FillIndexViewModelAsync(model);
             return View(model);
         }
 
@@ -34,26 +28,27 @@ namespace NumAndDrive.UserArea.Controllers
         public async Task<IActionResult> FirstConnection()
         {
             var model = new FirstConnectionViewModel();
-            await _userProfileService.FillFirstConnectionViewModel(model);
+            await _userProfileService.FillFirstConnectionViewModelAsync(model);
             return View(model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> FirstConnection(FirstConnectionViewModel datas)
         {
             if (!ModelState.IsValid)
             {
-                await _userProfileService.FillFirstConnectionViewModel(datas);
+                await _userProfileService.FillFirstConnectionViewModelAsync(datas);
                 return View(datas);
             }
 
-            var result = await _userProfileService.CompleteFirstUserProfile(datas);
+            var result = await _userProfileService.CompleteFirstUserProfileAsync(datas);
             if (result.Succeeded)
             {
                 return RedirectToAction("Index");
             } else
             {
-                await _userProfileService.FillFirstConnectionViewModel(datas);
+                await _userProfileService.FillFirstConnectionViewModelAsync(datas);
                 return View(datas);
             }
         }
@@ -61,26 +56,27 @@ namespace NumAndDrive.UserArea.Controllers
         public async Task<IActionResult> Edit()
         {
             var model = new EditUserProfileViewModel();
-            await _userProfileService.FillUpdateViewModel(model);
+            await _userProfileService.FillUpdateViewModelAsync(model);
             return View(model);
 
         }
 
         [HttpPost]
+        [ValidateAntiForgeryTokenAttribute]
         public async Task<IActionResult> Edit(EditUserProfileViewModel datas)
         {
             if (!ModelState.IsValid)
             {
-                await _userProfileService.FillUpdateViewModel(datas);
+                await _userProfileService.FillUpdateViewModelAsync(datas);
                 return View(datas);
             }
 
-            var result = await _userProfileService.UpdateUserProfile(datas);
+            var result = await _userProfileService.UpdateUserProfileAsync(datas);
 
             if (result.Succeeded)
                 return RedirectToAction("Index");
 
-            await _userProfileService.FillUpdateViewModel(datas);
+            await _userProfileService.FillUpdateViewModelAsync(datas);
             return View(datas);
         }
     }
