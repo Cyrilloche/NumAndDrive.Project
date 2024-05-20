@@ -488,3 +488,6 @@ Migrations
 
 #CSV Files
 *.csv
+
+#AppSettings.json
+appsettings.json
