@@ -11,7 +11,7 @@ namespace NumAndDrive.Database.EntityConfiguration
             builder.ToTable("travel");
 
             builder
-                .Property(t => t.TimeDeparture)
+                .Property(t => t.DepartureTime)
                 .HasColumnType("time");
             builder
                 .Property(t => t.CreationDate)

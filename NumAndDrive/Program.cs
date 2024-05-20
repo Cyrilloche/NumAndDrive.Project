@@ -9,6 +9,7 @@ using NumAndDrive.Repository;
 using NumAndDrive.Repository.Interfaces;
 using NumAndDrive.Services;
 using NumAndDrive.Services.Interfaces;
+using NumAndDrive.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
@@ -42,6 +43,8 @@ builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddSingleton<AddressUtilities>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NumAndDriveContext>(options =>

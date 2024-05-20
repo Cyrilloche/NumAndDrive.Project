@@ -35,7 +35,7 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             if (!ModelState.IsValid)
             {
                 await _driverService.FillCreateTravelViewModelAsync(datas);
-                return View(datas);
+                return RedirectToAction("CreateGoTravel");
             }
 
             if(await _driverService.CreateTravelAsync(datas))
@@ -45,7 +45,7 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             else
             {
                 await _driverService.FillCreateTravelViewModelAsync(datas);
-                return View(datas);
+                return RedirectToAction("CreateGoTravel");
             }
         }
 

@@ -16,12 +16,16 @@ namespace NumAndDrive.Repository
 
         public async Task<School?> GetSchoolByIdAsync(int id)
         {
-            return await _context.Schools.FindAsync(id);
+            return await _context.Schools
+                .Include(s => s.SchoolAddress)
+                .FirstOrDefaultAsync(s => s.SchoolId == id);
         }
 
         public async Task<IEnumerable<School>> GetAllSchoolsAsync()
         {
-            return await _context.Schools.ToListAsync();
+            return await _context.Schools
+                .Include(s => s.SchoolAddress)
+                .ToListAsync();
         }
 
         public async Task<School> CreateSchoolAsync(School newSchool)

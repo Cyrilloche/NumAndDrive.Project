@@ -5,6 +5,7 @@ using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Repository.Interfaces;
 using NumAndDrive.Services.Interfaces;
+using NumAndDrive.Utilities;
 using System.Net;
 using System.Text.Json.Nodes;
 
@@ -22,8 +23,9 @@ namespace NumAndDrive.Areas.UserArea.Services
         private readonly ISchoolRepository _schoolRepository;
         private readonly ICurrentUserService _currentUserService;
         private readonly NumAndDriveContext _context;
+        private readonly AddressUtilities _addressUtilities;
 
-        public DriverService(IFilterRepository filterRepository, IActivationDayRepository activationDayRepository, UserManager<User> userManager, IAddressRepository addressRepository, ITravelRepository travelRepository, ITravelFilterRepository travelFilterRepository, ITravelActivationDayRepository travelActivationDayRepository, ISchoolRepository schoolRepository, ICurrentUserService currentUserService, NumAndDriveContext context)
+        public DriverService(IFilterRepository filterRepository, IActivationDayRepository activationDayRepository, UserManager<User> userManager, IAddressRepository addressRepository, ITravelRepository travelRepository, ITravelFilterRepository travelFilterRepository, ITravelActivationDayRepository travelActivationDayRepository, ISchoolRepository schoolRepository, ICurrentUserService currentUserService, NumAndDriveContext context, AddressUtilities addressUtilities)
         {
             _filterRepository = filterRepository;
             _activationDayRepository = activationDayRepository;
@@ -35,6 +37,7 @@ namespace NumAndDrive.Areas.UserArea.Services
             _schoolRepository = schoolRepository;
             _currentUserService = currentUserService;
             _context = context;
+            _addressUtilities = addressUtilities;
         }
 
         public async Task<bool> CreateTravelAsync(CreateTravelViewModel datas)
@@ -44,20 +47,25 @@ namespace NumAndDrive.Areas.UserArea.Services
             try
             {
                 var user = await _currentUserService.GetCurrentUserAsync();
-                Address departureAddress = await FormatAddressWithAPIAsync(datas.DepartureAddress);
-                Address arrivalAddress = await FormatAddressWithAPIAsync(datas.ArrivalAddress);
+                Address personnalAddress = await _addressUtilities.FormatAddressWithAPIAsync(datas.PersonnalAddress);
 
-                Address departureAddressSaved = await _addressRepository.CreateAddressAsync(departureAddress);
-                Address arrivalAddressSaved = await _addressRepository.CreateAddressAsync(arrivalAddress);
+                Address personnalAddressSaved = await _addressRepository.CreateAddressAsync(personnalAddress);
+
+                Address schoolAddress = await _addressRepository.GetAddressByIdAsync(datas.SchoolAddressId);
+
+                int travelTime = await _addressUtilities.CalculateTravelTimeAsync(personnalAddress.Coordinates, schoolAddress.Coordinates);
+
+                TimeOnly arrivalTime = DefineArrivalTime(datas.DepartureTime, travelTime);
 
                 Travel newTravel = new Travel
                 {
                     PublisherUserId = user.Id,
-                    TimeDeparture = datas.DepartureTime,
+                    DepartureTime = datas.DepartureTime,
+                    ArrivalTime = arrivalTime,
                     AvailablePlace = datas.AvailablePlacesInCar,
                     CreationDate = DateTime.Now,
-                    DepartureAddressId = departureAddressSaved.AddressId,
-                    ArrivalAddressId = arrivalAddressSaved.AddressId
+                    DepartureAddressId = personnalAddressSaved.AddressId,
+                    ArrivalAddressId = datas.SchoolAddressId
                 };
                 await _travelRepository.CreateTravelAsync(newTravel);
                 await _travelActivationDayRepository.CreateNewTravelActivationDayAsync(newTravel, datas.SelectedDays.ToList());
@@ -85,40 +93,10 @@ namespace NumAndDrive.Areas.UserArea.Services
             model.Schools = schools.ToList();
         }
 
-        public async Task<Address> FormatAddressWithAPIAsync(string researchedAddress)
+        private TimeOnly DefineArrivalTime(TimeOnly departureTime, int travelTimeInSeconds)
         {
-            string url = @"https://api-adresse.data.gouv.fr/search/?q=";
-
-            string[] wordsFromUserEntry = researchedAddress.Split(' ');
-
-            foreach (var word in wordsFromUserEntry)
-            {
-                url += word + '+';
-            }
-
-            try
-            {
-                using var webclient = new WebClient();
-                string jsonString = webclient.DownloadString(url);
-
-                JsonObject jsonObject = JsonNode.Parse(jsonString).AsObject();
-                JsonArray features = jsonObject["features"].AsArray();
-                Address address = new Address();
-
-                foreach (JsonNode node in features)
-                {
-                    address.City = node["properties"]["city"].ToString();
-                    address.PostalCode = node["properties"]["postcode"].ToString();
-                    address.Street = node["properties"]["name"].ToString();
-                }
-
-                return address;
-
-            }
-            catch (WebException)
-            {
-                throw new WebException("Error during the process.");
-            }
+            int travelTimeInMinutes = travelTimeInSeconds / 60;
+            return departureTime.AddMinutes(travelTimeInMinutes);
         }
     }
 }

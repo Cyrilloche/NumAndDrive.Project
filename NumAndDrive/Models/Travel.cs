@@ -3,7 +3,8 @@
     public class Travel
     {
         public int TravelId { get; set; }
-        public TimeOnly TimeDeparture { get; set; }
+        public TimeOnly DepartureTime { get; set; }
+        public TimeOnly ArrivalTime { get; set; }
         public int AvailablePlace { get; set; }
         public DateTime CreationDate { get; set; }
         public string PublisherUserId { get; set; } = string.Empty;

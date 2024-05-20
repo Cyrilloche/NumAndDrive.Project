@@ -6,12 +6,11 @@ namespace NumAndDrive.Areas.UserArea.ViewModels.Driver
     {
         public IEnumerable<Address> TravelStopPoint { get; set; } = new List<Address>();
         public TimeOnly DepartureTime { get; set; }
-        public TimeOnly ArrivalTime { get; set; }
         public List<Filter> SelectedFilters { get; set; } = new List<Filter>();
         public List<ActivationDay> SelectedDays { get; set; } = new List<ActivationDay>();
         public int AvailablePlacesInCar { get; set; }
-        public string DepartureAddress { get; set; } = string.Empty;
-        public string ArrivalAddress { get; set; } = string.Empty;
+        public string PersonnalAddress { get; set; } = string.Empty;
+        public int SchoolAddressId { get; set; }
         public IEnumerable<School> Schools { get; set; } = new List<School>();
     }
 }
