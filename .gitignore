@@ -491,3 +491,4 @@ Migrations
 
 #AppSettings.json
 appsettings.json
+appsettings.Development.json
