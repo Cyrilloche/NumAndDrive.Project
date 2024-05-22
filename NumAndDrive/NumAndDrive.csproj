@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\UserArea\ViewModels\Account\**" />
     <Compile Remove="Service\**" />
+    <Content Remove="Areas\UserArea\ViewModels\Account\**" />
     <Content Remove="Service\**" />
+    <EmbeddedResource Remove="Areas\UserArea\ViewModels\Account\**" />
     <EmbeddedResource Remove="Service\**" />
+    <None Remove="Areas\UserArea\ViewModels\Account\**" />
     <None Remove="Service\**" />
   </ItemGroup>
 
@@ -26,10 +30,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\UserArea\ViewModels\Account\" />
   </ItemGroup>
 
 </Project>

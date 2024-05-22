@@ -21,7 +21,9 @@ namespace NumAndDrive.Repository
 
         public async Task<IEnumerable<ActivationDay>> GetAllActivationDaysAsync()
         {
-            return await _context.ActivationDays.ToListAsync();
+            return await _context.ActivationDays
+                .Include(ad => ad.TravelActivationDays)
+                .ToListAsync();
         }
 
         public async Task<ActivationDay> CreateActivationDayAsync(ActivationDay newActivationDay)

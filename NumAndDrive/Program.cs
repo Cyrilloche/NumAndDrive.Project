@@ -37,11 +37,11 @@ builder.Services.AddScoped<IUserReviewRepository, UserReviewRepository>();
 builder.Services.AddScoped<IUserRewardRepository, UserRewardRepository>();
 builder.Services.AddScoped<IUserTravelPreferenceRepository, UserTravelPreferenceRepository>();
 
-
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IPassengerService, PassengerService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSingleton<AddressUtilities>();

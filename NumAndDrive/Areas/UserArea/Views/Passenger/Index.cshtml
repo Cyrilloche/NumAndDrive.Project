@@ -1,1 +1,110 @@
-﻿<h1>PASSENGER HOME PAGE</h1>
+﻿@model NumAndDrive.Areas.UserArea.ViewModels.Passenger.PassengerIndexViewModel
+
+<div class="row">
+    <div class="col">
+        <form asp-action="Index">
+            <div class="card mb-3 custom-card-border-blue p-2 shadow-lg text-center">
+                <h3 class="card-title mb-3">Rechercher un trajet</h3>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="dropdown">
+                            <button class="btn submit-blue-button dropdown-toggle col-12" type="button" data-bs-toggle="dropdown" aria-expanded="false">Au départ de</button>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="dropdown">
+                            <button class="btn submit-blue-button dropdown-toggle col-12" type="button" data-bs-toggle="dropdown" aria-expanded="false">Arrivée à</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="col-6">
+                        <div class="dropdown">
+                            <button class="btn col-12 submit-blue-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Sélectionner un jour</button>
+                            <ul class="dropdown-menu col-12">
+                                @for (var i = 0; i < Model.Days.Count; i++)
+                                {
+                                    <li class="dropdown-item">
+                                        <input class="form-check-input" type="checkbox" asp-for="Days[i].IsSelected" id="day-@Model.Days[i].ActivationDayId" />
+                                        <label class="form-check-label" for="day-@Model.Days[i].ActivationDayId">@Model.Days[i].Day</label>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6 cs-form">
+                        <input type="time" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-end">
+                        <input type="submit" class="btn submit-blue-button" value="Enregistrement" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card custom-card-border-blue p-2 shadow-lg text-center">
+            <h3 class="card-title">Annonces qui pourraient vous plaire</h3>
+            <div class="card-group">
+                @foreach (var travel in Model.Travels)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@travel.DepartureAddress.City > @travel.ArrivalAddress.City</h5>
+                            <p>@travel.DepartureTime.ToString() > @travel.ArrivalTime.ToString()</p>
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th>L</th>
+                                        <th>M</th>
+                                        <th>M</th>
+                                        <th>J</th>
+                                        <th>V</th>
+                                        <th>S</th>
+                                        <th>D</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach (var day in Model.Days)
+                                        {
+                                            var dayIsActivate = travel.TravelActivationDays.Any(selectedDay => selectedDay.ActivationDayId == day.ActivationDayId);
+                                            if (dayIsActivate)
+                                            {
+                                                <td><i class="bi bi-check2"></i></td>
+                                            }
+                                            else
+                                            {
+                                                <td><i class="bi bi-x"></i></td>
+                                            }
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <div class="row">
+                                    <div class="col-4 rounded-5 border border border-black">
+                                        <img src="~/images/profile-pic-blue.png" alt="Avatar" width="50">
+                                    </div>
+                                    <div class="col-8">
+                                        <div>
+                                            <p>@travel.PublisherUser.Firstname</p>
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
