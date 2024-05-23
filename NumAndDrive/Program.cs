@@ -96,6 +96,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+if (app.Environment.IsProduction())
+{
+    app.Services.GetService<NumAndDriveContext>().Database.Migrate();
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
