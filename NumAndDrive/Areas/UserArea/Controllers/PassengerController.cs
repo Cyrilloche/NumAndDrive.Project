@@ -26,7 +26,18 @@ namespace NumAndDrive.Areas.UserArea.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(PassengerIndexViewModel datas)
         {
-            return View(datas);
+            if (!ModelState.IsValid)
+            {
+                await _passengerService.DisplayPassengerHomePage(datas);
+                return View(datas);
+            }
+            return RedirectToAction("ResearchTravel", datas);
+        }
+
+
+        public async Task<IActionResult> ResearchTravel()
+        {
+            return View();
         }
     }
 }

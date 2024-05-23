@@ -71,5 +71,22 @@ namespace NumAndDrive.Repository
         {
             return await _context.Travels.Where(u => u.PublisherUserId == userId).ToListAsync();
         }
+
+        public async Task<IEnumerable<Travel>> GetTwoMostRecentTravel()
+        {
+            return await _context.Travels
+                .Include(t => t.PublisherUser)
+                .Include(t => t.DepartureAddress)
+                .Include(t => t.ArrivalAddress)
+                .Include(t => t.TravelStopPoints)
+                .Include(t => t.TravelFilters)
+                    .ThenInclude(tf => tf.Filter)
+                .Include(t => t.TravelActivationDays)
+                    .ThenInclude(ta => ta.ActivationDay)
+                .Include(t => t.Reservations)
+                .OrderByDescending(t => t.CreationDate)
+                .Take(2)
+                .ToListAsync();
+        }
     }
 }

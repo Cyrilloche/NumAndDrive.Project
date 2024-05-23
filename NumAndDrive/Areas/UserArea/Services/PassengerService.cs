@@ -21,10 +21,12 @@ namespace NumAndDrive.Areas.UserArea.Services
         public async Task DisplayPassengerHomePage(PassengerIndexViewModel model)
         {
             var activationDays = await _activationDaysRepository.GetAllActivationDaysAsync();
-            var travels = await _travelRepository.GetAllTravelsAsync();
+            var travels = await _travelRepository.GetTwoMostRecentTravel();
+            var schools = await _schoolRepository.GetAllSchoolsAsync();
 
             model.Days = activationDays.ToList();
             model.Travels = travels.ToList();
+            model.Schools = schools.ToList();
         }
     }
 }

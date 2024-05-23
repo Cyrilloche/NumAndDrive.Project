@@ -10,5 +10,6 @@ namespace NumAndDrive.Repository.Interfaces
         Task DeleteTravelAsync(int id);
         Task UpdateTravelAsync(Travel updatedTravel);
         Task<IEnumerable<Travel>> GetTravelsByPublisherId(string userId);
+        Task<IEnumerable<Travel>> GetTwoMostRecentTravel();
     }
 }

@@ -1,4 +1,8 @@
 ﻿@model NumAndDrive.Areas.UserArea.ViewModels.Passenger.PassengerIndexViewModel
+@{
+
+    bool IsAReturnTravel = false;
+}
 
 <div class="row">
     <div class="col">
@@ -6,15 +10,23 @@
             <div class="card mb-3 custom-card-border-blue p-2 shadow-lg text-center">
                 <h3 class="card-title mb-3">Rechercher un trajet</h3>
                 <div class="row mb-3">
-                    <div class="col-6">
+                    <div class="form-group col-6">
                         <div class="dropdown">
                             <button class="btn submit-blue-button dropdown-toggle col-12" type="button" data-bs-toggle="dropdown" aria-expanded="false">Au départ de</button>
+                            <ul class="dropdown-menu col-12">
+                                @foreach (var school in Model.Schools)
+                                {
+                                    <li>
+                                        <input class="form-check-input" type="radio" asp-for="@school.SchoolId" value="@school.SchoolId" />
+                                        <label class="form-check-label" asp-for="@school.Name" value="@school.SchoolId">@school.Name</label>
+                                    </li>
+                                }
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="dropdown">
-                            <button class="btn submit-blue-button dropdown-toggle col-12" type="button" data-bs-toggle="dropdown" aria-expanded="false">Arrivée à</button>
-                        </div>
+                    <div class="col-6 form-group">
+                        <input asp-for="ArrivalCities" type="text" class="form-control" placeholder="Lieu d'arrivée" />
+                        <span class="text-danger" asp-validation-for="ArrivalCities"></span>
                     </div>
                 </div>
                 <div class="form-group row mb-3">
@@ -33,12 +45,12 @@
                         </div>
                     </div>
                     <div class="col-6 cs-form">
-                        <input type="time" class="form-control" />
+                        <input asp-for="SelectedTime" type="time" class="form-control" />
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col text-end">
-                        <input type="submit" class="btn submit-blue-button" value="Enregistrement" />
+                        <input type="submit" class="btn submit-blue-button" value="Rechercher" />
                     </div>
                 </div>
             </div>
