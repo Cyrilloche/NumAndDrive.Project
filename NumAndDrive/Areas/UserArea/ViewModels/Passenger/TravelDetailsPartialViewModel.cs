@@ -6,5 +6,6 @@ namespace NumAndDrive.Areas.UserArea.ViewModels.Passenger
     {
         public Travel Travel { get; set; } = new Travel();
         public IEnumerable<ActivationDay> Days { get; set; } = new List<ActivationDay>();
+        public IEnumerable<Filter> Filters { get; set; } = new List<Filter>();
     }
 }

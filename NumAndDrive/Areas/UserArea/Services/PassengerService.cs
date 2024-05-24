@@ -12,12 +12,14 @@ namespace NumAndDrive.Areas.UserArea.Services
         private readonly IActivationDayRepository _activationDaysRepository;
         private readonly ISchoolRepository _schoolRepository;
         private readonly ITravelRepository _travelRepository;
+        private readonly IFilterRepository _filterRepository;
 
-        public PassengerService(IActivationDayRepository activationDaysRepository, ISchoolRepository schoolRepository, ITravelRepository travelRepository)
+        public PassengerService(IActivationDayRepository activationDaysRepository, ISchoolRepository schoolRepository, ITravelRepository travelRepository, IFilterRepository filterRepository)
         {
             _activationDaysRepository = activationDaysRepository;
             _schoolRepository = schoolRepository;
             _travelRepository = travelRepository;
+            _filterRepository = filterRepository;
         }
 
         public async Task DisplayPassengerHomePage(PassengerIndexViewModel model)
@@ -84,6 +86,7 @@ namespace NumAndDrive.Areas.UserArea.Services
 
         public async Task FillTravelDetailsPartialView(TravelDetailsPartialViewModel model, int travelId)
         {
+            model.Filters = await _filterRepository.GetAllFiltersAsync();
             model.Days = await _activationDaysRepository.GetAllActivationDaysAsync();
             model.Travel = await _travelRepository.GetTravelByIdAsync(travelId);
         }

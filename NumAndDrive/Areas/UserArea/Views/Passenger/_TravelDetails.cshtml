@@ -42,10 +42,10 @@
     </div>
 </div>
 <div class="row">
-    @foreach (var filter in Model.Travel.TravelFilters)
+    @foreach (var filter in Model.Filters)
     {
-        <p style="color:@(filter.Filter.IsSelected ? "green" : "red")">@filter.Filter.Name</p>
-
+        var filterIsActive = Model.Travel.TravelFilters.Any(activeFilter => activeFilter.FilterId == filter.FilterId);
+        <p style="color:@(filterIsActive ? "green" : "red")">@filter.Name</p>
     }
 </div>
 <div class="row">
