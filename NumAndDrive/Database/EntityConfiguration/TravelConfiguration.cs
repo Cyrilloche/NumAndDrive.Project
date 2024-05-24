@@ -26,14 +26,14 @@ namespace NumAndDrive.Database.EntityConfiguration
                 .HasForeignKey(t => t.PublisherUserId);
 
             builder
-                .HasOne<Address>(t => t.DepartureAddress)
+                .HasOne<Address>(t => t.PersonnalAdress)
                 .WithMany(a => a.DepartureTravel)
-                .HasForeignKey(t => t.DepartureAddressId);
+                .HasForeignKey(t => t.PersonnalAddressId);
 
             builder
-                .HasOne<Address>(t => t.ArrivalAddress)
+                .HasOne<Address>(t => t.SchoolAddress)
                 .WithMany(a => a.ArrivalTravel)
-                .HasForeignKey(t => t.ArrivalAddressId);
+                .HasForeignKey(t => t.SchoolAddressId);
         }
     }
 }

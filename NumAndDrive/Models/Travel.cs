@@ -10,10 +10,10 @@
         public string PublisherUserId { get; set; } = string.Empty;
         public User PublisherUser { get; set; }
         public ICollection<Reservation> Reservations { get; set; } = [];
-        public int DepartureAddressId { get; set; }
-        public Address DepartureAddress { get; set; }
-        public int ArrivalAddressId { get; set; }
-        public Address ArrivalAddress { get; set; }
+        public int PersonnalAddressId { get; set; }
+        public Address PersonnalAdress { get; set; }
+        public int SchoolAddressId { get; set; }
+        public Address SchoolAddress { get; set; }
         public ICollection<TravelStopPoint> TravelStopPoints { get; set; } = [];
         public ICollection<TravelFilter> TravelFilters { get; set; } = [];
         public ICollection<TravelActivationDay> TravelActivationDays { get; set; } = [];

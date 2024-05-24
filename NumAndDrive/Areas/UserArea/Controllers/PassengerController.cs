@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NumAndDrive.Areas.UserArea.Services.Interfaces;
 using NumAndDrive.Areas.UserArea.ViewModels.Passenger;
 
@@ -24,20 +25,25 @@ namespace NumAndDrive.Areas.UserArea.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(PassengerIndexViewModel datas)
+        public async Task<IActionResult> ResearchTravel(PassengerIndexViewModel datas)
         {
             if (!ModelState.IsValid)
             {
                 await _passengerService.DisplayPassengerHomePage(datas);
                 return View(datas);
             }
-            return RedirectToAction("ResearchTravel", datas);
+
+            var model = await _passengerService.DisplayResultOfResearch(datas);
+           
+            return View(model);
         }
 
-
-        public async Task<IActionResult> ResearchTravel()
+        public async Task<IActionResult> TravelDetailsPartial(int travelId)
         {
-            return View();
+            var model = new TravelDetailsPartialViewModel();
+            await _passengerService.FillTravelDetailsPartialView(model, travelId);
+            return PartialView("_TravelDetails",model);
         }
+
     }
 }

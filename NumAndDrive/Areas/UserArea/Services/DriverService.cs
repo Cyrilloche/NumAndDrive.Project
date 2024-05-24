@@ -64,8 +64,8 @@ namespace NumAndDrive.Areas.UserArea.Services
                     ArrivalTime = arrivalTime,
                     AvailablePlace = datas.AvailablePlacesInCar,
                     CreationDate = DateTime.Now,
-                    DepartureAddressId = personnalAddressSaved.AddressId,
-                    ArrivalAddressId = datas.SchoolAddressId
+                    PersonnalAddressId = personnalAddressSaved.AddressId,
+                    SchoolAddressId = datas.SchoolAddressId
                 };
                 await _travelRepository.CreateTravelAsync(newTravel);
                 await _travelActivationDayRepository.CreateNewTravelActivationDayAsync(newTravel, datas.SelectedDays.ToList());

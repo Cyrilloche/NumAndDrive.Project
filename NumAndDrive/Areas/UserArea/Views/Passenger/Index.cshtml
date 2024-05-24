@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col">
-        <form asp-action="Index">
+        <form asp-action="ResearchTravel">
             <div class="card mb-3 custom-card-border-blue p-2 shadow-lg text-center">
                 <h3 class="card-title mb-3">Rechercher un trajet</h3>
                 <div class="row mb-3">
@@ -17,7 +17,7 @@
                                 @foreach (var school in Model.Schools)
                                 {
                                     <li>
-                                        <input class="form-check-input" type="radio" asp-for="@school.SchoolId" value="@school.SchoolId" />
+                                        <input class="form-check-input" type="radio" asp-for="@Model.SchoolAdressId" value="@school.AddressId" />
                                         <label class="form-check-label" asp-for="@school.Name" value="@school.SchoolId">@school.Name</label>
                                     </li>
                                 }
@@ -25,8 +25,8 @@
                         </div>
                     </div>
                     <div class="col-6 form-group">
-                        <input asp-for="ArrivalCities" type="text" class="form-control" placeholder="Lieu d'arrivée" />
-                        <span class="text-danger" asp-validation-for="ArrivalCities"></span>
+                        <input asp-for="ResearchedCity" type="text" class="form-control" placeholder="Lieu d'arrivée" />
+                        <span class="text-danger" asp-validation-for="ResearchedCity"></span>
                     </div>
                 </div>
                 <div class="form-group row mb-3">
@@ -62,7 +62,7 @@
                 {
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">@travel.DepartureAddress.City > @travel.ArrivalAddress.City</h5>
+                            <h5 class="card-title">@travel.PersonnalAdress.City > @travel.SchoolAddress.City</h5>
                             <p>@travel.DepartureTime.ToString() > @travel.ArrivalTime.ToString()</p>
                             <table class="table table-bordered text-center">
                                 <thead>

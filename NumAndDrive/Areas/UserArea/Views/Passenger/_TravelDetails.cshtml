@@ -1,0 +1,66 @@
+﻿@model NumAndDrive.Areas.UserArea.ViewModels.Passenger.TravelDetailsPartialViewModel
+
+<div class="row">
+    <div class="col">
+        <div>
+            <h5>@Model.Travel.PersonnalAdress.City > @Model.Travel.SchoolAddress.City</h5>
+            <p>@Model.Travel.DepartureTime.ToString() > @Model.Travel.ArrivalTime.ToString()</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>L</th>
+                    <th>M</th>
+                    <th>M</th>
+                    <th>J</th>
+                    <th>V</th>
+                    <th>S</th>
+                    <th>D</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (var day in Model.Days)
+                    {
+                        var dayIsActivate = @Model.Travel.TravelActivationDays.Any(selectedDay => selectedDay.ActivationDayId == day.ActivationDayId);
+                        if (dayIsActivate)
+                        {
+                            <td><i class="bi bi-check2"></i></td>
+                        }
+                        else
+                        {
+                            <td><i class="bi bi-x"></i></td>
+                        }
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    @foreach (var filter in Model.Travel.TravelFilters)
+    {
+        <p style="color:@(filter.Filter.IsSelected ? "green" : "red")">@filter.Filter.Name</p>
+
+    }
+</div>
+<div class="row">
+    <div class="col-6">
+        <p>RESTE @Model.Travel.AvailablePlace PLACE</p>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            BOUTON
+        </div>
+        <div class="row">
+            BOUTON
+        </div>
+        <div class="row">
+            BOUTON
+        </div>
+    </div>
+</div>

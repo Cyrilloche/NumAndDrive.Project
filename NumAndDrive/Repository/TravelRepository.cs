@@ -18,8 +18,8 @@ namespace NumAndDrive.Repository
         {
             return await _context.Travels
                 .Include(t => t.PublisherUser)
-                .Include(t => t.DepartureAddress)
-                .Include(t => t.ArrivalAddress)
+                .Include(t => t.PersonnalAdress)
+                .Include(t => t.SchoolAddress)
                 .Include(t => t.TravelStopPoints)
                 .Include(t => t.TravelFilters)
                     .ThenInclude(tf => tf.Filter)
@@ -33,8 +33,8 @@ namespace NumAndDrive.Repository
         {
             return await _context.Travels
                 .Include(t => t.PublisherUser)
-                .Include(t => t.DepartureAddress)
-                .Include(t => t.ArrivalAddress)
+                .Include(t => t.PersonnalAdress)
+                .Include(t => t.SchoolAddress)
                 .Include(t => t.TravelStopPoints)
                 .Include(t => t.TravelFilters)
                     .ThenInclude(tf => tf.Filter)
@@ -76,8 +76,8 @@ namespace NumAndDrive.Repository
         {
             return await _context.Travels
                 .Include(t => t.PublisherUser)
-                .Include(t => t.DepartureAddress)
-                .Include(t => t.ArrivalAddress)
+                .Include(t => t.PersonnalAdress)
+                .Include(t => t.SchoolAddress)
                 .Include(t => t.TravelStopPoints)
                 .Include(t => t.TravelFilters)
                     .ThenInclude(tf => tf.Filter)

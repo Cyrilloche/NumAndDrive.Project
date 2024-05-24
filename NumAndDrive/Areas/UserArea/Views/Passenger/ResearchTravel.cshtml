@@ -18,7 +18,58 @@
                     Modifier votre recherche
                 </div>
             </div>
-            <div class="card-body"></div>
+            <hr />
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <ul class="nav nav-tabs flex-column" id="travelList">
+                            @foreach (var travel in Model.Travels)
+                            {
+                                <li class="nav-item" travel-id="@travel.TravelId">
+                                    <a class="nav-link active">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p>@travel.PersonnalAdress.City > @travel.SchoolAddress.City</p>
+                                                <p>@travel.DepartureTime.ToString() > @travel.ArrivalTime.ToString()</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <img src="~/images/profile-pic-blue.png" alt="Avatar" width="20">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p>@travel.PublisherUser.Firstname</p>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-8">
+                        <div id="travelDetailsPartial">
+                            @* Travel Details *@
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).on('click', '#travelList .nav-item', function () {
+            var travelId = $(this).attr('travel-id');
+            $("#travelDetailsPartial").load('@Url.Action("TravelDetailsPartial", "Passenger")', { travelId: travelId });
+            console.log(travelId);
+        });
+    </script>
+}
