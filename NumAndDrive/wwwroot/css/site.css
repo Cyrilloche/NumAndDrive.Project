@@ -47,7 +47,7 @@ a {
 
 .submit-blue-button {
     background-color: #18203D;
-    color: #FFFFFF
+    color: #FFFFFF;
 }
 
     .submit-blue-button:hover {
@@ -72,10 +72,61 @@ a {
     fill: #18203D;
 }
 
-.custom-close-btn:hover {
-    fill: #F58F0A;
-}
+    .custom-close-btn:hover {
+        fill: #F58F0A;
+    }
 
 .custom-card-border-blue {
     border-color: #18203D;
+}
+
+.rounded-filter-green {
+    border: 3px solid green;
+    border-radius: 50%;
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #109648;
+    color: white;
+}
+
+.rounded-filter-red {
+    border: 3px solid #CE4027;
+    border-radius: 50%;
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #DD614A;
+    color: white;
+}
+
+.table .bi-check2 {
+    color: green;
+    font-size: 1.5rem;
+}
+
+.table .bi-x {
+    color: red;
+    font-size: 1.5rem;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table th {
+    font-weight: bold;
+    background-color: #f8f9fa;
+}
+
+.table td {
+    background-color: #ffffff;
 }

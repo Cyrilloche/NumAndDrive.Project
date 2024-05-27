@@ -41,26 +41,24 @@
         </table>
     </div>
 </div>
-<div class="row">
+<div class="d-flex justify-content-evenly mb-3">
     @foreach (var filter in Model.Filters)
     {
         var filterIsActive = Model.Travel.TravelFilters.Any(activeFilter => activeFilter.FilterId == filter.FilterId);
-        <p style="color:@(filterIsActive ? "green" : "red")">@filter.Name</p>
+        var color = filterIsActive ? "green" : "red";
+        <div class="rounded-filter-@color">
+            <p>@filter.Name</p>
+        </div>
+        
     }
 </div>
-<div class="row">
+<div class="row align-items-center">
     <div class="col-6">
-        <p>RESTE @Model.Travel.AvailablePlace PLACE</p>
+        <h3>RESTE @Model.Travel.AvailablePlace PLACE</h3>
     </div>
     <div class="col-6">
-        <div class="row">
-            BOUTON
-        </div>
-        <div class="row">
-            BOUTON
-        </div>
-        <div class="row">
-            BOUTON
-        </div>
+        <button class="btn submit-blue-button w-100 mb-2">Contacter @Model.Travel.PublisherUser.Firstname</button>
+        <button class="btn submit-blue-button w-100 mb-2">Voir le profil de @Model.Travel.PublisherUser.Firstname</button>
+        <button class="btn submit-blue-button w-100 mb-2">Réserver ma place</button>
     </div>
 </div>

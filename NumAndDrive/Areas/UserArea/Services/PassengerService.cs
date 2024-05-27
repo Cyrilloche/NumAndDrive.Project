@@ -34,8 +34,9 @@ namespace NumAndDrive.Areas.UserArea.Services
         }
         public async Task<ResearchViewModel> DisplayResultOfResearch(PassengerIndexViewModel datas)
         {
-            var travels = await ResearchAvailableTravels(datas.ResearchedCity, datas.SchoolAdressId);
+            var travels = await ResearchAvailableTravels(datas.ResearchedCity, datas.SchoolId);
             var days = await _activationDaysRepository.GetAllActivationDaysAsync();
+            var school = await _schoolRepository.GetSchoolByIdAsync(datas.SchoolId);
 
             var model = new ResearchViewModel();
 
@@ -43,6 +44,9 @@ namespace NumAndDrive.Areas.UserArea.Services
             {
                 model.Travels = travels.ToList();
                 model.Days = days.ToList();
+                model.School = school;
+                model.ResearchedCity = datas.ResearchedCity;
+                model.ResearchedDepartureTime = datas.SelectedTime;
             }
             else
             {
@@ -56,10 +60,11 @@ namespace NumAndDrive.Areas.UserArea.Services
         public async Task<IEnumerable<Travel>> ResearchAvailableTravels(string userEntry, int userSchoolId)
         {
             var travels = await _travelRepository.GetAllTravelsAsync();
+            var school = await _schoolRepository.GetSchoolByIdAsync(userSchoolId);
             string searchedCityNormalized = NormalizeStringToCompare(userEntry);
 
             var availableTravel = travels
-                .Where(t => NormalizeStringToCompare(t.PersonnalAdress.City).Contains(searchedCityNormalized) && t.SchoolAddressId == userSchoolId);
+                .Where(t => NormalizeStringToCompare(t.PersonnalAdress.City).Contains(searchedCityNormalized) && t.SchoolAddressId == school.AddressId);
 
             return availableTravel;
         }

@@ -3,19 +3,16 @@
 <div class="row">
     <div class="col">
         <div class="card mb-3 custom-card-border-blue p-2 shadow-lg text-center">
-            <h3 class="card-title"></h3>
-            <div class="row mb-3">
-                <div class="col-3">
-                    <p>Longwy > Metz</p>
+            <h4 class="card-title mb-3 text-start">Résultats de votre recherche :</h4>
+            <div class="row align-items-center">
+                <div class="col-4">
+                    <h6>@Model.ResearchedCity > @Model.School.Name</h6>
                 </div>
-                <div class="col-3">
-                    <p>Lundi 19/02/2024</p>
+                <div class="col-4">
+                    <h6>Horaire de départ : @Model.ResearchedDepartureTime</h6>
                 </div>
-                <div class="col-3">
-                    Horaire de départ : 07h00
-                </div>
-                <div class="col-3">
-                    Modifier votre recherche
+                <div class="col-4">
+                    <a class="custom-text-orange" asp-controller="Passenger" asp-action="Index">Modifier votre recherche</a>
                 </div>
             </div>
             <hr />

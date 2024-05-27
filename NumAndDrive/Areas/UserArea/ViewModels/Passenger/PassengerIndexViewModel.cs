@@ -5,7 +5,7 @@ namespace NumAndDrive.Areas.UserArea.ViewModels.Passenger
 {
     public class PassengerIndexViewModel
     {
-        public int SchoolAdressId { get; set; }
+        public int SchoolId { get; set; }
         [Required(ErrorMessage ="Veuillez renseigner un point d'arrivée")]
         public string ResearchedCity { get; set; } = string.Empty;
         public IEnumerable<School> Schools { get; set; } = new List<School>();
@@ -14,5 +14,6 @@ namespace NumAndDrive.Areas.UserArea.ViewModels.Passenger
         public TimeOnly SelectedTime { get; set; }
 
         public List<Travel> Travels { get; set; } = new List<Travel>();
+
     }
 }

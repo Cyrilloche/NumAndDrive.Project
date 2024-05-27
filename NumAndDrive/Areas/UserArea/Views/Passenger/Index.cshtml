@@ -17,7 +17,7 @@
                                 @foreach (var school in Model.Schools)
                                 {
                                     <li>
-                                        <input class="form-check-input" type="radio" asp-for="@Model.SchoolAdressId" value="@school.AddressId" />
+                                        <input class="form-check-input" type="radio" asp-for="@Model.SchoolId" value="@school.SchoolId" />
                                         <label class="form-check-label" asp-for="@school.Name" value="@school.SchoolId">@school.Name</label>
                                     </li>
                                 }
