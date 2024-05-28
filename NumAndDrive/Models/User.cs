@@ -7,6 +7,7 @@ namespace NumAndDrive.Models
         public string Lastname { get; set; } = string.Empty;
         public string Firstname { get; set; } = string.Empty;
         public bool FirstConnection { get; set; } = true;
+        public sbyte CountCreatedTravel { get; set; } = 0;
 
 
         // One-to-many

@@ -12,5 +12,6 @@ namespace NumAndDrive.Areas.UserArea.ViewModels.Driver
         public string PersonnalAddress { get; set; } = string.Empty;
         public int SchoolAddressId { get; set; }
         public IEnumerable<School> Schools { get; set; } = new List<School>();
+        public string ErrorMessage { get; set; } = string.Empty;
     }
 }

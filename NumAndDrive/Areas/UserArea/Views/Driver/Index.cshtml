@@ -1,3 +1,22 @@
-﻿<h1>DRIVER HOME PAGE</h1>
+﻿@model NumAndDrive.Areas.UserArea.ViewModels.Driver.DriverIndexViewModel
+<h1>DRIVER HOME PAGE</h1>
+
+<div class="row">
+    @foreach (var travel in Model.Travels)
+    {
+        <div class="col-6">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        @travel.PersonnalAdress.City > @travel.SchoolAddress.City
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    }
+    <div class="col-6"></div>
+</div>
 
 <a type="button" class="btn btn-primary" asp-action="CreateGoTravel">AJOUTER UNE NOUVELLE ANNONCE</a>

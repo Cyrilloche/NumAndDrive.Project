@@ -40,7 +40,8 @@ namespace NumAndDrive.Areas.UserArea.Controllers
 
             if(await _driverService.CreateTravelAsync(datas))
             {
-                return RedirectToAction("Index");
+                datas.ErrorMessage = "L'utilisateur n'est pas authorisé à créer un trajet";
+                return RedirectToAction("CreateGoTravel");
             }
             else
             {

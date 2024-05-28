@@ -42,44 +42,51 @@ namespace NumAndDrive.Areas.UserArea.Services
 
         public async Task<bool> CreateTravelAsync(CreateTravelViewModel datas)
         {
+            var user = await _currentUserService.GetCurrentUserAsync();
             bool isSucess = false;
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
+
+            if (IsAuthorizeToCreateANewTravel(user))
             {
-                var user = await _currentUserService.GetCurrentUserAsync();
-                Address personnalAddress = await _addressUtilities.FormatAddressWithAPIAsync(datas.PersonnalAddress);
-
-                Address personnalAddressSaved = await _addressRepository.CreateAddressAsync(personnalAddress);
-
-                Address schoolAddress = await _addressRepository.GetAddressByIdAsync(datas.SchoolAddressId);
-
-                int travelTime = await _addressUtilities.CalculateTravelTimeAsync(personnalAddress.Coordinates, schoolAddress.Coordinates);
-
-                TimeOnly arrivalTime = DefineArrivalTime(datas.DepartureTime, travelTime);
-
-                Travel newTravel = new Travel
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
                 {
-                    PublisherUserId = user.Id,
-                    DepartureTime = datas.DepartureTime,
-                    ArrivalTime = arrivalTime,
-                    AvailablePlace = datas.AvailablePlacesInCar,
-                    CreationDate = DateTime.Now,
-                    PersonnalAddressId = personnalAddressSaved.AddressId,
-                    SchoolAddressId = datas.SchoolAddressId
-                };
-                await _travelRepository.CreateTravelAsync(newTravel);
-                await _travelActivationDayRepository.CreateNewTravelActivationDayAsync(newTravel, datas.SelectedDays.ToList());
-                await _travelFilterRepository.CreateNewTravelFilterAsync(newTravel, datas.SelectedFilters.ToList());
+                    Address personnalAddress = await _addressUtilities.FormatAddressWithAPIAsync(datas.PersonnalAddress);
 
-                await transaction.CommitAsync();
-                isSucess = true;
-                return isSucess;
+                    Address personnalAddressSaved = await _addressRepository.CreateAddressAsync(personnalAddress);
+
+                    Address schoolAddress = await _addressRepository.GetAddressByIdAsync(datas.SchoolAddressId);
+
+                    int travelTime = await _addressUtilities.CalculateTravelTimeAsync(personnalAddress.Coordinates, schoolAddress.Coordinates);
+
+                    TimeOnly arrivalTime = DefineArrivalTime(datas.DepartureTime, travelTime);
+
+                    Travel newTravel = new Travel
+                    {
+                        PublisherUserId = user.Id,
+                        DepartureTime = datas.DepartureTime,
+                        ArrivalTime = arrivalTime,
+                        AvailablePlace = datas.AvailablePlacesInCar,
+                        CreationDate = DateTime.Now,
+                        PersonnalAddressId = personnalAddressSaved.AddressId,
+                        SchoolAddressId = datas.SchoolAddressId
+                    };
+                    await _travelRepository.CreateTravelAsync(newTravel);
+                    await _travelActivationDayRepository.CreateNewTravelActivationDayAsync(newTravel, datas.SelectedDays.ToList());
+                    await _travelFilterRepository.CreateNewTravelFilterAsync(newTravel, datas.SelectedFilters.ToList());
+
+                    await transaction.CommitAsync();
+                    isSucess = true;
+                    user.CountCreatedTravel++;
+                    await _userManager.UpdateAsync(user);
+                    return isSucess;
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    return isSucess;
+                }
             }
-            catch
-            {
-                await transaction.RollbackAsync();
-                return isSucess;
-            }
+            return isSucess;
         }
 
         public async Task FillCreateTravelViewModelAsync(CreateTravelViewModel model)
@@ -97,6 +104,12 @@ namespace NumAndDrive.Areas.UserArea.Services
         {
             int travelTimeInMinutes = travelTimeInSeconds / 60;
             return departureTime.AddMinutes(travelTimeInMinutes);
+        }
+
+        private bool IsAuthorizeToCreateANewTravel(User user)
+        {
+            int maximumTravel = 2;
+            return user.CountCreatedTravel <= maximumTravel;
         }
     }
 }
