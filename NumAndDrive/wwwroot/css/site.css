@@ -81,7 +81,7 @@ a {
 }
 
 .rounded-filter-green {
-    border: 3px solid green;
+    border: 3px solid #0A5C2C;
     border-radius: 50%;
     height: 6rem;
     width: 6rem;
@@ -108,25 +108,84 @@ a {
     color: white;
 }
 
+/* Styles de base pour la table */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    border-collapse: collapse;
+}
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+        text-align: center;
+        background-color: #ffffff;
+    }
+
+    /* En-tête de la table */
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: bold;
+        background-color: #18203D;
+        color: white;
+    }
+
+/* Bordures de la table */
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered thead th,
+    .table-bordered thead td {
+        border-bottom-width: 2px;
+    }
+
+/* Centrage du texte */
+.text-center {
+    text-align: center !important;
+}
+
+/* Styles pour la ligne active/inactive */
+.table .travel-active-true {
+    background-color: #ffffff;
+}
+
+.table .travel-active-false {
+    background-color: #E4E2DD;
+}
+
+/* Couleurs spécifiques pour les icônes */
 .table .bi-check2 {
-    color: green;
+    color: #0A5C2C;
     font-size: 1.5rem;
 }
 
 .table .bi-x {
-    color: red;
+    color: #CE4027;
     font-size: 1.5rem;
 }
 
-.table th, .table td {
-    vertical-align: middle;
+/* Couleurs et styles spécifiques pour certaines cellules */
+thead tr {
+    color: #FE5F28;
 }
 
-.table th {
+td:last-child {
+    color: #FE5F28;
     font-weight: bold;
-    background-color: #f8f9fa;
 }
 
-.table td {
-    background-color: #ffffff;
+tbody tr:last-child td:last-child,
+tbody tr:nth-last-child(2) td:last-child {
+    color: #FE5F28;
+    font-weight: bold;
 }

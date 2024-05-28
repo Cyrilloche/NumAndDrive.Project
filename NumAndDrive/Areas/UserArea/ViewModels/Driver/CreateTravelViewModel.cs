@@ -13,5 +13,6 @@ namespace NumAndDrive.Areas.UserArea.ViewModels.Driver
         public int SchoolAddressId { get; set; }
         public IEnumerable<School> Schools { get; set; } = new List<School>();
         public string ErrorMessage { get; set; } = string.Empty;
+        public bool IsAReturnTravel { get; set; } = false;
     }
 }

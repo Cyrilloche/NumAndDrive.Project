@@ -68,7 +68,7 @@ namespace NumAndDrive.Areas.UserArea.Services
             string searchedCityNormalized = NormalizeStringToCompare(userEntry);
 
             var availableTravel = travels
-                .Where(t => NormalizeStringToCompare(t.PersonnalAdress.City).Contains(searchedCityNormalized) && t.SchoolAddressId == school.AddressId && t.PublisherUserId != userId);
+                .Where(t => NormalizeStringToCompare(t.DepartureAddress.City).Contains(searchedCityNormalized) && t.ArrivalAddressId == school.AddressId && t.PublisherUserId != userId);
 
             return availableTravel;
         }

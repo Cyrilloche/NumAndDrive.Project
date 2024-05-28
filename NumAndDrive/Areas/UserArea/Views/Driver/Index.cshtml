@@ -1,22 +1,38 @@
 ﻿@model NumAndDrive.Areas.UserArea.ViewModels.Driver.DriverIndexViewModel
-<h1>DRIVER HOME PAGE</h1>
 
-<div class="row">
-    @foreach (var travel in Model.Travels)
-    {
-        <div class="col-6">
-            <table class="table table-bordered text-center">
-                <thead>
-                    <tr>
-                        @travel.PersonnalAdress.City > @travel.SchoolAddress.City
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+@if (Model.Travels != null)
+{
+    <div class="row">
+        @foreach (var travel in Model.Travels)
+        {
+            <div class="col-6">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <th colspan="2">
+                            @travel.DepartureAddress.City > @travel.ArrivalAddress.City
+                        </th>
+                    </thead>
+                    <tbody>
+                        @foreach (var day in Model.Days)
+                        {
+                            var dayIsActive = travel.TravelActivationDays.Any(activeDay => activeDay.ActivationDayId == day.ActivationDayId);
+                            var active = dayIsActive ? "true" : "false";
+                            var link = dayIsActive ? "Réservations" : "Activer";
 
-    }
-    <div class="col-6"></div>
-</div>
+                            <tr>
+                                <td class="travel-active-@active">
+                                    @day.Day + @travel.DepartureTime > @travel.ArrivalTime
+                                </td>
+                                <td class="travel-active-@active">
+                                    @link
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}
 
-<a type="button" class="btn btn-primary" asp-action="CreateGoTravel">AJOUTER UNE NOUVELLE ANNONCE</a>
+<a type="button" class="btn submit-blue-button" asp-action="CreateGoTravel">AJOUTER UNE NOUVELLE ANNONCE</a>

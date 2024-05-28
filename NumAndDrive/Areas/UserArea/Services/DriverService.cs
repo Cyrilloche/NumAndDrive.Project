@@ -66,10 +66,11 @@ namespace NumAndDrive.Areas.UserArea.Services
                         DepartureTime = datas.DepartureTime,
                         ArrivalTime = arrivalTime,
                         AvailablePlace = datas.AvailablePlacesInCar,
-                        CreationDate = DateTime.Now,
-                        PersonnalAddressId = personnalAddressSaved.AddressId,
-                        SchoolAddressId = datas.SchoolAddressId
+                        CreationDate = DateTime.Now
                     };
+
+                    newTravel = AssociateAddressToTravel(newTravel, datas, personnalAddressSaved);
+
                     await _travelRepository.CreateTravelAsync(newTravel);
                     await _travelActivationDayRepository.CreateNewTravelActivationDayAsync(newTravel, datas.SelectedDays.ToList());
                     await _travelFilterRepository.CreateNewTravelFilterAsync(newTravel, datas.SelectedFilters.ToList());
@@ -87,6 +88,17 @@ namespace NumAndDrive.Areas.UserArea.Services
                 }
             }
             return isSucess;
+        }
+
+        public async Task FillDriverIndexViewModel(DriverIndexViewModel model)
+        {
+            var userId = _currentUserService.GetCurrentUserId();
+            var activationDays = await _activationDayRepository.GetAllActivationDaysAsync();
+            var travels = await _travelRepository.GetTravelsByPublisherId(userId);
+
+            model.Days = activationDays;
+            model.Travels = travels;
+
         }
 
         public async Task FillCreateTravelViewModelAsync(CreateTravelViewModel model)
@@ -111,5 +123,22 @@ namespace NumAndDrive.Areas.UserArea.Services
             int maximumTravel = 2;
             return user.CountCreatedTravel <= maximumTravel;
         }
+
+        private Travel AssociateAddressToTravel(Travel newTravel, CreateTravelViewModel datas, Address personnalAddress)
+        {
+            if (datas.IsAReturnTravel)
+            {
+                newTravel.DepartureAddressId = datas.SchoolAddressId;
+                newTravel.ArrivalAddressId = personnalAddress.AddressId;
+            } else
+            {
+                newTravel.DepartureAddressId = personnalAddress.AddressId;
+                newTravel.ArrivalAddressId = datas.SchoolAddressId;
+            }
+
+            return newTravel;
+        }
+
+        
     }
 }

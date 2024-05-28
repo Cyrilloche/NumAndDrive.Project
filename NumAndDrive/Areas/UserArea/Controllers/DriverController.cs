@@ -16,9 +16,11 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             _driverService = driverService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = new DriverIndexViewModel();
+            await _driverService.FillDriverIndexViewModel(model);
+            return View(model);
         }
 
         public async Task<IActionResult> CreateGoTravel()
