@@ -2,6 +2,7 @@
 using NumAndDrive.Areas.UserArea.ViewModels.Passenger;
 using NumAndDrive.Models;
 using NumAndDrive.Repository.Interfaces;
+using NumAndDrive.Services.Interfaces;
 using System.Globalization;
 using System.Text;
 
@@ -13,13 +14,15 @@ namespace NumAndDrive.Areas.UserArea.Services
         private readonly ISchoolRepository _schoolRepository;
         private readonly ITravelRepository _travelRepository;
         private readonly IFilterRepository _filterRepository;
+        private readonly ICurrentUserService _currentUser;
 
-        public PassengerService(IActivationDayRepository activationDaysRepository, ISchoolRepository schoolRepository, ITravelRepository travelRepository, IFilterRepository filterRepository)
+        public PassengerService(IActivationDayRepository activationDaysRepository, ISchoolRepository schoolRepository, ITravelRepository travelRepository, IFilterRepository filterRepository, ICurrentUserService currentUser)
         {
             _activationDaysRepository = activationDaysRepository;
             _schoolRepository = schoolRepository;
             _travelRepository = travelRepository;
             _filterRepository = filterRepository;
+            _currentUser = currentUser;
         }
 
         public async Task DisplayPassengerHomePage(PassengerIndexViewModel model)
@@ -59,12 +62,13 @@ namespace NumAndDrive.Areas.UserArea.Services
 
         public async Task<IEnumerable<Travel>> ResearchAvailableTravels(string userEntry, int userSchoolId)
         {
+            var userId = _currentUser.GetCurrentUserId();
             var travels = await _travelRepository.GetAllTravelsAsync();
             var school = await _schoolRepository.GetSchoolByIdAsync(userSchoolId);
             string searchedCityNormalized = NormalizeStringToCompare(userEntry);
 
             var availableTravel = travels
-                .Where(t => NormalizeStringToCompare(t.PersonnalAdress.City).Contains(searchedCityNormalized) && t.SchoolAddressId == school.AddressId);
+                .Where(t => NormalizeStringToCompare(t.PersonnalAdress.City).Contains(searchedCityNormalized) && t.SchoolAddressId == school.AddressId && t.PublisherUserId != userId);
 
             return availableTravel;
         }

@@ -18,15 +18,8 @@ namespace NumAndDrive.Services
 
         public async Task<User?> GetCurrentUserAsync()
         {
-            var httpContext = _httpContextAccessor.HttpContext;
+            var userId = GetCurrentUserId();
 
-            if (httpContext == null)
-            {
-                Console.WriteLine("HttpContext is null");
-                return null;
-            }
-
-            var userId = _userManager.GetUserId(_httpContextAccessor.HttpContext?.User);
             if (userId != null)
             {
                 return await _userManager.Users
@@ -46,6 +39,21 @@ namespace NumAndDrive.Services
                     .FirstOrDefaultAsync(u => u.Id == userId);
             }
             return null;
+        }
+
+        public string? GetCurrentUserId()
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+
+            if (httpContext == null)
+            {
+                Console.WriteLine("HttpContext is null");
+                return null;
+            }
+
+            var userId = _userManager.GetUserId(httpContext.User);
+
+            return userId;
         }
     }
 }
