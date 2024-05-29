@@ -44,6 +44,5 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             await _passengerService.FillTravelDetailsPartialView(model, travelId);
             return PartialView("_TravelDetails",model);
         }
-
     }
 }

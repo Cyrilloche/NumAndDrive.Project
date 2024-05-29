@@ -16,6 +16,15 @@ public class ReservationRepository : IReservationRepository
         return await _context.Reservations.FindAsync(id);
     }
 
+    public async Task<IEnumerable<Reservation?>> GetReservationByTravelIdAsync(int travelId)
+    {
+        return await _context.Reservations
+            .Include(r => r.PassengerUser)
+            .Include(r => r.Travel)
+            .Where(t => t.TravelId == travelId)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<Reservation>> GetAllReservationsAsync()
     {
         return await _context.Reservations.ToListAsync();

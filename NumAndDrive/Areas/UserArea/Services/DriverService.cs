@@ -24,8 +24,9 @@ namespace NumAndDrive.Areas.UserArea.Services
         private readonly ICurrentUserService _currentUserService;
         private readonly NumAndDriveContext _context;
         private readonly AddressUtilities _addressUtilities;
+        private readonly IReservationRepository _reservationRepository;
 
-        public DriverService(IFilterRepository filterRepository, IActivationDayRepository activationDayRepository, UserManager<User> userManager, IAddressRepository addressRepository, ITravelRepository travelRepository, ITravelFilterRepository travelFilterRepository, ITravelActivationDayRepository travelActivationDayRepository, ISchoolRepository schoolRepository, ICurrentUserService currentUserService, NumAndDriveContext context, AddressUtilities addressUtilities)
+        public DriverService(IFilterRepository filterRepository, IActivationDayRepository activationDayRepository, UserManager<User> userManager, IAddressRepository addressRepository, ITravelRepository travelRepository, ITravelFilterRepository travelFilterRepository, ITravelActivationDayRepository travelActivationDayRepository, ISchoolRepository schoolRepository, ICurrentUserService currentUserService, NumAndDriveContext context, AddressUtilities addressUtilities, IReservationRepository reservationRepository)
         {
             _filterRepository = filterRepository;
             _activationDayRepository = activationDayRepository;
@@ -38,6 +39,7 @@ namespace NumAndDrive.Areas.UserArea.Services
             _currentUserService = currentUserService;
             _context = context;
             _addressUtilities = addressUtilities;
+            _reservationRepository = reservationRepository;
         }
 
         public async Task<bool> CreateTravelAsync(CreateTravelViewModel datas)
@@ -110,6 +112,23 @@ namespace NumAndDrive.Areas.UserArea.Services
             model.SelectedDays = activationDays.ToList();
             model.SelectedFilters = filters.ToList();
             model.Schools = schools.ToList();
+        }
+
+        public async Task FillCustomizeTravelViewModel(CustomizeTravelViewModel model, int travelId)
+        {
+            var activationDays = await _activationDayRepository.GetAllActivationDaysAsync();
+            var travel = await _travelRepository.GetTravelByIdAsync(travelId);
+            var reservations = await _reservationRepository.GetReservationByTravelIdAsync(travelId);
+
+            var acceptedUsers = reservations.Where(r => r.Acceptation == true);
+            var waitingUsers = reservations.Where(r => r.Acceptation == false);
+            
+
+            model.Days = activationDays.ToList();
+            model.Travel = travel;
+            model.AcceptedUsers = acceptedUsers.ToList();
+            model.WaitingUsers = waitingUsers.ToList();
+
         }
 
         private TimeOnly DefineArrivalTime(TimeOnly departureTime, int travelTimeInSeconds)

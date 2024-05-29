@@ -6,6 +6,7 @@ namespace NumAndDrive.Areas.UserArea.Services.Interfaces
     {
         Task FillDriverIndexViewModel(DriverIndexViewModel model);
         Task FillCreateTravelViewModelAsync(CreateTravelViewModel model);
+        Task FillCustomizeTravelViewModel(CustomizeTravelViewModel model, int travelId);
         Task<bool> CreateTravelAsync(CreateTravelViewModel datas);
     }
 }

@@ -1,0 +1,106 @@
+﻿@model NumAndDrive.Areas.UserArea.ViewModels.Driver.CustomizeTravelViewModel
+
+<div class="row">
+    <div class="col-6">
+        <table class="table table-bordered text-center">
+            <thead>
+            <th colspan="3" />
+                @Model.Travel.DepartureAddress.City > @Model.Travel.ArrivalAddress.City
+            </th>
+            </thead>
+            <tbody>
+                @foreach (var day in Model.Days)
+                {
+                    var dayIsActive = Model.Travel.TravelActivationDays.Any(activeDay => activeDay.ActivationDayId == day.ActivationDayId);
+                    var active = dayIsActive ? "true" : "false";
+                    var link = dayIsActive ? "Réservations" : "Activer";
+
+                    <tr>
+                        <td class="travel-active-@active">
+                            @day.Day
+                        </td>
+                        <td class="travel-active-@active">
+                            @Model.Travel.DepartureTime > @Model.Travel.ArrivalTime
+                        </td>
+                        <td class="travel-active-@active">
+                            @link
+                            <a asp-controller="Driver" asp-action="CustomizeReservation" asp-route-travelId="@Model.Travel.TravelId"><i class="bi bi-chevron-right bi-chevron-right-link"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-6 text-center">
+        <div class="d-flex flex-column">
+            <div>
+                <h3>@Model.Travel.AvailablePlace place(s) vide(s)</h3>
+            </div>
+            <hr />
+            <div>
+                <h5>Réservations validées</h5>
+                <div class="d-flex justify-content-evenly">
+                    @if (Model.AcceptedUsers.Count() > 0)
+                    {
+                        foreach (var acceptedReservation in Model.AcceptedUsers)
+                        {
+                            <div class="custom-travel-card-user">
+                                <div class="row">
+                                    @acceptedReservation.PassengerUser.Firstname
+                                </div>
+                                <div class="row">
+                                    <div class="btn submit-blue-button">
+                                        <a href="#">Contacter</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <h6>Vous n'avez accepter aucune réservation</h6>
+                    }
+                </div>
+            </div>
+            <hr />
+            <div>
+                <h5>Demande(s) de réservation</h5>
+                @if (Model.WaitingUsers.Count() > 0)
+                {
+                    foreach (var watingList in Model.WaitingUsers)
+                    {
+                        <div class="custom-travel-card-user">
+                            <div class="row">
+                                @watingList.PassengerUser.Firstname
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="btn submit-blue-button">
+                                        <a href="#">Accepter</a>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="btn submit-blue-button">
+                                        <a href="#">Refuser</a>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="btn submit-blue-button">
+                                        <a href="#">Contacter</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h6>Vous n'avez aucune demande réservation</h6>
+                }
+            </div>
+            <hr />
+        </div>
+    </div>
+</div>
+
+
