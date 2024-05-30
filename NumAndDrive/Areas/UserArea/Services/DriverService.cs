@@ -173,9 +173,7 @@ namespace NumAndDrive.Areas.UserArea.Services
                 try
                 {
                     await _reservationRepository.UpdateReservationAsync(reservation);
-                    var travel = await _travelRepository.GetTravelByIdAsync(travelId);
-                    travel.AvailablePlace -= 1;
-                    await _travelRepository.UpdateTravelAsync(travel);
+                    reservation.Travel.AvailablePlace -= 1;
                     await transaction.CommitAsync();
                 }
                 catch
