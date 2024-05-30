@@ -57,8 +57,12 @@ a {
     }
 
 .card-img-top {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
+}
+
+.card-group-login{
+    border: none;
 }
 
 .custom-text-orange {
