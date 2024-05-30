@@ -102,7 +102,10 @@ namespace NumAndDrive.Areas.Admin.Controllers
         public async Task<ActionResult> Create(CreateUserManagementViewModel datas)
         {
             if (!ModelState.IsValid)
+            {
+                datas.Roles = await _roleManager.Roles.ToListAsync();
                 return View(datas);
+            }
 
             var user = new User
             {
@@ -183,7 +186,12 @@ namespace NumAndDrive.Areas.Admin.Controllers
         public async Task<ActionResult> Edit(EditUserManagementViewModel datas)
         {
             if (!ModelState.IsValid)
+            {
+                datas.Roles = await _roleManager.Roles.ToListAsync();
+                datas.DriverTypes = await _driverTypeRepository.GetAllDriverTypesAsync();
+                datas.Statuses = await _statusRepository.GetAllStatusesAsync();
                 return View(datas);
+            }
 
             var user = await _userManager.FindByIdAsync(datas.UserId);
 
@@ -253,6 +261,8 @@ namespace NumAndDrive.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCSVFile(AddCSVFileViewModel importingFile)
         {
+            if (!ModelState.IsValid)
+                return View(importingFile);
             await _userManagementService.ReadAndCreateUsersAsync(importingFile.File);
             return View();
         }
