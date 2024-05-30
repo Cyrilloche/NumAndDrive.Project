@@ -8,5 +8,7 @@ namespace NumAndDrive.Areas.UserArea.Services.Interfaces
         Task DisplayPassengerHomePage(PassengerIndexViewModel model);
         Task<ResearchViewModel> DisplayResultOfResearch(PassengerIndexViewModel datas);
         Task FillTravelDetailsPartialView(TravelDetailsPartialViewModel model, int travelId);
+        Task FillReservationTravelViewModel(ReservationTravelViewModel model, int travelId);
+        Task ConfirmTravelReservation(int travelId);
     }
 }

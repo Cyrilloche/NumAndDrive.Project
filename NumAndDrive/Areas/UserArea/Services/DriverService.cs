@@ -121,8 +121,8 @@ namespace NumAndDrive.Areas.UserArea.Services
             var reservations = await _reservationRepository.GetReservationByTravelIdAsync(travelId);
 
             var acceptedUsers = reservations.Where(r => r.Acceptation == true);
-            var waitingUsers = reservations.Where(r => r.Acceptation == false);
-            
+            var waitingUsers = reservations.Where(r => r.AwaitingResponse == true);
+
 
             model.Days = activationDays.ToList();
             model.Travel = travel;
@@ -149,7 +149,8 @@ namespace NumAndDrive.Areas.UserArea.Services
             {
                 newTravel.DepartureAddressId = datas.SchoolAddressId;
                 newTravel.ArrivalAddressId = personnalAddress.AddressId;
-            } else
+            }
+            else
             {
                 newTravel.DepartureAddressId = personnalAddress.AddressId;
                 newTravel.ArrivalAddressId = datas.SchoolAddressId;
@@ -158,6 +159,31 @@ namespace NumAndDrive.Areas.UserArea.Services
             return newTravel;
         }
 
-        
+        public async Task AcceptReservationAsync(int travelId, string userId)
+        {
+            var reservation = await _reservationRepository.GetReservationByIdAsync(travelId, userId);
+
+            if (reservation != null)
+            {
+                reservation.ResponseDate = DateTime.Now;
+                reservation.Acceptation = true;
+                reservation.AwaitingResponse = false;
+
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    await _reservationRepository.UpdateReservationAsync(reservation);
+                    var travel = await _travelRepository.GetTravelByIdAsync(travelId);
+                    travel.AvailablePlace -= 1;
+                    await _travelRepository.UpdateTravelAsync(travel);
+                    await transaction.CommitAsync();
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                }
+            }
+
+        }
     }
 }

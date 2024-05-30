@@ -11,9 +11,11 @@ public class ReservationRepository : IReservationRepository
         _context = context;
     }
 
-    public async Task<Reservation?> GetReservationByIdAsync(int id)
+    public async Task<Reservation?> GetReservationByIdAsync(int id, string userId)
     {
-        return await _context.Reservations.FindAsync(id);
+        return await _context.Reservations
+            .Where(r => r.TravelId == id && r.PassengerUserId == userId)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<Reservation?>> GetReservationByTravelIdAsync(int travelId)

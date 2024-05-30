@@ -44,5 +44,19 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             await _passengerService.FillTravelDetailsPartialView(model, travelId);
             return PartialView("_TravelDetails",model);
         }
+
+        public async Task<IActionResult> TravelReservation(int travelId)
+        {
+            var model = new ReservationTravelViewModel();
+            await _passengerService.FillReservationTravelViewModel(model, travelId);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmReservation(int travelId)
+        {
+            await _passengerService.ConfirmTravelReservation(travelId);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace NumAndDrive.Areas.UserArea.Services.Interfaces
         Task FillCreateTravelViewModelAsync(CreateTravelViewModel model);
         Task FillCustomizeTravelViewModel(CustomizeTravelViewModel model, int travelId);
         Task<bool> CreateTravelAsync(CreateTravelViewModel datas);
+        Task AcceptReservationAsync(int travelId, string userId);
     }
 }

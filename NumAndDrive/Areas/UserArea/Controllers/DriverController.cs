@@ -65,5 +65,11 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             await _driverService.FillCustomizeTravelViewModel(model, travelId);
             return View(model);
         }
+
+        public async Task<IActionResult> AcceptReservation(int travelId, string userId)
+        {
+            await _driverService.AcceptReservationAsync(travelId, userId);
+            return RedirectToAction("Index");
+        }
     }
 }

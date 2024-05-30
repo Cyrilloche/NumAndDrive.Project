@@ -59,6 +59,6 @@
     <div class="col-6">
         <button class="btn submit-blue-button w-100 mb-2">Contacter @Model.Travel.PublisherUser.Firstname</button>
         <button class="btn submit-blue-button w-100 mb-2">Voir le profil de @Model.Travel.PublisherUser.Firstname</button>
-        <button class="btn submit-blue-button w-100 mb-2">Réserver ma place</button>
+        <a class="btn submit-blue-button w-100 mb-2" asp-action="TravelReservation" asp-route-travelId="@Model.Travel.TravelId">Réserver ma place</a>
     </div>
 </div>

@@ -67,21 +67,21 @@
                 <h5>Demande(s) de réservation</h5>
                 @if (Model.WaitingUsers.Count() > 0)
                 {
-                    foreach (var watingList in Model.WaitingUsers)
+                    foreach (var waitingList in Model.WaitingUsers)
                     {
                         <div class="custom-travel-card-user">
                             <div class="row">
-                                @watingList.PassengerUser.Firstname
+                                @waitingList.PassengerUser.Firstname
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="btn submit-blue-button">
-                                        <a href="#">Accepter</a>
+                                        <a asp-action="AcceptReservation" asp-route-travelId="@waitingList.TravelId" asp-route-userId="@waitingList.PassengerUserId">Accepter</a>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="btn submit-blue-button">
-                                        <a href="#">Refuser</a>
+                                        <a asp-action="RefuseReservation">Refuser</a>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -102,5 +102,3 @@
         </div>
     </div>
 </div>
-
-
