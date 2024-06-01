@@ -490,5 +490,4 @@ Migrations
 *.csv
 
 #AppSettings.json
-appsettings.json
 appsettings.Development.json
