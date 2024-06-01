@@ -13,13 +13,17 @@ namespace NumAndDrive.Areas.UserArea.Services
         private readonly IStatusRepository _statusRepository;
         private readonly IDriverTypeRepository _driverTypeRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IReservationRepository _reservationRepository;
+        private readonly ITravelRepository _travelRepository;
 
-        public UserProfileService(UserManager<User> userManager, IStatusRepository statusRepository, IDriverTypeRepository driverTypeRepository, ICurrentUserService currentUserService)
+        public UserProfileService(UserManager<User> userManager, IStatusRepository statusRepository, IDriverTypeRepository driverTypeRepository, ICurrentUserService currentUserService, IReservationRepository reservationRepository, ITravelRepository travelRepository)
         {
             _userManager = userManager;
             _statusRepository = statusRepository;
             _driverTypeRepository = driverTypeRepository;
             _currentUserService = currentUserService;
+            _reservationRepository = reservationRepository;
+            _travelRepository = travelRepository;
         }
 
         public async Task<IdentityResult> CompleteFirstUserProfileAsync(FirstConnectionViewModel datas)
@@ -58,8 +62,17 @@ namespace NumAndDrive.Areas.UserArea.Services
             {
                 datas.Firstname = user.Firstname;
                 datas.Lastname = user.Lastname;
-                datas.UserStatus = user.CurrentStatus;
-                datas.UserDriverType = user.CurrentDriverType;
+                datas.Status = user.CurrentStatus.Name;
+                datas.DriverType = user.CurrentDriverType.Name;
+
+                var reservations = user.Reservations.ToList();
+
+                datas.CompletedTravels = user.Reservations
+                    .Where(r => r.Travel != null)
+                    .Select(r => r.Travel)
+                    .ToList();
+
+
             }
         }
 

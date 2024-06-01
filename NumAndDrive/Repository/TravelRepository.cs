@@ -98,5 +98,15 @@ namespace NumAndDrive.Repository
                 .Take(2)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Travel>> GetTravelsByPassengerId(string passengerId)
+        {
+            return await _context.Travels
+                .Include(t => t.Reservations)
+                    .ThenInclude(r => r.PassengerUserId == passengerId)
+                .Include(t => t.DepartureAddress)
+                .Include(t => t.ArrivalAddress)
+                .ToListAsync();
+        }
     }
 }

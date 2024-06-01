@@ -11,5 +11,6 @@ namespace NumAndDrive.Repository.Interfaces
         Task UpdateTravelAsync(Travel updatedTravel);
         Task<IEnumerable<Travel>> GetTravelsByPublisherId(string userId);
         Task<IEnumerable<Travel>> GetTwoMostRecentTravel();
+        Task<IEnumerable<Travel>> GetTravelsByPassengerId(string passengerId);
     }
 }
