@@ -26,8 +26,11 @@ jobs:
         echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
         echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
 
+    - name: List files for debugging
+      run: ls -R
+
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj
 
     - name: Build
       run: dotnet build --configuration Release --no-restore ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj
