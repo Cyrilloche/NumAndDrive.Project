@@ -30,13 +30,13 @@ jobs:
       run: ls -R
 
     - name: Install dependencies
-      run: dotnet restore ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj
+      run: dotnet restore ./NumAndDrive/NumAndDrive.csproj
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj
+      run: dotnet build --configuration Release --no-restore ./NumAndDrive/NumAndDrive.csproj
 
     - name: Publish
-      run: dotnet publish --configuration Release --no-restore --output ./output ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj
+      run: dotnet publish --configuration Release --no-restore --output ./output ./NumAndDrive/NumAndDrive.csproj
 
     - name: Deploy to Server
       if: success()
@@ -63,6 +63,6 @@ jobs:
       run: |
         echo "##[error] Build failed"
         find . -name "*.csproj"
-        cat ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj
+        cat ./NumAndDrive/NumAndDrive.csproj
         dotnet --info
-        dotnet build --configuration Release --project ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj -v diag
+        dotnet build --configuration Release --project ./NumAndDrive/NumAndDrive.csproj -v diag
