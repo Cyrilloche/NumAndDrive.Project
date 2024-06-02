@@ -50,6 +50,12 @@ jobs:
         echo "NGROK_HOST=$(echo ${NGROK_URL} | sed 's/tcp:\/\///' | cut -d':' -f1)" >> $GITHUB_ENV
         echo "NGROK_PORT=$(echo ${NGROK_URL} | sed 's/tcp:\/\///' | cut -d':' -f2)" >> $GITHUB_ENV
 
+    - name: Restore dependencies
+      run: dotnet restore ./NumAndDrive/NumAndDrive.csproj
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore ./NumAndDrive/NumAndDrive.csproj
+
     - name: Publish
       run: dotnet publish --configuration Release --no-restore --output ./output ./NumAndDrive/NumAndDrive.csproj
 
@@ -80,4 +86,8 @@ jobs:
     - name: Print error logs
       if: failure()
       run: |
-        echo "##[error] Buil
+        echo "##[error] Build failed"
+        find . -name "*.csproj"
+        cat ./NumAndDrive/NumAndDrive.csproj
+        dotnet --info
+        dotnet build --configuration Release ./NumAndDrive/NumAndDrive.csproj -v diag
