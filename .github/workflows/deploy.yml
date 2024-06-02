@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.0.x'
 
@@ -30,10 +30,10 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore --project ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj
 
     - name: Publish
-      run: dotnet publish --configuration Release --no-restore --output ./output
+      run: dotnet publish --configuration Release --no-restore --output ./output --project ./NumAndDrive.Project/NumAndDrive/NumAndDrive.csproj
 
     - name: Deploy to Server
       uses: appleboy/scp-action@v0.1.0
