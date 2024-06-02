@@ -46,6 +46,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         source: "./output"
         target: "/var/www/numanddrive/publish"
+        port: 22
         debug: true
 
     - name: Restart application
