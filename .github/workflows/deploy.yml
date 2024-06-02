@@ -65,4 +65,4 @@ jobs:
         find . -name "*.csproj"
         cat ./NumAndDrive/NumAndDrive.csproj
         dotnet --info
-        dotnet build --configuration Release --project ./NumAndDrive/NumAndDrive.csproj -v diag
+        dotnet build --configuration Release ./NumAndDrive/NumAndDrive.csproj -v diag
