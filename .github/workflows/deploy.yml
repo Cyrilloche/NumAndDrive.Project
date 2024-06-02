@@ -39,7 +39,6 @@ jobs:
       run: dotnet publish --configuration Release --no-restore --output ./output ./NumAndDrive/NumAndDrive.csproj
 
     - name: Deploy to Server
-      if: success()
       uses: appleboy/scp-action@v0.1.0
       with:
         host: ${{ secrets.SERVER_HOST }}
@@ -49,7 +48,6 @@ jobs:
         target: "/var/www/numanddrive/publish"
 
     - name: Restart application
-      if: success()
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SERVER_HOST }}
