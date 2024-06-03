@@ -1,0 +1,38 @@
+name: Deploy ASP.NET Core app
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish
+      run: dotnet publish --configuration Release --no-restore --output ./publish
+
+    - name: Deploy to server
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        ARGS: "-rltgoDzvO --delete"
+        SOURCE: "publish/"
+        REMOTE_HOST: "your-server-ip"
+        REMOTE_USER: "numanddrive"
+        TARGET: "/home/numanddrive/numanddrive-app"
