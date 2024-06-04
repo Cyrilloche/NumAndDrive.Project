@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("travel");
 
+            builder.HasKey(t => t.TravelId);
+
             builder
                 .Property(t => t.DepartureTime)
                 .HasColumnType("time");

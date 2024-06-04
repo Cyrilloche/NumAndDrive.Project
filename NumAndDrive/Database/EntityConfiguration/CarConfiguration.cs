@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NumAndDrive.Models;
+using System.Reflection.Emit;
 
 namespace NumAndDrive.Database.EntityConfiguration
 {
@@ -9,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         public void Configure(EntityTypeBuilder<Car> builder)
         {
             builder.ToTable("car");
+
+            builder.HasKey(c => c.CarId);
 
             builder
                 .Property(c => c.Brand)

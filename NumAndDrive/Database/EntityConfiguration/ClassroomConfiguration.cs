@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("classroom");
 
+            builder.HasKey(c => c.ClassroomId);
+
             builder.Property(c => c.Name)
                .HasColumnType("varchar")
                .HasMaxLength(50);

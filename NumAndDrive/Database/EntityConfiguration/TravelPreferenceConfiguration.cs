@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("travelpreference");
 
+            builder.HasKey(tp => tp.TravelPreferenceId);
+
             builder
                 .Property(tp => tp.Name)
                 .HasColumnType("varchar")

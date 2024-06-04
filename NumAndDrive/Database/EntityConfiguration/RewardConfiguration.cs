@@ -9,6 +9,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         public void Configure(EntityTypeBuilder<Reward> builder)
         {
             builder.ToTable("reward");
+
+            builder.HasKey(r => r.RewardId);
         }
     }
 }

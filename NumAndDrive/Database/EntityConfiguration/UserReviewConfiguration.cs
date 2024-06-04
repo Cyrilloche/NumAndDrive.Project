@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("userreview");
 
+            builder.HasKey(ur => ur.UserReviewId);
+
             builder
                 .Property(ur => ur.Rating)
                 .HasColumnType("tinyint");

@@ -12,6 +12,8 @@ namespace NumAndDrive.Database.EntityConfiguration
             builder
                 .ToTable("user");
 
+            builder.HasKey(u => u.Id);
+
             builder
                .Property(u => u.Lastname)
                .HasColumnType("varchar")

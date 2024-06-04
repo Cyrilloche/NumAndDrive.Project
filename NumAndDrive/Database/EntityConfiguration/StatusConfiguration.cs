@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("status");
 
+            builder.HasKey(s => s.StatusId);
+
             builder
                 .Property(s => s.Name)
                .HasColumnType("varchar")

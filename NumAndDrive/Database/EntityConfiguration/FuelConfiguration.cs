@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("fuel");
 
+            builder.HasKey(f => f.FuelId);
+
             builder
                 .Property(f => f.Name)
                 .HasColumnType("varchar")

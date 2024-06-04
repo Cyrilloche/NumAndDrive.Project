@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("filter");
 
+            builder.HasKey(f => f.FilterId);
+
             builder
                 .Property(f => f.Name)
                 .HasColumnType("varchar")
@@ -18,7 +20,7 @@ namespace NumAndDrive.Database.EntityConfiguration
             builder
                 .HasData(
                     new Filter { FilterId = 1, Name = "Non-fumeur"},
-                    new Filter { FilterId = 2, Name = "Annimaux acceptés"});
+                    new Filter { FilterId = 2, Name = "Animaux acceptés"});
         }
     }
 }

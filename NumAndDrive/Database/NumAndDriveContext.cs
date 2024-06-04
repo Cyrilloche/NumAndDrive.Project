@@ -43,11 +43,19 @@ namespace NumAndDrive.Database
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable(name: "User");
+                entity.Property(m => m.Id).HasColumnType("VARCHAR(100)");
+                entity.Property(m => m.UserName).HasColumnType("VARCHAR(100)");
+                entity.Property(m => m.NormalizedUserName).HasColumnType("VARCHAR(100)");
+                entity.Property(m => m.Email).HasColumnType("VARCHAR(100)");
+                entity.Property(m => m.NormalizedEmail).HasColumnType("VARCHAR(100)");
             });
 
             modelBuilder.Entity<IdentityRole>(entity =>
             {
                 entity.ToTable(name: "Role");
+                entity.Property(m => m.Id).HasColumnType("VARCHAR(100)");
+                entity.Property(m => m.Name).HasColumnType("VARCHAR(100)");
+                entity.Property(m => m.NormalizedName).HasColumnType("VARCHAR(100)");
                 entity.HasData(
                     new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
                     new IdentityRole { Id = "2", Name = "Client", NormalizedName = "CLIENT" }
@@ -67,11 +75,16 @@ namespace NumAndDrive.Database
             modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
             {
                 entity.ToTable(name: "UserLogin");
+                entity.Property(m => m.LoginProvider).HasColumnType("VARCHAR(100)");
+                entity.Property(m => m.ProviderKey).HasColumnType("VARCHAR(100)");
             });
 
             modelBuilder.Entity<IdentityUserToken<string>>(entity =>
             {
                 entity.ToTable(name: "UserToken");
+                entity.Property(m => m.LoginProvider).HasColumnType("VARCHAR(50)");
+                entity.Property(m => m.Name).HasColumnType("VARCHAR(50)");
+
             });
 
             modelBuilder.Entity<IdentityUserRole<string>>(entity =>
@@ -81,6 +94,8 @@ namespace NumAndDrive.Database
                     new IdentityUserRole<string> { UserId = "1", RoleId = "1" }
                     );
             });
+
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NumAndDrive.Models;
+using System.Reflection.Emit;
 
 namespace NumAndDrive.Database.EntityConfiguration
 {
@@ -9,7 +10,9 @@ namespace NumAndDrive.Database.EntityConfiguration
         public void Configure(EntityTypeBuilder<ActivationDay> builder)
         {
             builder
-                .ToTable("activationday");
+            .ToTable("activationday");
+
+            builder.HasKey(ad => ad.ActivationDayId);
 
             builder.HasData(
                 new ActivationDay { ActivationDayId = 1, Day = "Lundi"},

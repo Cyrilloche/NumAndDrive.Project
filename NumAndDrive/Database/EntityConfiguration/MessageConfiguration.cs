@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("message");
 
+            builder.HasKey(m => m.MessageId);
+
             builder
                 .Property(m => m.MessageContent)
                 .HasColumnType("text");

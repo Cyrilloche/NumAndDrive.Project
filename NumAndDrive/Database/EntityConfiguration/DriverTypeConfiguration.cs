@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NumAndDrive.Models;
+using System.Reflection.Emit;
 
 namespace NumAndDrive.Database.EntityConfiguration
 {
@@ -9,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         public void Configure(EntityTypeBuilder<DriverType> builder)
         {
             builder.ToTable("drivertype");
+
+            builder.HasKey(dt => dt.DriverTypeId);
 
             builder
                .Property(dt => dt.Name)

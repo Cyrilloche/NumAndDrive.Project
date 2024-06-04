@@ -10,6 +10,8 @@ namespace NumAndDrive.Database.EntityConfiguration
         {
             builder.ToTable("notification");
 
+            builder.HasKey(n => n.NotificationId);
+
             builder
                 .Property(n => n.Name)
                 .HasColumnType("varchar")
