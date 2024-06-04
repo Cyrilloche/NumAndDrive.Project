@@ -1,0 +1,51 @@
+name: pull docker image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+    - name: Generate appsettings.json
+      run: |
+          echo '{
+            "Logging": {
+                "LogLevel": {
+                "Default": "Information",
+                "Microsoft.AspNetCore": "Warning"
+                }
+            },
+            "AllowedHosts": "*",
+            "ConnectionStrings": {
+                "DefaultConnection": "Server=db;Database=numanddrive;User=${{ secrets.MYSQL_USER }};Password=${{ secrets.MYSQL_PASSWORD }};"
+            },
+            "GoogleMaps": "${{ secrets.API_KEY }}"
+            }' > ./NumAndDrive/appsettings.json
+
+    - name: Build and push Docker image
+      env:
+        MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        MYSQL_USER: ${{ secrets.MYSQL_USER }}
+        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      run: |
+        echo $MYSQL_ROOT_PASSWORD > secrets/mysql_root_password.txt
+        echo $MYSQL_USER > secrets/mysql_user.txt
+        echo $MYSQL_PASSWORD > secrets/mysql_password.txt
+        docker-compose build
+        docker-compose push

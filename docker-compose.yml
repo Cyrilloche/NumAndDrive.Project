@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_DATABASE: numanddrive
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    secrets:
+      - mysql_root_password
+      - mysql_user
+      - mysql_password
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+    secrets:
+      - mysql_root_password
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  migrate:
+    image: cyrilloche/numanddrive:latest
+    command: ["dotnet", "ef", "database", "update"]
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=numanddrive;User=${MYSQL_USER};Password=${MYSQL_PASSWORD};
+      - GoogleMaps__ApiKey=${API_KEY};
+    depends_on:
+      - db
+
+  web:
+    image: cyrilloche/numanddrive:latest
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=numanddrive;User=${MYSQL_USER};Password=${MYSQL_PASSWORD};
+      - GoogleMaps__ApiKey=${API_KEY};
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+      - migrate
+
+secrets:
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
+  mysql_user:
+    file: ./secrets/mysql_user.txt
+  mysql_password:
+    file: ./secrets/mysql_password.txt
+volumes:
+  db_data:
