@@ -57,6 +57,7 @@ namespace NumAndDrive.Areas.UserArea.Services
         public async Task FillIndexViewModelAsync(UserProfileViewModel datas)
         {
             var user = await _currentUserService.GetCurrentUserAsync();
+            var userId = _currentUserService.GetCurrentUserId();
 
             if (user != null)
             {
@@ -65,14 +66,19 @@ namespace NumAndDrive.Areas.UserArea.Services
                 datas.Status = user.CurrentStatus.Name;
                 datas.DriverType = user.CurrentDriverType.Name;
 
-                var reservations = user.Reservations.ToList();
+                var reservations = await _reservationRepository.GetReservationsByUserIdAsync(userId);
 
-                datas.CompletedTravels = user.Reservations
+                datas.CompletedTravels = reservations
                     .Where(r => r.Travel != null)
+                    .Where(r => r.ReservationDate > DateTime.Now)
                     .Select(r => r.Travel)
                     .ToList();
 
-
+                datas.IncomingTravels = reservations
+                    .Where(r => r.Travel != null)
+                    .Where(r => r.ReservationDate < DateTime.Now)
+                    .Select(r => r.Travel)
+                    .ToList();
             }
         }
 
