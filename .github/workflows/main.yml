@@ -1,0 +1,65 @@
+name: Build and Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Generate appsettings.json
+      run: |
+        echo '{
+          "Logging": {
+              "LogLevel": {
+              "Default": "Information",
+              "Microsoft.AspNetCore": "Warning"
+              }
+          },
+          "AllowedHosts": "*",
+          "ConnectionStrings": {
+              "DefaultConnection": "${{ secrets.DB_DEFAULT_CONNECTION }}"
+          },
+          "GoogleMaps": {
+              "ApiKey": "${{ secrets.API_KEY }}"
+          }
+        }' > ./NumAndDrive/appsettings.json
+
+    - name: Verify appsettings.json
+      run: cat ./NumAndDrive/appsettings.json
+
+    - name: Restore dependencies
+      run: dotnet restore NumAndDrive/NumAndDrive.csproj
+
+    - name: Build
+      run: dotnet build NumAndDrive/NumAndDrive.csproj --no-restore
+
+    - name: Test
+      run: dotnet test NumAndDrive/NumAndDrive.csproj --no-build --verbosity normal
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: cyrilloche/numanddrive:latest
