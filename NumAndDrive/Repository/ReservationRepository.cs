@@ -28,6 +28,17 @@ public class ReservationRepository : IReservationRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Reservation?>> GetReservationsByUserIdAsync(string userId)
+    {
+        return await _context.Reservations
+            .Include(r => r.Travel)
+                .ThenInclude(t => t.ArrivalAddress)
+            .Include(r => r.Travel)
+                .ThenInclude(t => t.DepartureAddress)
+            .Where(u => u.PassengerUserId == userId)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<Reservation>> GetAllReservationsAsync()
     {
         return await _context.Reservations.ToListAsync();
@@ -55,4 +66,6 @@ public class ReservationRepository : IReservationRepository
             await _context.SaveChangesAsync();
         }
     }
+
+
 }

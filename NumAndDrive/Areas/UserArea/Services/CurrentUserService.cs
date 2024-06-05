@@ -36,8 +36,6 @@ namespace NumAndDrive.Services
                     .Include(u => u.UserTravelPreferences)
                     .Include(u => u.UserNotifications)
                     .Include(u => u.Reservations)
-                        .ThenInclude(r => r.Travel)
-                            .ThenInclude(t => t.DepartureAddress)
                     .FirstOrDefaultAsync(u => u.Id == userId);
             }
             return null;
