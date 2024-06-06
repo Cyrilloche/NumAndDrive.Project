@@ -44,6 +44,8 @@ namespace NumAndDrive.Database.EntityConfiguration
                 .HasData(new User
                 {
                     Id = "1",
+                    Firstname = "ADMIN",
+                    Lastname = "ADMIN",
                     UserName = "admin@admin-numanddrive.fr",
                     NormalizedUserName = "ADMIN@ADMIN-NUMANDDRIVE.FR",
                     Email = "admin@admin-numanddrive.fr",

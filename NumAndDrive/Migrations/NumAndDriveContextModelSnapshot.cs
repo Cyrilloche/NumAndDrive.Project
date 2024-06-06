@@ -359,12 +359,57 @@ namespace NumAndDrive.Migrations
                         new
                         {
                             DriverTypeId = 1,
-                            Name = "Mamie au volant"
+                            Name = "Nouveau-elle venu-e"
                         },
                         new
                         {
                             DriverTypeId = 2,
-                            Name = "As du volant"
+                            Name = "Sébastien Loeb"
+                        },
+                        new
+                        {
+                            DriverTypeId = 3,
+                            Name = "Auto-tamponneur"
+                        },
+                        new
+                        {
+                            DriverTypeId = 4,
+                            Name = "Boîte de nuit mobile"
+                        },
+                        new
+                        {
+                            DriverTypeId = 5,
+                            Name = "Grand-e voyageur-euse"
+                        },
+                        new
+                        {
+                            DriverTypeId = 6,
+                            Name = "Grand-e bavard-e"
+                        },
+                        new
+                        {
+                            DriverTypeId = 7,
+                            Name = "Pas du matin"
+                        },
+                        new
+                        {
+                            DriverTypeId = 8,
+                            Name = "Copilote au top"
+                        },
+                        new
+                        {
+                            DriverTypeId = 9,
+                            Name = "Compteur-euse d'histoires"
+                        },
+                        new
+                        {
+                            DriverTypeId = 10,
+                            Name = "Ronfleur-euse"
+                        },
+                        new
+                        {
+                            DriverTypeId = 11,
+                            Name = "Mamie au volant"
                         });
                 });
 
@@ -588,17 +633,27 @@ namespace NumAndDrive.Migrations
                         new
                         {
                             StatusId = 1,
-                            Name = "Étudiant"
+                            Name = "Statut non renseigné"
                         },
                         new
                         {
                             StatusId = 2,
-                            Name = "Intervenants"
+                            Name = "Intervenant-e"
                         },
                         new
                         {
                             StatusId = 3,
-                            Name = "Professeur"
+                            Name = "Administrateur-trice"
+                        },
+                        new
+                        {
+                            StatusId = 4,
+                            Name = "Apprenant-e"
+                        },
+                        new
+                        {
+                            StatusId = 5,
+                            Name = "Formateur-trice"
                         });
                 });
 
@@ -613,8 +668,8 @@ namespace NumAndDrive.Migrations
                     b.Property<int>("ArrivalAddressId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("ArrivalTime")
-                        .HasColumnType("time");
+                    b.Property<TimeOnly>("ArrivalTime")
+                        .HasColumnType("time(6)");
 
                     b.Property<sbyte>("AvailablePlace")
                         .HasColumnType("tinyint");
@@ -625,7 +680,7 @@ namespace NumAndDrive.Migrations
                     b.Property<int>("DepartureAddressId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("DepartureTime")
+                    b.Property<TimeOnly>("DepartureTime")
                         .HasColumnType("time");
 
                     b.Property<bool>("IsAReturnTravel")
@@ -757,7 +812,7 @@ namespace NumAndDrive.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -808,7 +863,7 @@ namespace NumAndDrive.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "72dd1411-2900-4c4d-b100-a2c9f66d7a44",
+                            ConcurrencyStamp = "d9bfc014-9a93-48c9-93e7-76f8dd27cbaa",
                             CountCreatedTravel = (sbyte)0,
                             Email = "admin@admin-numanddrive.fr",
                             EmailConfirmed = true,
@@ -818,7 +873,7 @@ namespace NumAndDrive.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN-NUMANDDRIVE.FR",
                             NormalizedUserName = "ADMIN@ADMIN-NUMANDDRIVE.FR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK56ey8F4g9t72MP29tEHhAXANwrkXDf1WJVh1HcfN+9E9wkGzjEjHNqOvqpqUe8vw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF2bjhIzUjlAd+xiQ5nfTIVkPHjOKRAhX4l4jQNPghjg5z1wVPm1S7BZsbtEpfsaZw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

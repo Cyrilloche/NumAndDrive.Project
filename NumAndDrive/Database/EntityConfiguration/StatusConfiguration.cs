@@ -19,9 +19,11 @@ namespace NumAndDrive.Database.EntityConfiguration
 
             builder
                 .HasData(
-                new Status { StatusId = 1, Name = "Étudiant" },
-                new Status { StatusId = 2, Name = "Intervenants" },
-                new Status { StatusId = 3, Name = "Professeur" }
+                new Status { StatusId = 1, Name = "Statut non renseigné" },
+                new Status { StatusId = 2, Name = "Intervenant-e" },
+                new Status { StatusId = 3, Name = "Administrateur-trice" },
+                new Status { StatusId = 4, Name = "Apprenant-e" },
+                new Status { StatusId = 5, Name = "Formateur-trice" }
             );
         }
     }
