@@ -25,9 +25,6 @@ jobs:
                     "Endpoints": {
                         "Http": {
                             "Url": "http://*:80"
-                        },
-                        "Https": {
-                            "Url": "https://*:80"
                         }
                     }
                 },
