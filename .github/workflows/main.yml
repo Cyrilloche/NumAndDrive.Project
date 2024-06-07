@@ -21,20 +21,30 @@ jobs:
     - name: Generate appsettings.json
       run: |
         echo '{
-          "Logging": {
-              "LogLevel": {
-              "Default": "Information",
-              "Microsoft.AspNetCore": "Warning"
-              }
-          },
-          "AllowedHosts": "*",
-          "ConnectionStrings": {
-              "DefaultConnection": "${{ secrets.DB_DEFAULT_CONNECTION }}"
-          },
-          "GoogleMaps": {
-              "ApiKey": "${{ secrets.API_KEY }}"
-          }
-        }' > ./NumAndDrive/appsettings.json
+                "Kestrel": {
+                    "Endpoints": {
+                        "Http": {
+                            "Url": "http://*:80"
+                        },
+                        "Https": {
+                            "Url": "https://*:80"
+                        }
+                    }
+                },
+                "Logging": {
+                    "LogLevel": {
+                    "Default": "Information",
+                    "Microsoft.AspNetCore": "Warning"
+                    }
+                },
+                "AllowedHosts": "*",
+                "ConnectionStrings": {
+                    "DefaultConnection": "${{ secrets.DB_DEFAULT_CONNECTION }}"
+                },
+                "GoogleMaps": {
+                    "ApiKey": "${{ secrets.API_KEY }}"
+                }
+              }' > ./NumAndDrive/appsettings.json
 
     - name: Verify appsettings.json
       run: cat ./NumAndDrive/appsettings.json
