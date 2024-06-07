@@ -68,7 +68,8 @@ namespace NumAndDrive.Areas.UserArea.Services
                         DepartureTime = datas.DepartureTime,
                         ArrivalTime = arrivalTime,
                         AvailablePlace = datas.AvailablePlacesInCar,
-                        CreationDate = DateTime.Now
+                        CreationDate = DateTime.Now,
+                        IsAReturnTravel = datas.IsAReturnTravel
                     };
 
                     newTravel = AssociateAddressToTravel(newTravel, datas, personnalAddressSaved);

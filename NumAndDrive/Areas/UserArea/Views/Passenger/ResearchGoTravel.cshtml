@@ -1,0 +1,141 @@
+﻿@model NumAndDrive.Areas.UserArea.ViewModels.Passenger.PassengerIndexViewModel
+<div class="row">
+    <div class="col">
+        <form asp-action="Result">
+            <div class="card mb-3 custom-card-border-blue p-2 shadow-lg text-center">
+                <div class="row mb-3">
+                    <div class="col-1">
+                        <a asp-controller="Home" asp-action="Index">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x-circle custom-close-btn" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="col-11 text-center">
+                        <h3 class="card-title mb-3">Rechercher un trajet</h3>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <ul class="nav nav-tabs">
+                            <li class=" col-6 nav-item">
+                                <a class="nav-link active" href="#">Trajet aller</a>
+                            </li>
+                            <li class=" col-6 nav-item">
+                                <a class="nav-link custom-text-orange" asp-action="ResearchReturnTravel">Trajet retour</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6 form-group">
+                        <input asp-for="ResearchedCity" type="text" class="form-control" placeholder="Lieu de départ" />
+                        <span class="text-danger" asp-validation-for="ResearchedCity"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <div class="dropdown">
+                            <button class="btn submit-blue-button dropdown-toggle col-12" type="button" data-bs-toggle="dropdown" aria-expanded="false">Au départ de</button>
+                            <ul class="dropdown-menu col-12">
+                                @foreach (var school in Model.Schools)
+                                {
+                                    <li>
+                                        <input class="form-check-input" type="radio" asp-for="@Model.SchoolId" value="@school.SchoolId" />
+                                        <label class="form-check-label" asp-for="@school.Name" value="@school.SchoolId">@school.Name</label>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="col-6">
+                        <div class="dropdown">
+                            <button class="btn col-12 submit-blue-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Sélectionner un jour</button>
+                            <ul class="dropdown-menu col-12">
+                                @for (var i = 0; i < Model.Days.Count; i++)
+                                {
+                                    <li class="dropdown-item">
+                                        <input class="form-check-input" type="checkbox" asp-for="Days[i].IsSelected" id="day-@Model.Days[i].ActivationDayId" />
+                                        <label class="form-check-label" for="day-@Model.Days[i].ActivationDayId">@Model.Days[i].Day</label>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6 cs-form">
+                        <input asp-for="SelectedTime" type="time" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-end">
+                        <input type="submit" class="btn submit-blue-button" value="Rechercher" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card custom-card-border-blue p-2 shadow-lg text-center">
+            <h3 class="card-title">Annonces qui pourraient vous plaire</h3>
+            <div class="card-group">
+                @foreach (var travel in Model.Travels)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@travel.DepartureAddress.City > @travel.ArrivalAddress.City</h5>
+                            <p>@travel.DepartureTime.ToString() > @travel.ArrivalTime.ToString()</p>
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th>L</th>
+                                        <th>M</th>
+                                        <th>M</th>
+                                        <th>J</th>
+                                        <th>V</th>
+                                        <th>S</th>
+                                        <th>D</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach (var day in Model.Days)
+                                        {
+                                            var dayIsActivate = travel.TravelActivationDays.Any(selectedDay => selectedDay.ActivationDayId == day.ActivationDayId);
+                                            if (dayIsActivate)
+                                            {
+                                                <td><i class="bi bi-check2"></i></td>
+                                            }
+                                            else
+                                            {
+                                                <td><i class="bi bi-x"></i></td>
+                                            }
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <div class="row">
+                                    <div class="col-4 rounded-5 border border border-black">
+                                        <img src="~/images/profile-pic-blue.png" alt="Avatar" width="50">
+                                    </div>
+                                    <div class="col-8">
+                                        <div>
+                                            <p>@travel.PublisherUser.Firstname</p>
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

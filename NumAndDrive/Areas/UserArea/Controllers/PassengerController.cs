@@ -17,7 +17,14 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             _passengerService = passengerService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ResearchGoTravel()
+        {
+            var model = new PassengerIndexViewModel();
+            await _passengerService.DisplayPassengerHomePage(model);
+            return View(model);
+        }
+
+        public async Task<IActionResult> ResearchReturnTravel()
         {
             var model = new PassengerIndexViewModel();
             await _passengerService.DisplayPassengerHomePage(model);
@@ -25,7 +32,7 @@ namespace NumAndDrive.Areas.UserArea.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResearchTravel(PassengerIndexViewModel datas)
+        public async Task<IActionResult> Result(PassengerIndexViewModel datas)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +63,7 @@ namespace NumAndDrive.Areas.UserArea.Controllers
         public async Task<IActionResult> ConfirmReservation(int travelId)
         {
             await _passengerService.ConfirmTravelReservation(travelId);
-            return RedirectToAction("Index");
+            return RedirectToAction("ResearchGoTravel");
         }
     }
 }

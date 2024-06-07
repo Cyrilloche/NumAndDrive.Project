@@ -1,14 +1,33 @@
 ﻿@model NumAndDrive.Areas.UserArea.ViewModels.Passenger.PassengerIndexViewModel
-@{
-
-    bool IsAReturnTravel = false;
-}
-
 <div class="row">
     <div class="col">
-        <form asp-action="ResearchTravel">
+        <form asp-action="Result">
             <div class="card mb-3 custom-card-border-blue p-2 shadow-lg text-center">
-                <h3 class="card-title mb-3">Rechercher un trajet</h3>
+                <div class="row mb-3">
+                    <div class="col-1">
+                        <a asp-controller="Home" asp-action="Index">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x-circle custom-close-btn" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="col-11 text-center">
+                        <h3 class="card-title mb-3">Rechercher un trajet</h3>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <ul class="nav nav-tabs">
+                            <li class=" col-6 nav-item">
+                                <a class="nav-link custom-text-orange" asp-action="ResearchGoTravel">Trajet aller</a>
+                            </li>
+                            <li class=" col-6 nav-item">
+                                <a class="nav-link active" href="#">Trajet retour</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="row mb-3">
                     <div class="form-group col-6">
                         <div class="dropdown">
@@ -51,6 +70,7 @@
                 <div class="row mb-3">
                     <div class="col text-end">
                         <input type="submit" class="btn submit-blue-button" value="Rechercher" />
+                        <input type="hidden" asp-for="ResearchAReturnTravel" value="true" />
                     </div>
                 </div>
             </div>
