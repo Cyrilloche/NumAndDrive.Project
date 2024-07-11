@@ -1,6 +1,8 @@
 # Utiliser l'image de base ASP.NET Core runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+
+# Exposer le port de l'application
 EXPOSE 80
 
 # Utiliser l'image SDK pour construire l'application
