@@ -283,7 +283,7 @@ namespace NumAndDrive.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime", nullable: true),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
@@ -384,8 +384,8 @@ namespace NumAndDrive.Migrations
                 {
                     TravelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    DepartureTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    ArrivalTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    DepartureTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    ArrivalTime = table.Column<TimeOnly>(type: "time(6)", nullable: false),
                     AvailablePlace = table.Column<sbyte>(type: "tinyint", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     PublisherUserId = table.Column<string>(type: "VARCHAR(100)", nullable: false)
@@ -748,7 +748,7 @@ namespace NumAndDrive.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CountCreatedTravel", "CurrentClassroomId", "CurrentDriverTypeId", "CurrentStatusId", "Email", "EmailConfirmed", "FirstConnection", "Firstname", "Lastname", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "72dd1411-2900-4c4d-b100-a2c9f66d7a44", (sbyte)0, null, null, null, "admin@admin-numanddrive.fr", true, false, "", "", false, null, "ADMIN@ADMIN-NUMANDDRIVE.FR", "ADMIN@ADMIN-NUMANDDRIVE.FR", "AQAAAAIAAYagAAAAEK56ey8F4g9t72MP29tEHhAXANwrkXDf1WJVh1HcfN+9E9wkGzjEjHNqOvqpqUe8vw==", null, false, "", false, "admin@admin-numanddrive.fr" });
+                values: new object[] { "1", 0, "d9bfc014-9a93-48c9-93e7-76f8dd27cbaa", (sbyte)0, null, null, null, "admin@admin-numanddrive.fr", true, false, "", "", false, null, "ADMIN@ADMIN-NUMANDDRIVE.FR", "ADMIN@ADMIN-NUMANDDRIVE.FR", "AQAAAAIAAYagAAAAEF2bjhIzUjlAd+xiQ5nfTIVkPHjOKRAhX4l4jQNPghjg5z1wVPm1S7BZsbtEpfsaZw==", null, false, "", false, "admin@admin-numanddrive.fr" });
 
             migrationBuilder.InsertData(
                 table: "activationday",
@@ -769,8 +769,17 @@ namespace NumAndDrive.Migrations
                 columns: new[] { "DriverTypeId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Mamie au volant" },
-                    { 2, "As du volant" }
+                    { 1, "Nouveau-elle venu-e" },
+                    { 2, "Sébastien Loeb" },
+                    { 3, "Auto-tamponneur" },
+                    { 4, "Boîte de nuit mobile" },
+                    { 5, "Grand-e voyageur-euse" },
+                    { 6, "Grand-e bavard-e" },
+                    { 7, "Pas du matin" },
+                    { 8, "Copilote au top" },
+                    { 9, "Compteur-euse d'histoires" },
+                    { 10, "Ronfleur-euse" },
+                    { 11, "Mamie au volant" }
                 });
 
             migrationBuilder.InsertData(
@@ -798,9 +807,11 @@ namespace NumAndDrive.Migrations
                 columns: new[] { "StatusId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Étudiant" },
-                    { 2, "Intervenants" },
-                    { 3, "Professeur" }
+                    { 1, "Statut non renseigné" },
+                    { 2, "Intervenant-e" },
+                    { 3, "Administrateur-trice" },
+                    { 4, "Apprenant-e" },
+                    { 5, "Formateur-trice" }
                 });
 
             migrationBuilder.InsertData(

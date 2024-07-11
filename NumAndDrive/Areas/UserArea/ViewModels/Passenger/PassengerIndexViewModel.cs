@@ -14,6 +14,7 @@ namespace NumAndDrive.Areas.UserArea.ViewModels.Passenger
         public TimeOnly SelectedTime { get; set; }
 
         public List<Travel> Travels { get; set; } = new List<Travel>();
+        public bool ResearchAReturnTravel { get; set; } = false;
 
     }
 }

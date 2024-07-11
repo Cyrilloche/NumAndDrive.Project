@@ -39,13 +39,13 @@ namespace NumAndDrive.Areas.UserArea.Services
         }
         public async Task<ResearchViewModel> DisplayResultOfResearch(PassengerIndexViewModel datas)
         {
-            var travels = await ResearchAvailableTravels(datas.ResearchedCity, datas.SchoolId);
+            var travels = await ResearchAvailableTravels(datas.ResearchedCity, datas.SchoolId, datas.ResearchAReturnTravel);
             var days = await _activationDaysRepository.GetAllActivationDaysAsync();
             var school = await _schoolRepository.GetSchoolByIdAsync(datas.SchoolId);
 
             var model = new ResearchViewModel();
 
-            if(travels.Any())
+            if (travels.Any())
             {
                 model.Travels = travels.ToList();
                 model.Days = days.ToList();
@@ -62,17 +62,25 @@ namespace NumAndDrive.Areas.UserArea.Services
 
         }
 
-        public async Task<IEnumerable<Travel>> ResearchAvailableTravels(string userEntry, int userSchoolId)
+        public async Task<IEnumerable<Travel>> ResearchAvailableTravels(string userEntry, int userSchoolId, bool IsAReturnTravel)
         {
             var userId = _currentUser.GetCurrentUserId();
             var travels = await _travelRepository.GetAllTravelsAsync();
             var school = await _schoolRepository.GetSchoolByIdAsync(userSchoolId);
             string searchedCityNormalized = NormalizeStringToCompare(userEntry);
 
-            var availableTravel = travels
-                .Where(t => NormalizeStringToCompare(t.DepartureAddress.City).Contains(searchedCityNormalized) && t.ArrivalAddressId == school.AddressId && t.PublisherUserId != userId);
-
-            return availableTravel;
+            if (IsAReturnTravel)
+            {
+                var availableTravel = travels
+                    .Where(t => NormalizeStringToCompare(t.DepartureAddress.City).Contains(searchedCityNormalized) && t.ArrivalAddressId == school.AddressId && t.PublisherUserId != userId && t.IsAReturnTravel == true);
+                return availableTravel;
+            }
+            else
+            {
+                var availableTravel = travels
+                    .Where(t => NormalizeStringToCompare(t.DepartureAddress.City).Contains(searchedCityNormalized) && t.ArrivalAddressId == school.AddressId && t.PublisherUserId != userId && t.IsAReturnTravel == false);
+                return availableTravel;
+            }
         }
 
         public static string NormalizeStringToCompare(string text)

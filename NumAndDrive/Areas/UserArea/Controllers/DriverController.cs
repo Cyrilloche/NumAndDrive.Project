@@ -29,6 +29,12 @@ namespace NumAndDrive.Areas.UserArea.Controllers
             await _driverService.FillCreateTravelViewModelAsync(model);
             return View(model);
         }
+        public async Task<IActionResult> CreateReturnTravel()
+        {
+            var model = new CreateTravelViewModel();
+            await _driverService.FillCreateTravelViewModelAsync(model);
+            return View(model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -40,24 +46,15 @@ namespace NumAndDrive.Areas.UserArea.Controllers
                 return RedirectToAction("CreateGoTravel");
             }
 
-            if(await _driverService.CreateTravelAsync(datas))
+            if (!await _driverService.CreateTravelAsync(datas))
             {
                 datas.ErrorMessage = "L'utilisateur n'est pas authorisé à créer un trajet";
-                return RedirectToAction("CreateGoTravel");
-            }
-            else
-            {
                 await _driverService.FillCreateTravelViewModelAsync(datas);
                 return RedirectToAction("CreateGoTravel");
             }
+            return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> CreateReturnTravel()
-        {
-            var model = new CreateTravelViewModel();
-            await _driverService.FillCreateTravelViewModelAsync(model);
-            return View(model);
-        }
 
         public async Task<IActionResult> CustomizeReservation(int travelId)
         {
