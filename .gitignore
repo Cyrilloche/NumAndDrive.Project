@@ -489,3 +489,5 @@ $RECYCLE.BIN/
 #AppSettings.json
 appsettings.json
 appsettings.Development.json
+
+docker-compose.yml

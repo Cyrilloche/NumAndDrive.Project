@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - test
   pull_request:
     branches:
-      - main
+      - test
 
 jobs:
   build-and-deploy:
@@ -60,9 +60,20 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and push Docker image
+    - name: Build and push
       uses: docker/build-push-action@v5
       with:
         context: .
+        file: ./Dockerfile
         push: true
         tags: cyrilloche/numanddrive:latest
+
+    # - name: Build and push Docker image (MySQL)
+    #   run: |
+    #     echo 'FROM mysql:8.1' > Dockerfile.mysql
+    #     echo 'ENV MYSQL_ROOT_PASSWORD=root' >> Dockerfile.mysql
+    #     echo 'ENV MYSQL_DATABASE=numanddrive_db' >> Dockerfile.mysql
+    #     echo 'ENV MYSQL_USER=admin' >> Dockerfile.mysql
+    #     echo 'ENV MYSQL_PASSWORD=admin' >> Dockerfile.mysql
+    #     docker build -t cyrilloche/mysql-image:latest -f Dockerfile.mysql .
+    #     docker push cyrilloche/mysql-image:latest
