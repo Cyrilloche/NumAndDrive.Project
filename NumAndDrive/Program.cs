@@ -66,7 +66,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
     options.User.RequireUniqueEmail = true;
 
-    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
 })
     .AddEntityFrameworkStores<NumAndDriveContext>()
     .AddDefaultTokenProviders();
